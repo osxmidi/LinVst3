@@ -1,6 +1,6 @@
 # LinVst3
 
-Vst3 wrapper.
+Vst3 wrapper (beta).
 
 For 64 bit vst3's only.
 
