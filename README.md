@@ -12,8 +12,8 @@ So for example, linvst3.so would be renamed to Delay.so for Delay.vst3 (see conv
 
 The vst3 dlls are most likely going to be in ~/.wine/drive_c/Program Files/Common Files/VST3
 
-LinVst3 will try to produce multiple loader files for vst3's that contain multiple plugins. 
-The multiple loader files should be picked up on the daw's next plugin scan and the multiple plugins should then be available for use in the daw.
+LinVst3 will try to produce multiple loader part files for vst3's that contain multiple plugins. 
+The multiple loader part files should be picked up on the daw's next plugin scan and then the multiple plugins should be available for use in the daw.
 
 Some vst3's might not work due to Wines current capabilities or for some other reason.
 
