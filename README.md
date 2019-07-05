@@ -15,6 +15,8 @@ The vst3 dlls are most likely going to be in ~/.wine/drive_c/Program Files/Commo
 LinVst3 will try to produce multiple loader files for vst3's that contain multiple plugins. 
 The multiple loader files should be picked up on the daw's next plugin scan and the multiple plugins should then be available for use in the daw.
 
+Some vst3's might not work due to Wines current capabilities or for some other reason.
+
 -------
 
 To Make
@@ -45,7 +47,8 @@ sudo yum -y install libstdc++.i686 libX11.i686
 
 This LinVst3 folder needs to be placed within the VST3 SDK main folder (the VST3_SDK folder or the VST3 folder that contains the base public.sdk pluginterfaces folders etc)
 
-Then change into the LinVst3 folder and run make
+Then change into the LinVst3 folder and run make and then sudo make install
+Then use the batch name conversion utilities (in the convert/binaries folder) to name convert linvst3.so to the vst3 plugin names ie first select linvst3.so and then select the ~/.wine/drive_c/Program Files/Common Files/VST3 folder
 
 Currently builds ok with the vstsdk3613_08_04_2019_build_81
 
