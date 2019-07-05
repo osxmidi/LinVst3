@@ -8,7 +8,7 @@ Not all vst3 features are supported.
 
 Same usage as LinVst except that it's linvst3.so instead of linvst.so
 
-So for example, linvst3.so would be renamed to Delay.so for Delay.vst (see covert folder for batch name conversion utilities)
+So for example, linvst3.so would be renamed to Delay.so for Delay.vst3 (see covert folder for batch name conversion utilities)
 
 The vst3 dlls are most likely going to be in ~/.wine/drive_c/Program Files/Common Files/VST3
 
