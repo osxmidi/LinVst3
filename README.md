@@ -46,7 +46,7 @@ Currently builds ok with the vstsdk3613_08_04_2019_build_81
 
 ----------
 
-> `\//-----------------------------------------------------------------------------
+> `//-----------------------------------------------------------------------------
 // LICENSE
 // (c) 2018, Steinberg Media Technologies GmbH, All Rights Reserved
 //-----------------------------------------------------------------------------
@@ -72,4 +72,4 @@ Currently builds ok with the vstsdk3613_08_04_2019_build_81
 // LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE 
 // OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE  OF THIS SOFTWARE, EVEN IF ADVISED
 // OF THE POSSIBILITY OF SUCH DAMAGE.
-//-----------------------------------------------------------------------------\`
+//-----------------------------------------------------------------------------`
