@@ -4,6 +4,8 @@ Vst3 wrapper.
 
 For 64 bit vst3's only.
 
+Not all vst3 features are supported.
+
 Same usage as LinVst except that it's linvst3.so instead of linvst.so
 
 The vst3 dlls are most likely going to be in ~/.wine/drive_c/Program Files/Common Files/VST3
@@ -39,3 +41,5 @@ sudo yum -y install libstdc++.i686 libX11.i686
 This LinVst3 folder needs to be placed within the VST3 SDK main folder (ie the VST3 folder that contains the base public.sdk pluginterfaces folders etc)
 
 Then change into the LinVst3 folder and run make
+
+Currently builds ok with the vstsdk3613_08_04_2019_build_81
