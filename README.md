@@ -45,9 +45,10 @@ For Fedora
 sudo yum -y install wine-devel wine-devel.i686 libX11-devel libX11-devel.i686
 sudo yum -y install libstdc++.i686 libX11.i686
 
-This LinVst3 folder needs to be placed within the VST3 SDK main folder (the VST3_SDK folder or the VST3 folder that contains the base public.sdk pluginterfaces folders etc)
+This LinVst3 folder needs to be placed within the VST3 SDK main folder (the VST3_SDK folder or the VST3 folder that contains the base, public.sdk, pluginterfaces etc folders) ie the LinVst3 source folder needs to be placed alongside the base, public.sdk, pluginterfaces etc folders of the VST3 SDK.
 
 Then change into the LinVst3 folder and run make and then sudo make install
+
 Then use the batch name conversion utilities (in the convert/binaries folder) to name convert linvst3.so to the vst3 plugin names ie first select linvst3.so and then select the ~/.wine/drive_c/Program Files/Common Files/VST3 folder
 
 Currently builds ok with the vstsdk3613_08_04_2019_build_81
