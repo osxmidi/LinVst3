@@ -49,7 +49,7 @@ This LinVst3 source folder needs to be placed within the VST3 SDK main folder (t
 
 Then change into the LinVst3 folder and run make and then sudo make install
 
-Then use the batch name conversion utilities (in the convert/binaries folder) to name convert linvst3.so to the vst3 plugin names ie first select linvst3.so and then select the ~/.wine/drive_c/Program Files/Common Files/VST3 folder
+Then use the batch name conversion utilities (in the convert/binaries folder) to name convert linvst3.so to the vst3 plugin names ie first select linvst3.so and then select the ~/.wine/drive_c/Program Files/Common Files/VST3 folder https://github.com/osxmidi/LinVst/wiki
 
 Currently builds ok with the vstsdk3613_08_04_2019_build_81
 
