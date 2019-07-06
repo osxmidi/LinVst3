@@ -2250,6 +2250,12 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
     }
     }
     */
+	
+    if(cmdline[0] == '\0')
+    {
+    exit(0);
+   // return 1;
+    }	
     
     if(cmdline)
     { 
