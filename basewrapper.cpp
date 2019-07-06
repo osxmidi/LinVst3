@@ -1033,7 +1033,7 @@ void BaseWrapper::processMidiEvent (Event& toAdd, char* midiData, bool isLive, i
 				toAdd.noteOff.channel = channel;
 				toAdd.noteOff.pitch = midiData[1];
 				toAdd.noteOff.velocity = noteOffVelocity;
-				toAdd.noteOff.noteId = -1; // TODO ?
+				toAdd.noteOff.noteId = (channel << 8 | midiData[1]);
 			}
 			else if (status == kNoteOn) // note on
 			{
@@ -1043,7 +1043,7 @@ void BaseWrapper::processMidiEvent (Event& toAdd, char* midiData, bool isLive, i
 				toAdd.noteOn.tuning = detune;
 				toAdd.noteOn.velocity = (float)midiData[2] * kMidiScaler;
 				toAdd.noteOn.length = noteLength;
-				toAdd.noteOn.noteId = -1; // TODO ?
+				toAdd.noteOn.noteId = (channel << 8 | midiData[1]);
 			}
 			mInputEvents->addEvent (toAdd);
 		}
@@ -1055,7 +1055,7 @@ void BaseWrapper::processMidiEvent (Event& toAdd, char* midiData, bool isLive, i
 			toAdd.polyPressure.channel = channel;
 			toAdd.polyPressure.pitch = midiData[1] & kDataMask;
 			toAdd.polyPressure.pressure = (midiData[2] & kDataMask) * kMidiScaler;
-			toAdd.polyPressure.noteId = -1; // TODO ?
+			toAdd.polyPressure.noteId = (channel << 8 | midiData[1]);
 
 			mInputEvents->addEvent (toAdd);
 		}
