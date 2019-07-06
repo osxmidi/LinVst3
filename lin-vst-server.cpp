@@ -2274,7 +2274,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
     if (fileInfo[l-1] == '"' || fileInfo[l-1] == '\'')
     fileInfo[l-1] = '\0';
     
-    printf("fileinfo %s\n", fileInfo);    
+    // printf("fileinfo %s\n", fileInfo);    
 
     if (libname2 != NULL)
     {
