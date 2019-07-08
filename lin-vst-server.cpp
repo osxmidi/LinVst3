@@ -87,6 +87,8 @@ RemotePluginDebugLevel  debugLevel = RemotePluginDebugNone;
 
 #define disconnectserver 32143215
 
+#define hidegui2 77775634
+
 using namespace std;
 
 class RemoteVSTServer : public RemotePluginServer
@@ -217,6 +219,7 @@ public:
     int                 parfin;
     int                 audfin;
     int                 getfin;
+    int                 hidegui;    
     
     Steinberg::Vst::Vst2Wrapper *vst2wrap;
     int vst2uid;
@@ -380,7 +383,8 @@ RemoteVSTServer::RemoteVSTServer(std::string fileIdentifiers, std::string fallba
     vst2wrap(0),
     factory(0),
     mpluginptr(&mplugin),
-    vst2uid(0)
+    vst2uid(0),
+    hidegui(0)
 {
 #ifdef EMBED	    
      winm = new winmessage;  
@@ -739,6 +743,10 @@ void RemoteVSTServer::effDoVoid(int opcode)
 
 int RemoteVSTServer::effDoVoid2(int opcode, int index, int value, float opt)
 {
+	
+    if(opcode == hidegui2)
+    hidegui = 1;	
+	
     if(opcode == effMainsChanged)
     {
     if(value == 0)
@@ -1205,6 +1213,8 @@ void RemoteVSTServer::hideGUI()
   vst2wrap->editor->close ();
    	
   guiVisible = false;
+	
+  hidegui = 0;	
 
    // if (!exiting)
     //    usleep(50000);
@@ -2727,21 +2737,20 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
     
     TranslateMessage(&msg);
     DispatchMessage(&msg);
-      
-//    if(msg.message == WM_TIMER && remoteVSTServerInstance->haveGui && remoteVSTServerInstance->guiVisible && remoteVSTServerInstance->m_plugin) 
-   if(msg.message == WM_TIMER && remoteVSTServerInstance->haveGui && remoteVSTServerInstance->guiVisible) 
-    {
-    if(remoteVSTServerInstance->exiting)
-    break;	     
-    remoteVSTServerInstance->dispatchControl(50);          
- //   remoteVSTServerInstance->m_plugin->dispatcher (remoteVSTServerInstance->m_plugin, effEditIdle, 0, 0, NULL, 0);
-    if(remoteVSTServerInstance->guiupdate)
-    remoteVSTServerInstance->guiUpdate();  
-    }
+       
+    if(remoteVSTServerInstance->hidegui == 1)
+    break;    
     } 
+    
+    if(remoteVSTServerInstance->hidegui == 1)
+    {
+    remoteVSTServerInstance->hidegui = 0;
+    remoteVSTServerInstance->hideGUI();
+    }
+    
     if(remoteVSTServerInstance->exiting)
     break;	                   
-    remoteVSTServerInstance->dispatchControl(50);          
+    remoteVSTServerInstance->dispatchControl(50);               
     }
 	
 /*
