@@ -253,9 +253,9 @@ BaseWrapper::BaseWrapper (SVST3Config& config)
 {
 	mPlugInterfaceSupport = owned (NEW PlugInterfaceSupport);
 
-	mProcessor = owned (config.processor); 
- mComponent = owned (config.component);
-	mController = owned (config.controller);
+//	mProcessor = owned (config.processor); 
+//      mComponent = owned (config.component);
+//	mController = owned (config.controller);
 	mFactory = config.factory;	// share it
 	mVst3EffectClassID = config.vst3ComponentID;
 
@@ -341,17 +341,31 @@ bool BaseWrapper::init ()
  {
  FUnknown* gStandardPluginContext = 0;
   
- 	    if (mController) 
-        {
+         tresult result = mFactory->createInstance (mVst3EffectClassID, IComponent::iid, (void**)&mComponent); 
+        if(mComponent && (result == kResultOk)) 
+        { 
+         	    if (mComponent->initialize ((IHostApplication*)this) != kResultTrue)
+	    mComponent->initialize (gStandardPluginContext);
+        mComponent->queryInterface (IAudioProcessor::iid, (void**)&mProcessor); 
+        if(mProcessor) 
+        { 
+ //       if(config.processor->canProcessSampleSize (kSample32) != kResultTrue) 
+ //       return nullptr; 
+        if(mComponent->queryInterface (IEditController::iid, (void**)&mController) != kResultTrue) 
+        { 
+        TUID controllerCID; 
+        if(mComponent->getControllerClassId (controllerCID) == kResultTrue) 
+        { 
+        result = mFactory->createInstance (controllerCID, IEditController::iid, (void**)&mController); 
+        	    if (mController->initialize ((IHostApplication*)this) != kResultTrue)
+	    mController->initialize (gStandardPluginContext);		
+        } 
+        } 
+        } 
+         
  	    mController->queryInterface (IUnitInfo::iid, (void**)&mUnitInfo); 
         mController->queryInterface (IMidiMapping::iid, (void**)&mMidiMapping); 
- 
- 	    if (mComponent->initialize ((IHostApplication*)this) != kResultTrue)
-	    mComponent->initialize (gStandardPluginContext);
-		
-	    if (mController->initialize ((IHostApplication*)this) != kResultTrue)
-	    mController->initialize (gStandardPluginContext);		       
-               
+                
         mComponentInitialized = true; 
         mControllerInitialized = true;        
  		
