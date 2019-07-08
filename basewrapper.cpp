@@ -363,7 +363,7 @@ bool BaseWrapper::init ()
         } 
         } 
          
- 	//    mController->queryInterface (IUnitInfo::iid, (void**)&mUnitInfo); 
+        mController->queryInterface (IUnitInfo::iid, (void**)&mUnitInfo); 
         mController->queryInterface (IMidiMapping::iid, (void**)&mMidiMapping); 
                 
         mComponentInitialized = true; 
