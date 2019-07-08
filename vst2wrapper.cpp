@@ -1043,29 +1043,21 @@ Vst2Wrapper* Vst2Wrapper::create (IPluginFactory* factory, const TUID vst3Compon
         config.component = nullptr; 
  
         FReleaser factoryReleaser (factory); 
-        tresult result = factory->createInstance (vst3ComponentID, IComponent::iid, (void**)&config.component); 
-        if(config.component && (result == kResultOk)) 
-        { 
-        config.component->queryInterface (IAudioProcessor::iid, (void**)&config.processor); 
-        if(config.processor) 
-        { 
- //       if(config.processor->canProcessSampleSize (kSample32) != kResultTrue) 
- //       return nullptr; 
-        if(config.component->queryInterface (IEditController::iid, (void**)&config.controller) != kResultTrue) 
-        { 
-        TUID controllerCID; 
-        if(config.component->getControllerClassId (controllerCID) == kResultTrue) 
-        { 
-        result = factory->createInstance (controllerCID, IEditController::iid, (void**)&config.controller); 
-        } 
-        } 
-        } 
+        
+        config.factory = factory;
+        
         config.vst3ComponentID = FUID::fromTUID (vst3ComponentID);
 
 		auto* wrapper = new Vst2Wrapper (config, audioMaster, vst2ID);
 		
 		if(!wrapper)
 		return nullptr;
+		
+	    if (wrapper->init () == false)
+		{
+			wrapper->release ();
+			return nullptr;
+		}
 				
 		FUnknownPtr<IPluginFactory2> factory2 (factory);
 		if (factory2)
@@ -1093,19 +1085,10 @@ Vst2Wrapper* Vst2Wrapper::create (IPluginFactory* factory, const TUID vst3Compon
 				}
 			}
 		}
-		
-		if (wrapper->init () == false)
-		{
-			wrapper->release ();
-			return nullptr;
-		}
-		
+				
 		return wrapper;
-	}
-
-	return nullptr;
 }
-
+	
 //-----------------------------------------------------------------------------
 tresult PLUGIN_API Vst2Wrapper::getName (String128 name)
 {
