@@ -1160,8 +1160,8 @@ void RemoteVSTServer::showGUI()
         UpdateWindow(hWnd);
     }
 #endif	
-        timerval = 678;
-        timerval = SetTimer(hWnd, timerval, 80, 0);
+     //   timerval = 678;
+     //   timerval = SetTimer(hWnd, timerval, 80, 0);
 }
 	
 void RemoteVSTServer::hideGUI()
@@ -1187,7 +1187,7 @@ void RemoteVSTServer::hideGUI()
 		
   if(hWnd)
   {	
-  KillTimer(hWnd, timerval);
+  // KillTimer(hWnd, timerval);
   #ifdef EMBED
   #ifdef XEMBED
   DestroyWindow(hWnd);
