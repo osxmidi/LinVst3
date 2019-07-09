@@ -6,7 +6,7 @@ For 64 bit vst3's only.
 
 Not all vst3 features are supported.
 
-Same usage as LinVst except that it's linvst3.so instead of linvst.so https://github.com/osxmidi/LinVst/blob/master/README.md
+Same usage as LinVst except that it's linvst3.so instead of linvst.so https://github.com/osxmidi/LinVst/wiki https://github.com/osxmidi/LinVst/blob/master/README.md
 
 So for example, linvst3.so would be renamed to Delay.so for Delay.vst3 (see convert folder for batch name conversion utilities)
 
