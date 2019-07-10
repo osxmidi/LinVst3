@@ -33,6 +33,20 @@ libxkbcommon-x11-dev
 libgtkmm-3.0-dev
 libsqlite3-dev
 
+Maybe and/or/also
+
+libx11-xcb-dev
+libxcb-util-dev
+libxcb-cursor-dev
+libxcb-xkb-dev
+libxkbcommon-dev
+libxkbcommon-x11-dev
+libfontconfig1-dev
+libcairo2-dev
+libgtkmm-3.0-dev
+libsqlite3-dev
+libxcb-keysyms1-dev
+
 Wine libwine development files.
 
 For Ubuntu/Debian, sudo apt-get install libwine-development-dev (for Ubuntu 14.04 it's sudo apt-get install wine1.8 and sudo apt-get install wine1.8-dev)
