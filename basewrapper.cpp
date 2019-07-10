@@ -341,14 +341,15 @@ bool BaseWrapper::init ()
  {
  FUnknown* gStandardPluginContext = 0;
   
-         tresult result = mFactory->createInstance (mVst3EffectClassID, IComponent::iid, (void**)&mComponent); 
-        if(mComponent && (result == kResultOk)) 
-        { 
-         	    if (mComponent->initialize ((IHostApplication*)this) != kResultTrue)
-	    mComponent->initialize (gStandardPluginContext);
+        tresult result = mFactory->createInstance (mVst3EffectClassID, IComponent::iid, (void**)&mComponent); 
+        if(!mComponent || (result != kResultOk)) 
+	return false;	
+       
+        if (mComponent->initialize ((IHostApplication*)this) != kResultTrue)
+	mComponent->initialize (gStandardPluginContext);
         mComponent->queryInterface (IAudioProcessor::iid, (void**)&mProcessor); 
-        if(mProcessor) 
-        { 
+        if(!mProcessor) 
+        return false;
  //       if(config.processor->canProcessSampleSize (kSample32) != kResultTrue) 
  //       return nullptr; 
         if(mComponent->queryInterface (IEditController::iid, (void**)&mController) != kResultTrue) 
@@ -361,8 +362,9 @@ bool BaseWrapper::init ()
 	    mController->initialize (gStandardPluginContext);		
         } 
         } 
-        } 
-         
+	
+	if(mController)
+	{         
         mController->queryInterface (IUnitInfo::iid, (void**)&mUnitInfo); 
         mController->queryInterface (IMidiMapping::iid, (void**)&mMidiMapping); 
                 
@@ -391,9 +393,7 @@ bool BaseWrapper::init ()
 		}
 	}
 
-	// Wrapper -----------------------------------------------
-	if (mProcessor)
-	{
+	// Wrapper ----------------------------------------------
 		if (mProcessor->canProcessSampleSize (kSample64) == kResultTrue)
 		{
 			_canDoubleReplacing (true); // supports double precision processing
@@ -412,7 +412,6 @@ bool BaseWrapper::init ()
 			_noTail (true);
 
 		setupProcessing (); // initialize vst3 component processing parameters
-	}
 
 	// parameters
 	setupParameters ();
