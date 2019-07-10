@@ -64,7 +64,8 @@ namespace Steinberg {
 namespace Vst {
 
 //! The parameter's name contains the unit path (e.g. "Modulators.LFO 1.frequency")
-bool vst2WrapperFullParameterPath = true;
+// bool vst2WrapperFullParameterPath = true;
+bool vst2WrapperFullParameterPath = false;
 
 //------------------------------------------------------------------------
 // Vst2EditorWrapper Declaration
