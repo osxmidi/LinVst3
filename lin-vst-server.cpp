@@ -2096,6 +2096,9 @@ int firstdone = 0;
     }
          
     auto proc = (GetFactoryProc)::GetProcAddress ((HMODULE)libHandle, "GetPluginFactory");
+	
+    if(!proc)
+    return nullptr;
   
     factory = proc();
     
