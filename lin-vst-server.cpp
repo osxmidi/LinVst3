@@ -499,8 +499,6 @@ void RemoteVSTServer::EffectOpen()
     }
 #endif
 
-/*
-	
     struct amessage
     {
         int flags;
@@ -511,23 +509,26 @@ void RemoteVSTServer::EffectOpen()
         int delay;
     } am;
 
-        am.flags = m_plugin->flags;
-        am.pcount = m_plugin->numPrograms;
-        am.parcount = m_plugin->numParams;
-        am.incount = m_plugin->numInputs;
-        am.outcount = m_plugin->numOutputs;
-        am.delay = m_plugin->initialDelay;
-#ifndef DOUBLEP
-        am.flags &= ~effFlagsCanDoubleReplacing;
+     //   am.flags = plugin->flags;
+        am.flags = getFlags();
+        // remoteVSTServerInstance->mpluginptr->flags;
+        am.pcount = getProgramCount();
+        am.parcount = getParameterCount();
+        am.incount = getInputCount();
+        am.outcount = getOutputCount();
+        am.delay = getinitialDelay();
+#ifdef DOUBLEP
+        if(remoteVSTServerInstance->vst2wrap->doublereplacing == true)
+        am.flags |= effFlagsCanDoubleReplacing; 
 #endif
+        am.flags |= effFlagsCanReplacing; 
 
-    memcpy(&remoteVSTServerInstance->m_shm3[FIXED_SHM_SIZE3], &am, sizeof(am));
+        memcpy(&remoteVSTServerInstance->m_shm3[FIXED_SHM_SIZE3], &am, sizeof(am));
 
     remoteVSTServerInstance->writeOpcodering(&remoteVSTServerInstance->m_shmControl->ringBuffer, (RemotePluginOpcode)audioMasterIOChanged);
    
     remoteVSTServerInstance->commitWrite(&remoteVSTServerInstance->m_shmControl->ringBuffer);
-    remoteVSTServerInstance->waitForServer();
-	*/
+    remoteVSTServerInstance->waitForServer();	
 	
     vst2wrap->resume ();	
 	
