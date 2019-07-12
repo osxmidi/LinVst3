@@ -250,8 +250,8 @@ Vst2Wrapper::~Vst2Wrapper ()
 //------------------------------------------------------------------------
 bool Vst2Wrapper::init ()
 {
-	if (strstr (mSubCategories, "Instrument"))
-	synth = true;
+//	if (strstr (mSubCategories, "Instrument"))
+//	synth = true;
 //		isSynth (true);
 
     bool res = BaseWrapper::init ();
@@ -1086,6 +1086,9 @@ Vst2Wrapper* Vst2Wrapper::create (IPluginFactory* factory, const TUID vst3Compon
 				}
 			}
 		}
+	
+		if (strstr (wrapper->mSubCategories, "Instrument"))
+	        wrapper->synth = true;
 				
 		return wrapper;
 }
