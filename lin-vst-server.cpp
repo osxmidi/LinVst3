@@ -1209,10 +1209,7 @@ void RemoteVSTServer::hideGUI()
   #endif 
   #endif         	  
   }
-  
-  if(melda == 1)
-  vst2wrap->editor->close ();
-   	
+     	
   guiVisible = false;
 	
   hidegui = 0;	
