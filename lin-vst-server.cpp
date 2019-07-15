@@ -543,10 +543,16 @@ RemoteVSTServer::~RemoteVSTServer()
     } 
 	
 #ifndef WCLASS  
+    if(remoteVSTServerInstance->haveGui == true)
+    {
+    if(hWnd)
+    {
     HWND child = GetWindow(hWnd, GW_CHILD);  
     if(child)
     DestroyWindow(child);
-#endif    	
+    }
+    }
+#endif    	    	
     
     if(vst2wrap)
 	delete vst2wrap;  
