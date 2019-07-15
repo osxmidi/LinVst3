@@ -541,6 +541,12 @@ RemoteVSTServer::~RemoteVSTServer()
     {	 
     vst2wrap->suspend ();
     } 
+	
+#ifndef WCLASS  
+    HWND child = GetWindow(hWnd, GW_CHILD);  
+    if(child)
+    DestroyWindow(child);
+#endif    	
     
     if(vst2wrap)
 	delete vst2wrap;  
