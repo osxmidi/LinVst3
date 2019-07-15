@@ -543,6 +543,8 @@ RemoteVSTServer::~RemoteVSTServer()
     } 
 	
 #ifndef WCLASS  
+    if(melda == 1)
+    {
     if(remoteVSTServerInstance->haveGui == true)
     {
     if(hWnd)
@@ -550,6 +552,7 @@ RemoteVSTServer::~RemoteVSTServer()
     HWND child = GetWindow(hWnd, GW_CHILD);  
     if(child)
     DestroyWindow(child);
+    }
     }
     }
 #endif    	    	
@@ -1195,8 +1198,22 @@ void RemoteVSTServer::hideGUI()
   UpdateWindow(hWnd);
 #endif
  
-  if(melda == 0)	
+  if(melda == 0)
+  {
   vst2wrap->editor->close ();
+
+#ifndef WCLASS  
+    if(remoteVSTServerInstance->haveGui == true)
+    {
+    if(hWnd)
+    {
+    HWND child = GetWindow(hWnd, GW_CHILD);  
+    if(child)
+    DestroyWindow(child);
+    }
+    }
+#endif    	    	  	   	  	  
+  }	  
 		
   if(hWnd)
   {	
