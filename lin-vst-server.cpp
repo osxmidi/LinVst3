@@ -541,27 +541,12 @@ RemoteVSTServer::~RemoteVSTServer()
     {	 
     vst2wrap->suspend ();
     } 
-	
-#ifndef WCLASS  
-    if(melda == 1)
-    {
-    if(remoteVSTServerInstance->haveGui == true)
-    {
-    if(hWnd)
-    {
-    HWND child = GetWindow(hWnd, GW_CHILD);  
-    if(child)
-    DestroyWindow(child);
-    }
-    }
-    }
-#endif    	    	
     
     if(vst2wrap)
-	delete vst2wrap;  
+    delete vst2wrap;  
 	
-	if (factory)
-	factory->release ();      
+    if (factory)
+    factory->release ();      
 	
 #ifdef EMBED	
     if (winm)
@@ -1200,8 +1185,10 @@ void RemoteVSTServer::hideGUI()
  
   if(melda == 0)
   {
-  vst2wrap->editor->close ();
+  vst2wrap->editor->close ();	  	   	  	  
+  }	  
 
+#ifdef EMBED    
 #ifndef WCLASS  
     if(remoteVSTServerInstance->haveGui == true)
     {
@@ -1212,8 +1199,8 @@ void RemoteVSTServer::hideGUI()
     DestroyWindow(child);
     }
     }
-#endif    	    	  	   	  	  
-  }	  
+#endif 
+#endif   	      
 		
   if(hWnd)
   {	
@@ -1238,6 +1225,11 @@ void RemoteVSTServer::hideGUI()
   #endif 
   #endif         	  
   }
+	
+  if(melda == 1)
+  {
+  vst2wrap->editor->close ();	  	   	  	  
+  }	  	
      	
   guiVisible = false;
 	
