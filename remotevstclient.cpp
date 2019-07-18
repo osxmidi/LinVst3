@@ -254,6 +254,7 @@ printf("idxname %s\n", filename.c_str());
     mfile.close();
         
 #ifdef EMBED
+#ifdef TRACKTIONWM     
     LinVstName = "/usr/bin/lin-vst3-servertrack.exe";
     test = std::ifstream(LinVstName.c_str()).good();
     if (!test)
@@ -272,6 +273,26 @@ printf("idxname %s\n", filename.c_str());
     return;
     }
 #else
+    LinVstName = "/usr/bin/lin-vst3-server.exe";
+    test = std::ifstream(LinVstName.c_str()).good();
+    if (!test)
+    {
+    m_runok = 1;
+    cleanup();
+    return;
+    }
+    
+    LinVstName = "/usr/bin/lin-vst3-server.exe.so";
+    test = std::ifstream(LinVstName.c_str()).good();
+    if (!test)
+    {
+    m_runok = 1;
+    cleanup();
+    return;
+    }    
+#endif    
+#else
+#ifdef TRACKTIONWM    
     LinVstName = "/usr/bin/lin-vst3-servertrackst.exe";
     test = std::ifstream(LinVstName.c_str()).good();
     if (!test)
@@ -288,6 +309,24 @@ printf("idxname %s\n", filename.c_str());
     cleanup();
     return;
     }
+#else
+    LinVstName = "/usr/bin/lin-vst3-serverst.exe";
+    test = std::ifstream(LinVstName.c_str()).good();
+    if (!test)
+    {
+    m_runok = 1;
+    cleanup();
+    return;
+    }
+    LinVstName = "/usr/bin/lin-vst3-serverst.exe.so";
+    test = std::ifstream(LinVstName.c_str()).good();
+    if (!test)
+    {
+    m_runok = 1;
+    cleanup();
+    return;
+    }    
+#endif    
 #endif
 
     hit2[0] = '\0';
@@ -327,9 +366,17 @@ printf("idxname %s\n", filename.c_str());
     else if (child == 0)
     {
     #ifdef EMBED
+    #ifdef TRACKTIONWM     
     if (execlp("/usr/bin/lin-vst3-servertrack.exe", "/usr/bin/lin-vst3-servertrack.exe", argStr, NULL))
     #else
+    if (execlp("/usr/bin/lin-vst3-server.exe", "/usr/bin/lin-vst3-server.exe", argStr, NULL))    
+    #endif    
+    #else
+    #ifdef TRACKTIONWM       
     if (execlp("/usr/bin/lin-vst3-servertrackst.exe", "/usr/bin/lin-vst3-servertrackst.exe", argStr, NULL))
+    #else
+    if (execlp("/usr/bin/lin-vst3-serverst.exe", "/usr/bin/lin-vst3-serverst.exe", argStr, NULL))    
+    #endif    
     #endif
     {
          m_runok = 1;
