@@ -186,7 +186,6 @@ public:
 #ifdef TRACKTIONWM  
     WNDCLASSEX          wclass2;
 #endif    
-    int                 winit;
     UINT_PTR            timerval;
     bool                haveGui;
 #ifdef EMBED
@@ -378,7 +377,6 @@ RemoteVSTServer::RemoteVSTServer(std::string fileIdentifiers, std::string fallba
     guiresizewidth(500),
     guiresizeheight(200),
     melda(0),
-    winit(0),
     hWnd(0),
     vst2wrap(0),
     factory(0),
@@ -995,27 +993,9 @@ void RemoteVSTServer::showGUI()
  //   hWnd = 0;
  
 #ifdef EMBEDDRAG
-    if(winit == 0)	
-    {
     hWnd = CreateWindowEx(WS_EX_TOOLWINDOW | WS_EX_ACCEPTFILES, APPLICATION_CLASS_NAME, "LinVst", WS_POPUP, 0, 0, 200, 200, 0, 0, GetModuleHandle(0), 0);
-#ifndef XEMBED
-#ifndef XECLOSE
-    if(hostreaper == 1)
-    winit = 1;
-#endif    
-#endif
-    }
 #else
-    if(winit == 0)
-    {	
     hWnd = CreateWindowEx(WS_EX_TOOLWINDOW, APPLICATION_CLASS_NAME, "LinVst", WS_POPUP, 0, 0, 200, 200, 0, 0, GetModuleHandle(0), 0);
-#ifndef XEMBED
-#ifndef XECLOSE
-    if(hostreaper == 1)
-    winit = 1;
-#endif   
-#endif	    
-    }
 #endif
     if (!hWnd)
     {
