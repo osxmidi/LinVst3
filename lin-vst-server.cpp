@@ -743,10 +743,17 @@ void RemoteVSTServer::effDoVoid(int opcode)
 }
 
 int RemoteVSTServer::effDoVoid2(int opcode, int index, int value, float opt)
-{
-	
+{	
     if(opcode == hidegui2)
-    hidegui = 1;	
+    {
+    hidegui = 1;  
+#ifdef XECLOSE    
+    while(hidegui == 1)
+    {    
+    sched_yield();
+    } 
+#endif       
+    }  		
 	
     if(opcode == effMainsChanged)
     {
@@ -2769,7 +2776,6 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
     
     if(remoteVSTServerInstance->hidegui == 1)
     {
-    remoteVSTServerInstance->hidegui = 0;
     remoteVSTServerInstance->hideGUI();
     }
     
