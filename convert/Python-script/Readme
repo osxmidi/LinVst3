@@ -1,1 +1,3 @@
-Place linvst3.so into the same folder as this script and enclose the vst dll path in quotes, for example linvst3convert-py "/home/user/vst/*" or linvst3convert-py "/home/user/vst/**" for subdirectories.
+Make linvst3convert-py executable, chmod +x linvst3convert-py
+
+Place linvst3.so into the same folder as this script and enclose the vst dll path in quotes, for example ./linvst3convert-py "/home/user/vst/*" or ./linvst3convert-py "/home/user/vst/**" for subdirectories.
