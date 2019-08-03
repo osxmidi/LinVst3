@@ -1,0 +1,1 @@
+Place linvst3.so into the same folder as this script and enclose vst dll path in quotes, for example linvst3convert-py "/home/user/vst/*" or linvst3convert-py "/home/user/vst/**" for subdirectories.
