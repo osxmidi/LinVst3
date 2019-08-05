@@ -520,7 +520,7 @@ void RemoteVSTServer::EffectOpen()
         am.flags |= effFlagsCanDoubleReplacing; 
         am.flags |= effFlagsCanReplacing; 
 #else
-        am->flags &= ~effFlagsCanDoubleReplacing;
+        am.flags &= ~effFlagsCanDoubleReplacing;
         am.flags |= effFlagsCanReplacing; 
 #endif        
 
@@ -1599,7 +1599,7 @@ VstIntPtr VSTCALLBACK hostCallback(AEffect *plugin, VstInt32 opcode, VstInt32 in
         am.flags |= effFlagsCanDoubleReplacing; 
         am.flags |= effFlagsCanReplacing; 
 #else
-        am->flags &= ~effFlagsCanDoubleReplacing;
+        am.flags &= ~effFlagsCanDoubleReplacing;
         am.flags |= effFlagsCanReplacing; 
 #endif        
         am.flags |= effFlagsCanReplacing; 
