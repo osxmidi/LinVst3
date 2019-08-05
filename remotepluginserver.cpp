@@ -1144,7 +1144,7 @@ void RemotePluginServer::dispatchPar(int timeout)
     }
     else
     {
-    if (fwait(&m_shmControl5->runServer386, 50)) {
+    if (fwait(&m_shmControl5->runServer386, timeout)) {
         if (errno == ETIMEDOUT) {
            return;
         } else {
@@ -1156,7 +1156,7 @@ void RemotePluginServer::dispatchPar(int timeout)
 
 #else
 
-    if (fwait(&m_shmControl5->runServer, 50)) {
+    if (fwait(&m_shmControl5->runServer, timeout)) {
         if (errno == ETIMEDOUT) {
            return;
         } else {
