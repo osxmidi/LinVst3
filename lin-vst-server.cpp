@@ -518,8 +518,11 @@ void RemoteVSTServer::EffectOpen()
 #ifdef DOUBLEP
         if(remoteVSTServerInstance->vst2wrap->doublereplacing == true)
         am.flags |= effFlagsCanDoubleReplacing; 
-#endif
         am.flags |= effFlagsCanReplacing; 
+#else
+        am->flags &= ~effFlagsCanDoubleReplacing;
+        am.flags |= effFlagsCanReplacing; 
+#endif        
 
         memcpy(&remoteVSTServerInstance->m_shm3[FIXED_SHM_SIZE3], &am, sizeof(am));
 
@@ -1594,7 +1597,11 @@ VstIntPtr VSTCALLBACK hostCallback(AEffect *plugin, VstInt32 opcode, VstInt32 in
 #ifdef DOUBLEP
         if(remoteVSTServerInstance->vst2wrap->doublereplacing == true)
         am.flags |= effFlagsCanDoubleReplacing; 
-#endif
+        am.flags |= effFlagsCanReplacing; 
+#else
+        am->flags &= ~effFlagsCanDoubleReplacing;
+        am.flags |= effFlagsCanReplacing; 
+#endif        
         am.flags |= effFlagsCanReplacing; 
 
         memcpy(&remoteVSTServerInstance->m_shm3[FIXED_SHM_SIZE3], &am, sizeof(am));
