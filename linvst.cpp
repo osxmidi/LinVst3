@@ -1130,13 +1130,13 @@ void initEffect(AEffect *eff, RemotePluginClient *plugin)
     eff->numOutputs = plugin->getOutputCount();
     eff->numPrograms = plugin->getProgramCount();
     eff->numParams = plugin->getParameterCount();
-    eff->flags = plugin->getFlags();
-    /*
-#ifdef DOUBLEP
-    eff->flags |= effFlagsCanDoubleReplacing;
-#endif    
+#ifndef DOUBLEP
+    eff->flags = plugin->getFlags();	
+    eff->flags &= ~effFlagsCanDoubleReplacing;
     eff->flags |= effFlagsCanReplacing;
-    */
+#else
+    eff->flags = plugin->getFlags();	
+#endif	
     eff->resvd1 = 0;
     eff->resvd2 = 0;
     eff->initialDelay = plugin->getinitialDelay();
