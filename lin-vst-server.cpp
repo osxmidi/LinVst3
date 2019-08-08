@@ -1412,7 +1412,7 @@ VstIntPtr VSTCALLBACK hostCallback(AEffect *plugin, VstInt32 opcode, VstInt32 in
 #endif
 {
     VstTimeInfo timeInfo;
-    int rv = 0;
+    long rv = 0;
     int retval = 0;
     
     switch (opcode)
