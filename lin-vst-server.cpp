@@ -1491,7 +1491,7 @@ VstIntPtr VSTCALLBACK hostCallback(AEffect *plugin, VstInt32 opcode, VstInt32 in
   */
    memcpy(&remoteVSTServerInstance->timeInfo, &remoteVSTServerInstance->m_shm3[FIXED_SHM_SIZE3 - sizeof(VstTimeInfo)], sizeof(VstTimeInfo));
 
-  //   printf("%f\n", remoteVSTServerInstance.timeInfo.sampleRate);
+  //   printf("%f\n", remoteVSTServerInstance->timeInfo.sampleRate);
  
   rv = (VstIntPtr)&remoteVSTServerInstance->timeInfo;	    	    
 #else
@@ -1507,7 +1507,7 @@ VstIntPtr VSTCALLBACK hostCallback(AEffect *plugin, VstInt32 opcode, VstInt32 in
     */
     memcpy(&remoteVSTServerInstance->timeInfo, &remoteVSTServerInstance->m_shm3[FIXED_SHM_SIZE3 - sizeof(VstTimeInfo)], sizeof(VstTimeInfo));
 
-  //   printf("%f\n", remoteVSTServerInstance.timeInfo.sampleRate);
+  //   printf("%f\n", remoteVSTServerInstance->timeInfo.sampleRate);
   
     rv = (VstIntPtr)&remoteVSTServerInstance->timeInfo;   	    
 #endif        
