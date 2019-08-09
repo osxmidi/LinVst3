@@ -396,8 +396,12 @@ std::string RemoteVSTServer::getName()
       char buffer[512];
       memset(buffer, 0, sizeof(buffer));
       vst2wrap->getEffectName (buffer);
+      m_name = buffer;   	
       if (buffer[0])
-      m_name = buffer;            
+      {
+      if(strlen(buffer) < (kVstMaxEffectNameLen - 7))
+      m_name = m_name + " [vst3]"; 
+      }         	
       return m_name;
 }
   
