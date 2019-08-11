@@ -38,7 +38,7 @@ libsqlite3-dev
 
 Wine libwine development files.
 
-For Ubuntu/Debian, sudo apt-get install libwine-development-dev
+For Ubuntu/Debian, sudo apt-get install libwine-development-dev (For Debian, Wine might need to be reinstalled after installing libwine-development-dev)
 
 wine-devel packages for other distros (sudo apt-get install wine-devel).
 
@@ -48,7 +48,7 @@ For Fedora
 sudo yum -y install wine-devel wine-devel.i686 libX11-devel libX11-devel.i686
 sudo yum -y install libstdc++.i686 libX11.i686
 
-(Optional libraries, Maybe needed for some systems)
+(Optional libraries, Maybe needed for some systems),
 
 libx11-xcb-dev
 libxcb-util-dev
