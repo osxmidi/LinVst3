@@ -25,8 +25,6 @@ sudo apt-get cmake
 
 Libraries that need to be pre installed, sudo apt-get install  
 
----------
-
 libfreetype6-dev
 libxcb-util0-dev
 libxcb-cursor-dev
@@ -49,7 +47,7 @@ For Fedora
 sudo yum -y install wine-devel wine-devel.i686 libX11-devel libX11-devel.i686
 sudo yum -y install libstdc++.i686 libX11.i686
 
-(Optional) Maybe and/or/also forsome systems
+(Optional, Maybe needed for some systems)
 
 libx11-xcb-dev
 libxcb-util-dev
