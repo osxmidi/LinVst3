@@ -23,8 +23,9 @@ To Make
 
 sudo apt-get cmake
 
-Libraries that need to be pre installed, sudo apt-get install  
+Libraries that need to be pre installed, 
 
+sudo apt-get install 
 libfreetype6-dev
 libxcb-util0-dev
 libxcb-cursor-dev
