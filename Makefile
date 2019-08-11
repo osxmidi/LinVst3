@@ -32,7 +32,7 @@ BUILD_FLAGS_WIN = -std=c++14 -m64 -DEMBED -DEMBEDDRAG -DWAVES2 -DTRACKTIONWM -DV
 LINK_FLAGS   = $(LDFLAGS)
 
 LINK_PLUGIN = -shared -lpthread -ldl -lX11 -lrt $(LINK_FLAGS)
-LINK_WINE   = ../build/lib/Release/libbase.a ../build/lib/Release/libpluginterfaces.a ../build/lib/Release/libsdk.a -lole32 -lpthread -lrt $(LINK_FLAGS)
+LINK_WINE   = ../build/lib/Release/libbase.a ../build/lib/Release/libpluginterfaces.a ../build/lib/Release/libsdk.a -lole32 -lpthread -lrt -L/usr/lib/x86_64-linux-gnu/wine-development $(LINK_FLAGS)
 
 TARGETS     = do_script do_script2 linvst3.so lin-vst3-servertrack.exe
 
