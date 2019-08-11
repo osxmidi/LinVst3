@@ -21,7 +21,11 @@ Some vst3's might not work due to Wines current capabilities or for some other r
 
 To Make
 
-Libraries that need to be pre installed
+sudo apt-get cmake
+
+Libraries that need to be pre installed, sudo apt-get install  
+
+---------
 
 libfreetype6-dev
 libxcb-util0-dev
@@ -33,7 +37,19 @@ libxkbcommon-x11-dev
 libgtkmm-3.0-dev
 libsqlite3-dev
 
-Maybe and/or/also
+Wine libwine development files.
+
+For Ubuntu/Debian, sudo apt-get install libwine-development-dev (for Ubuntu 14.04 it's sudo apt-get install wine1.8 and sudo apt-get install wine1.8-dev)
+
+wine-devel packages for other distros (sudo apt-get install wine-devel).
+
+libX11 development (sudo apt-get install libx11-dev)
+
+For Fedora 
+sudo yum -y install wine-devel wine-devel.i686 libX11-devel libX11-devel.i686
+sudo yum -y install libstdc++.i686 libX11.i686
+
+(Optional) Maybe and/or/also forsome systems
 
 libx11-xcb-dev
 libxcb-util-dev
@@ -47,17 +63,7 @@ libgtkmm-3.0-dev
 libsqlite3-dev
 libxcb-keysyms1-dev
 
-Wine libwine development files.
-
-For Ubuntu/Debian, sudo apt-get install libwine-development-dev (for Ubuntu 14.04 it's sudo apt-get install wine1.8 and sudo apt-get install wine1.8-dev)
-
-wine-devel packages for other distros (sudo apt-get install wine-devel).
-
-libX11 development needed for embedded version (sudo apt-get install libx11-dev)
-
-For Fedora 
-sudo yum -y install wine-devel wine-devel.i686 libX11-devel libX11-devel.i686
-sudo yum -y install libstdc++.i686 libX11.i686
+-------
 
 This LinVst3 source folder needs to be placed within the VST3 SDK main folder (the VST3_SDK folder or the VST3 folder that contains the base, public.sdk, pluginterfaces etc folders) ie the LinVst3 source folder needs to be placed alongside the base, public.sdk, pluginterfaces etc folders of the VST3 SDK.
 
