@@ -25,16 +25,7 @@ sudo apt-get cmake
 
 Libraries that need to be pre installed, 
 
-sudo apt-get install 
-libfreetype6-dev
-libxcb-util0-dev
-libxcb-cursor-dev
-libxcb-keysyms1-dev
-libxcb-xkb-dev
-libxkbcommon-dev
-libxkbcommon-x11-dev
-libgtkmm-3.0-dev
-libsqlite3-dev
+sudo apt-get install libfreetype6-dev libxcb-util0-dev libxcb-cursor-dev libxcb-keysyms1-dev libxcb-xkb-dev libxkbcommon-dev libxkbcommon-x11-dev libgtkmm-3.0-dev libsqlite3-dev
 
 Wine libwine development files.
 
