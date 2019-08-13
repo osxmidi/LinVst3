@@ -547,7 +547,8 @@ VstIntPtr dispatcher(AEffect* effect, VstInt32 opcode, VstInt32 index, VstIntPtr
     {
         rp = &plugin->retRect;
         *((struct ERect **)ptr) = rp;
-    }
+	v=1;    
+    }	    
         break;
 
     case effEditIdle:
