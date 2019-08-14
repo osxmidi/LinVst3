@@ -135,7 +135,9 @@ else
 
 #endif
 
-    while (dataAvailable(&m_shmControl->ringBuffer) && theEffect) {
+ //   while (dataAvailable(&m_shmControl->ringBuffer) && theEffect) {
+	    
+    while (dataAvailable(&m_shmControl->ringBuffer)) {    
 
     if(m_threadbreak)
     break;
@@ -779,10 +781,12 @@ RemotePluginClient::~RemotePluginClient()
     waitForClientexit();       
 		 
     cleanup();
-	 
+
+    /*
     if (theEffect)
     delete theEffect; 
-
+    */
+	 
 /*
 #ifdef EMBED	 
     if (winm)
@@ -844,13 +848,17 @@ ptr = (int *)m_shm;
 #endif
 #endif
 
+    /*
     theEffect = new AEffect;	
     if(!theEffect)
     {
     *ptr = 4;
     m_runok = 1;   
     cleanup();	    
-    }        	    	
+    }   
+    */
+	
+    theEffect = &theEffect2;	
 
 #ifdef EMBED
     /*
