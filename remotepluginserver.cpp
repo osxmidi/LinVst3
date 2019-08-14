@@ -271,6 +271,7 @@ RemotePluginServer::RemotePluginServer(std::string fileIdentifiers) :
    m_386run = 1;
 	    
 //   timeinfo = new VstTimeInfo;
+     timeinfo = &timeinfo2; 	    
 }
 
 RemotePluginServer::~RemotePluginServer()
