@@ -1486,14 +1486,14 @@ VstIntPtr VSTCALLBACK hostCallback(AEffect *plugin, VstInt32 opcode, VstInt32 in
 
   //   printf("%f\n", remoteVSTServerInstance->timeinfo->sampleRate);
 
-    rv = (long)remoteVSTServerInstance->timeinfo;
+    rv = (VstIntPtr)remoteVSTServerInstance->timeinfo;
     }
   */
-   memcpy(&remoteVSTServerInstance->timeInfo, &remoteVSTServerInstance->m_shm3[FIXED_SHM_SIZE3 - sizeof(VstTimeInfo)], sizeof(VstTimeInfo));
+   memcpy(remoteVSTServerInstance->timeinfo, &remoteVSTServerInstance->m_shm3[FIXED_SHM_SIZE3 - sizeof(VstTimeInfo)], sizeof(VstTimeInfo));
 
-  //   printf("%f\n", remoteVSTServerInstance->timeInfo.sampleRate);
+  //   printf("%f\n", remoteVSTServerInstance->timeinfo->sampleRate);
  
-  rv = (VstIntPtr)&remoteVSTServerInstance->timeInfo;	    	    
+  rv = (VstIntPtr)remoteVSTServerInstance->timeinfo;	    	    
 #else
     /*
     if(remoteVSTServerInstance->timeinfo)
@@ -1502,14 +1502,14 @@ VstIntPtr VSTCALLBACK hostCallback(AEffect *plugin, VstInt32 opcode, VstInt32 in
 
  //    printf("%f\n", remoteVSTServerInstance->timeinfo->sampleRate);
 
-    rv = (long)remoteVSTServerInstance->timeinfo;
+    rv = (VstIntPtr)remoteVSTServerInstance->timeinfo;
     } 
     */
-    memcpy(&remoteVSTServerInstance->timeInfo, &remoteVSTServerInstance->m_shm3[FIXED_SHM_SIZE3 - sizeof(VstTimeInfo)], sizeof(VstTimeInfo));
+    memcpy(remoteVSTServerInstance->timeinfo, &remoteVSTServerInstance->m_shm3[FIXED_SHM_SIZE3 - sizeof(VstTimeInfo)], sizeof(VstTimeInfo));
 
   //   printf("%f\n", remoteVSTServerInstance->timeInfo.sampleRate);
   
-    rv = (VstIntPtr)&remoteVSTServerInstance->timeInfo;   	    
+    rv = (VstIntPtr)remoteVSTServerInstance->timeinfo;   	    
 #endif        
     }
     }
