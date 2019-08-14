@@ -190,6 +190,12 @@ public:
     bool                haveGui;
 #ifdef EMBED
     HANDLE handlewin;
+    struct winmessage
+    {
+    int handle;
+    int width;
+    int height;
+    } winm2;        
     winmessage *winm;
 #endif
     int guiupdate;
@@ -385,9 +391,12 @@ RemoteVSTServer::RemoteVSTServer(std::string fileIdentifiers, std::string fallba
     hidegui(0)
 {
 #ifdef EMBED	    
+     /*    
      winm = new winmessage;  
      if(!winm)
      starterror = 1;
+     */
+     winm = &winm2;        
 #endif	    
 }
 
@@ -552,11 +561,13 @@ RemoteVSTServer::~RemoteVSTServer()
 	
     if (factory)
     factory->release ();      
-	
+
+/*
 #ifdef EMBED	
     if (winm)
     delete winm; 
 #endif	
+*/
 }
 
 void RemoteVSTServer::process(float **inputs, float **outputs, int sampleFrames)
