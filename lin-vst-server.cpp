@@ -609,6 +609,7 @@ bool retval;
 
 #ifndef MIDIEFF 
 #ifdef VESTIGE
+/*
 bool RemoteVSTServer::getOutProp(int index)
 {
 char ptr[256];
@@ -632,6 +633,7 @@ bool retval;
 
         return retval;       
 }
+*/
 #endif
 #endif
 
