@@ -1205,7 +1205,203 @@ bool Vst2Wrapper::_sizeWindow (int32 width, int32 height)
 {
 //	return sizeWindow (width, height);
 }
+	
+#ifndef VESTIGE
+//------------------------------------------------------------------------
+VstInt32 Vst2Wrapper::vst3ToVst2SpeakerArr (SpeakerArrangement vst3Arr)
+{
+	switch (vst3Arr)
+	{
+		case SpeakerArr::kMono: return kSpeakerArrMono;
+		case SpeakerArr::kStereo: return kSpeakerArrStereo;
+		case SpeakerArr::kStereoSurround: return kSpeakerArrStereoSurround;
+		case SpeakerArr::kStereoCenter: return kSpeakerArrStereoCenter;
+		case SpeakerArr::kStereoSide: return kSpeakerArrStereoSide;
+		case SpeakerArr::kStereoCLfe: return kSpeakerArrStereoCLfe;
+		case SpeakerArr::k30Cine: return kSpeakerArr30Cine;
+		case SpeakerArr::k30Music: return kSpeakerArr30Music;
+		case SpeakerArr::k31Cine: return kSpeakerArr31Cine;
+		case SpeakerArr::k31Music: return kSpeakerArr31Music;
+		case SpeakerArr::k40Cine: return kSpeakerArr40Cine;
+		case SpeakerArr::k40Music: return kSpeakerArr40Music;
+		case SpeakerArr::k41Cine: return kSpeakerArr41Cine;
+		case SpeakerArr::k41Music: return kSpeakerArr41Music;
+		case SpeakerArr::k50: return kSpeakerArr50;
+		case SpeakerArr::k51: return kSpeakerArr51;
+		case SpeakerArr::k60Cine: return kSpeakerArr60Cine;
+		case SpeakerArr::k60Music: return kSpeakerArr60Music;
+		case SpeakerArr::k61Cine: return kSpeakerArr61Cine;
+		case SpeakerArr::k61Music: return kSpeakerArr61Music;
+		case SpeakerArr::k70Cine: return kSpeakerArr70Cine;
+		case SpeakerArr::k70Music: return kSpeakerArr70Music;
+		case SpeakerArr::k71Cine: return kSpeakerArr71Cine;
+		case SpeakerArr::k71Music: return kSpeakerArr71Music;
+		case SpeakerArr::k80Cine: return kSpeakerArr80Cine;
+		case SpeakerArr::k80Music: return kSpeakerArr80Music;
+		case SpeakerArr::k81Cine: return kSpeakerArr81Cine;
+		case SpeakerArr::k81Music: return kSpeakerArr81Music;
+		case SpeakerArr::k102: return kSpeakerArr102;
+	}
 
+	return kSpeakerArrUserDefined;
+}
+
+//------------------------------------------------------------------------
+SpeakerArrangement Vst2Wrapper::vst2ToVst3SpeakerArr (VstInt32 vst2Arr)
+{
+	switch (vst2Arr)
+	{
+		case kSpeakerArrMono: return SpeakerArr::kMono;
+		case kSpeakerArrStereo: return SpeakerArr::kStereo;
+		case kSpeakerArrStereoSurround: return SpeakerArr::kStereoSurround;
+		case kSpeakerArrStereoCenter: return SpeakerArr::kStereoCenter;
+		case kSpeakerArrStereoSide: return SpeakerArr::kStereoSide;
+		case kSpeakerArrStereoCLfe: return SpeakerArr::kStereoCLfe;
+		case kSpeakerArr30Cine: return SpeakerArr::k30Cine;
+		case kSpeakerArr30Music: return SpeakerArr::k30Music;
+		case kSpeakerArr31Cine: return SpeakerArr::k31Cine;
+		case kSpeakerArr31Music: return SpeakerArr::k31Music;
+		case kSpeakerArr40Cine: return SpeakerArr::k40Cine;
+		case kSpeakerArr40Music: return SpeakerArr::k40Music;
+		case kSpeakerArr41Cine: return SpeakerArr::k41Cine;
+		case kSpeakerArr41Music: return SpeakerArr::k41Music;
+		case kSpeakerArr50: return SpeakerArr::k50;
+		case kSpeakerArr51: return SpeakerArr::k51;
+		case kSpeakerArr60Cine: return SpeakerArr::k60Cine;
+		case kSpeakerArr60Music: return SpeakerArr::k60Music;
+		case kSpeakerArr61Cine: return SpeakerArr::k61Cine;
+		case kSpeakerArr61Music: return SpeakerArr::k61Music;
+		case kSpeakerArr70Cine: return SpeakerArr::k70Cine;
+		case kSpeakerArr70Music: return SpeakerArr::k70Music;
+		case kSpeakerArr71Cine: return SpeakerArr::k71Cine;
+		case kSpeakerArr71Music: return SpeakerArr::k71Music;
+		case kSpeakerArr80Cine: return SpeakerArr::k80Cine;
+		case kSpeakerArr80Music: return SpeakerArr::k80Music;
+		case kSpeakerArr81Cine: return SpeakerArr::k81Cine;
+		case kSpeakerArr81Music: return SpeakerArr::k81Music;
+		case kSpeakerArr102: return SpeakerArr::k102;
+	}
+
+	return 0;
+}
+
+//------------------------------------------------------------------------
+VstInt32 Vst2Wrapper::vst3ToVst2Speaker (Vst::Speaker vst3Speaker)
+{
+	switch (vst3Speaker)
+	{
+		case Vst::kSpeakerM: return ::kSpeakerM;
+		case Vst::kSpeakerL: return ::kSpeakerL;
+		case Vst::kSpeakerR: return ::kSpeakerR;
+		case Vst::kSpeakerC: return ::kSpeakerC;
+		case Vst::kSpeakerLfe: return ::kSpeakerLfe;
+		case Vst::kSpeakerLs: return ::kSpeakerLs;
+		case Vst::kSpeakerRs: return ::kSpeakerRs;
+		case Vst::kSpeakerLc: return ::kSpeakerLc;
+		case Vst::kSpeakerRc: return ::kSpeakerRc;
+		case Vst::kSpeakerS: return ::kSpeakerS;
+		case Vst::kSpeakerSl: return ::kSpeakerSl;
+		case Vst::kSpeakerSr: return ::kSpeakerSr;
+		case Vst::kSpeakerTc: return ::kSpeakerTm;
+		case Vst::kSpeakerTfl: return ::kSpeakerTfl;
+		case Vst::kSpeakerTfc: return ::kSpeakerTfc;
+		case Vst::kSpeakerTfr: return ::kSpeakerTfr;
+		case Vst::kSpeakerTrl: return ::kSpeakerTrl;
+		case Vst::kSpeakerTrc: return ::kSpeakerTrc;
+		case Vst::kSpeakerTrr: return ::kSpeakerTrr;
+		case Vst::kSpeakerLfe2: return ::kSpeakerLfe2;
+	}
+	return ::kSpeakerUndefined;
+}
+
+//------------------------------------------------------------------------
+bool Vst2Wrapper::pinIndexToBusChannel (BusDirection dir, VstInt32 pinIndex, int32& busIndex,
+                                        int32& busChannel)
+{
+	AudioBusBuffers* busBuffers = dir == kInput ? mProcessData.inputs : mProcessData.outputs;
+	int32 busCount = dir == kInput ? mProcessData.numInputs : mProcessData.numOutputs;
+	uint64 mainBusFlags = dir == kInput ? mMainAudioInputBuses : mMainAudioOutputBuses;
+
+	int32 sourceIndex = 0;
+	for (busIndex = 0; busIndex < busCount; busIndex++)
+	{
+		AudioBusBuffers& buffers = busBuffers[busIndex];
+		if (mainBusFlags & (uint64 (1) << busIndex))
+		{
+			for (busChannel = 0; busChannel < buffers.numChannels; busChannel++)
+			{
+				if (pinIndex == sourceIndex)
+				{
+					return true;
+				}
+				sourceIndex++;
+			}
+		}
+	}
+	return false;
+}
+
+//------------------------------------------------------------------------
+bool Vst2Wrapper::getPinProperties (BusDirection dir, VstInt32 pinIndex,
+                                    VstPinProperties* properties)
+{
+	int32 busIndex = -1;
+	int32 busChannelIndex = -1;
+
+	if (pinIndexToBusChannel (dir, pinIndex, busIndex, busChannelIndex))
+	{
+		BusInfo busInfo = {0};
+		if (mComponent && mComponent->getBusInfo (kAudio, dir, busIndex, busInfo) == kResultTrue)
+		{
+		    properties->flags = kVstPinIsActive; // ????
+
+			String name (busInfo.name);
+			name.copyTo8 (properties->label, 0, kVstMaxLabelLen);
+
+			if (busInfo.channelCount == 1)
+			{
+				properties->flags |= kVstPinUseSpeaker;
+				properties->arrangementType = kSpeakerArrMono;
+			}
+			if (busInfo.channelCount == 2)
+			{
+				properties->flags |= kVstPinUseSpeaker;
+				properties->flags |= kVstPinIsStereo;
+				properties->arrangementType = kSpeakerArrStereo;
+			}
+			else if (busInfo.channelCount > 2)
+			{
+				Vst::SpeakerArrangement arr = 0;
+				if (mProcessor && mProcessor->getBusArrangement (dir, busIndex, arr) == kResultTrue)
+				{
+					properties->flags |= kVstPinUseSpeaker;
+					properties->arrangementType = vst3ToVst2SpeakerArr (arr);
+				}
+				else
+				{
+					return false;
+				}
+			}
+			return true;
+		}
+	}
+
+	return false;
+}
+
+//------------------------------------------------------------------------
+bool Vst2Wrapper::getInputProperties (VstInt32 index, VstPinProperties* properties)
+{
+	return getPinProperties (kInput, index, properties);
+}
+
+//------------------------------------------------------------------------
+bool Vst2Wrapper::getOutputProperties (VstInt32 index, VstPinProperties* properties)
+{
+	return getPinProperties (kOutput, index, properties);
+}
+#endif
+	
 //-----------------------------------------------------------------------------
 } // namespace Vst
 } // namespace Steinberg
