@@ -99,8 +99,6 @@ enum RemotePluginOpcode
     RemoteOutProp,
 #endif
 #ifdef MIDIEFF
-    RemoteInProp,
-    RemoteOutProp,
     RemoteMidiKey,
     RemoteMidiProgName,
     RemoteMidiCurProg,
