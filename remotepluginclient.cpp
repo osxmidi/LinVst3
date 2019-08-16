@@ -1863,11 +1863,10 @@ int RemotePluginClient::processVstEvents(VstEvents *evnts)
     return ret;
 }
 
-#ifndef MIDIEFF 
-#ifdef VESTIGE
+#ifndef VESTIGE
 bool RemotePluginClient::getEffInProp(int index, void *ptr)
 {
-char ptr2[256];
+VstPinProperties ptr2;
 bool b;
 
     writeOpcodering(&m_shmControl5->ringBuffer, RemoteInProp);
@@ -1876,15 +1875,15 @@ bool b;
     waitForServer5();  
  
     tryRead(&m_shm2[FIXED_SHM_SIZE2], &b, sizeof(bool));
-    tryRead(&m_shm2[FIXED_SHM_SIZE2 - 256], &ptr2, 256);
-    memcpy(ptr, &ptr2, sizeof(vinfo));
+    tryRead(&m_shm2[FIXED_SHM_SIZE2 - sizeof(VstPinProperties)], &ptr2, sizeof(VstPinProperties));
+    memcpy(ptr, &ptr2, sizeof(VstPinProperties));
 
     return b;
 }
 
 bool RemotePluginClient::getEffOutProp(int index, void *ptr)
 {
-char ptr2[256];
+VstPinProperties ptr2;
 bool b;
 
     writeOpcodering(&m_shmControl5->ringBuffer, RemoteOutProp);
@@ -1893,12 +1892,11 @@ bool b;
     waitForServer5();  
  
     tryRead(&m_shm2[FIXED_SHM_SIZE2], &b, sizeof(bool));
-    tryRead(&m_shm2[FIXED_SHM_SIZE2 - 256], &ptr2, 256);
-    memcpy(ptr, &ptr2, sizeof(vinfo));
+    tryRead(&m_shm2[FIXED_SHM_SIZE2 - sizeof(VstPinProperties)], &ptr2, sizeof(VstPinProperties));
+    memcpy(ptr, &ptr2, sizeof(VstPinProperties));
 
     return b;
 }
-#endif
 #endif
 
 #ifdef MIDIEFF
