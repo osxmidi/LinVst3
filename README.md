@@ -63,6 +63,8 @@ Then use the batch name conversion utilities (in the convert/binaries folder) to
 
 Currently builds ok with the vstsdk3613_08_04_2019_build_81
 
+To make using the vst2sdk, remove the -DVESTIGE entries from the Makefile and place the vst2sdk pluginterfaces folder inside the main LinVst3 source folder.
+
 ----------
 
 ````//-----------------------------------------------------------------------------
