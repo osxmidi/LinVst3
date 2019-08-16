@@ -1449,8 +1449,7 @@ void RemotePluginServer::dispatchParEvents()
     }  
 #endif
 		    
-#ifndef MIDIEFF 
-#ifdef VESTIGE
+#ifndef VESTIGE
      case RemoteInProp:
     {   
         int index = readIntring(&m_shmControl5->ringBuffer);
@@ -1466,8 +1465,7 @@ void RemotePluginServer::dispatchParEvents()
         tryWrite(&m_shm2[FIXED_SHM_SIZE2], &b, sizeof(bool));
         break;
     }
-#endif
-#endif		    
+#endif	    
 
 #ifdef MIDIEFF
      case RemoteInProp:
