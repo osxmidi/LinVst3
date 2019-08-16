@@ -160,11 +160,9 @@ public:
     virtual bool        setPrecision(int);  
 #endif
 
-#ifndef MIDIEFF 
-#ifdef VESTIGE
+#ifndef VESTIGE
     virtual bool        getOutProp(int);
     virtual bool        getInProp(int);
-#endif
 #endif
 
 #ifdef MIDIEFF
@@ -607,15 +605,16 @@ bool retval;
 }    
 #endif
 
-#ifndef MIDIEFF 
-#ifdef VESTIGE
+#ifndef VESTIGE
 /*
 bool RemoteVSTServer::getOutProp(int index)
 {
-char ptr[256];
+VstPinProperties ptr;
 bool retval;
 
-        retval = m_plugin->dispatcher(m_plugin, effGetOutputProperties, index, 0, &ptr, 0);
+        vst2wrap->getOutputProperties(index, &ptr);
+
+     //   retval = m_plugin->dispatcher(m_plugin, effGetOutputProperties, index, 0, &ptr, 0);
 
         tryWrite(&m_shm2[FIXED_SHM_SIZE2 - 256], &ptr, 256);
 
@@ -624,17 +623,18 @@ bool retval;
 
 bool RemoteVSTServer::getInProp(int index)
 {
-char ptr[256];
+VstPinProperties ptr;
 bool retval;
 
-        retval = m_plugin->dispatcher(m_plugin, effGetInputProperties, index, 0, &ptr, 0);
+        vst2wrap->getInputProperties(index, &ptr);
+
+     //   retval = m_plugin->dispatcher(m_plugin, effGetInputProperties, index, 0, &ptr, 0);
 
         tryWrite(&m_shm2[FIXED_SHM_SIZE2 - 256], &ptr, 256);
 
         return retval;       
 }
 */
-#endif
 #endif
 
 #ifdef MIDIEFF
