@@ -606,7 +606,6 @@ bool retval;
 #endif
 
 #ifndef VESTIGE
-/*
 bool RemoteVSTServer::getOutProp(int index)
 {
 VstPinProperties ptr;
@@ -634,7 +633,6 @@ bool retval;
 
         return retval;       
 }
-*/
 #endif
 
 #ifdef MIDIEFF
