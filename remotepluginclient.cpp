@@ -1900,40 +1900,6 @@ bool b;
 #endif
 
 #ifdef MIDIEFF
-bool RemotePluginClient::getEffInProp(int index, void *ptr)
-{
-VstPinProperties ptr2;
-bool b;
-
-    writeOpcodering(&m_shmControl5->ringBuffer, RemoteInProp);
-    writeIntring(&m_shmControl5->ringBuffer, index);
-    commitWrite(&m_shmControl5->ringBuffer);
-    waitForServer5();  
- 
-    tryRead(&m_shm2[FIXED_SHM_SIZE2], &b, sizeof(bool));
-    tryRead(&m_shm2[FIXED_SHM_SIZE2 - sizeof(VstPinProperties)], &ptr2, sizeof(VstPinProperties));
-    memcpy(ptr, &ptr2, sizeof(VstPinProperties));
-
-    return b;
-}
-
-bool RemotePluginClient::getEffOutProp(int index, void *ptr)
-{
-VstPinProperties ptr2;
-bool b;
-
-    writeOpcodering(&m_shmControl5->ringBuffer, RemoteOutProp);
-    writeIntring(&m_shmControl5->ringBuffer, index);
-    commitWrite(&m_shmControl5->ringBuffer);
-    waitForServer5();  
- 
-    tryRead(&m_shm2[FIXED_SHM_SIZE2], &b, sizeof(bool));
-    tryRead(&m_shm2[FIXED_SHM_SIZE2 - sizeof(VstPinProperties)], &ptr2, sizeof(VstPinProperties));
-    memcpy(ptr, &ptr2, sizeof(VstPinProperties));
-
-    return b;
-}
-
 bool RemotePluginClient::getEffMidiKey(int index, void *ptr)
 {
 MidiKeyName ptr2;
