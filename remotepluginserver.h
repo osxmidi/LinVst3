@@ -96,8 +96,6 @@ public:
 #endif   
     
 #ifdef MIDIEFF
-    virtual bool            getInProp(int index)                   {return false; }
-    virtual bool            getOutProp(int index)                  {return false; }
     virtual bool            getMidiKey(int index)                  {return false; }    
     virtual bool            getMidiProgName(int index)             {return false; }    
     virtual bool            getMidiCurProg(int index)              {return false; }  
