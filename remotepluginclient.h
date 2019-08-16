@@ -93,12 +93,10 @@ public:
     void                processdouble(double **inputs, double **outputs, int sampleFrames);
     bool                setPrecision(int value);
 #endif 
-    
-#ifndef MIDIEFF 
-#ifdef VESTIGE
+   
+#ifndef VESTIGE
     bool                getEffInProp(int index, void *ptr);
     bool                getEffOutProp(int index, void *ptr);
-#endif
 #endif
         
 #ifdef MIDIEFF
