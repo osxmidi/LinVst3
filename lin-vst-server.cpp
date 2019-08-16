@@ -609,7 +609,7 @@ bool RemoteVSTServer::getInProp(int index)
 VstPinProperties ptr;
 bool retval;
 
-       vst2wrap->getInputProperties(index, &ptr);
+        retval = vst2wrap->getInputProperties(index, &ptr);
 
         tryWrite(&m_shm2[FIXED_SHM_SIZE2 - sizeof(VstPinProperties)], &ptr, sizeof(VstPinProperties));
 
@@ -621,7 +621,7 @@ bool RemoteVSTServer::getOutProp(int index)
 VstPinProperties ptr;
 bool retval;
 
-        vst2wrap->getOutputProperties(index, &ptr);
+        retval = vst2wrap->getOutputProperties(index, &ptr);
 
         tryWrite(&m_shm2[FIXED_SHM_SIZE2 - sizeof(VstPinProperties)], &ptr, sizeof(VstPinProperties));
 
