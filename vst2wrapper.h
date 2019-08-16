@@ -145,6 +145,18 @@ public:
 		VstInt32 sampleFrames);
 	VstInt32 processEvents (VstEvents* events);
 	
+#ifndef VESTIGE
+	bool getInputProperties (VstInt32 index, VstPinProperties* properties);
+	bool getOutputProperties (VstInt32 index, VstPinProperties* properties);
+	
+	bool getPinProperties (BusDirection dir, VstInt32 pinIndex, VstPinProperties* properties);
+	bool pinIndexToBusChannel (BusDirection dir, VstInt32 pinIndex, int32& busIndex, int32& busChannel);
+	
+	static VstInt32 vst3ToVst2SpeakerArr (SpeakerArrangement vst3Arr);
+	static SpeakerArrangement vst2ToVst3SpeakerArr (VstInt32 vst2Arr);
+	static VstInt32 vst3ToVst2Speaker (Speaker vst3Speaker);	
+#endif	
+	
 	VstInt32 curProgram;
 	int32 initialdelay;
 	bool doublereplacing;
