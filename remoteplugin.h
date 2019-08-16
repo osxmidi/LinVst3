@@ -94,11 +94,9 @@ enum RemotePluginOpcode
     RemotePluginProcessDouble,
     RemoteSetPrecision,
 #endif
-#ifndef MIDIEFF 
-#ifdef VESTIGE
+#ifndef VESTIGE
     RemoteInProp,
     RemoteOutProp,
-#endif
 #endif
 #ifdef MIDIEFF
     RemoteInProp,
