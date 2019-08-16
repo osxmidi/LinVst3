@@ -634,7 +634,6 @@ VstIntPtr dispatcher(AEffect* effect, VstInt32 opcode, VstInt32 index, VstIntPtr
 #endif
 		    
 #ifndef VESTIGE
-      /*
     case effGetInputProperties:    
         v = plugin->getEffInProp(index, (char *)ptr); 
         break;  
@@ -642,7 +641,6 @@ VstIntPtr dispatcher(AEffect* effect, VstInt32 opcode, VstInt32 index, VstIntPtr
     case effGetOutputProperties:    
         v = plugin->getEffOutProp(index, (char *)ptr);
         break; 
-	*/
 #endif      		    
 
 #ifdef MIDIEFF   
