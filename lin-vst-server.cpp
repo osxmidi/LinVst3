@@ -166,8 +166,6 @@ public:
 #endif
 
 #ifdef MIDIEFF
-    virtual bool        getOutProp(int);
-    virtual bool        getInProp(int);
     virtual bool        getMidiKey(int);
     virtual bool        getMidiProgName(int);
     virtual bool        getMidiCurProg(int);
@@ -611,7 +609,7 @@ bool RemoteVSTServer::getInProp(int index)
 VstPinProperties ptr;
 bool retval;
 
-       vst2wrap->getOutputProperties(index, &ptr);
+       vst2wrap->getInputProperties(index, &ptr);
 
         tryWrite(&m_shm2[FIXED_SHM_SIZE2 - sizeof(VstPinProperties)], &ptr, sizeof(VstPinProperties));
 
@@ -623,7 +621,7 @@ bool RemoteVSTServer::getOutProp(int index)
 VstPinProperties ptr;
 bool retval;
 
-        vst2wrap->getInputProperties(index, &ptr);
+        vst2wrap->getOutputProperties(index, &ptr);
 
         tryWrite(&m_shm2[FIXED_SHM_SIZE2 - sizeof(VstPinProperties)], &ptr, sizeof(VstPinProperties));
 
@@ -632,30 +630,6 @@ bool retval;
 #endif
 
 #ifdef MIDIEFF
-bool RemoteVSTServer::getInProp(int index)
-{
-VstPinProperties ptr;
-bool retval;
-
-        retval = m_plugin->dispatcher(m_plugin, effGetInputProperties, index, 0, &ptr, 0);
-
-        tryWrite(&m_shm2[FIXED_SHM_SIZE2 - sizeof(VstPinProperties)], &ptr, sizeof(VstPinProperties));
-
-        return retval;       
-}
-
-bool RemoteVSTServer::getOutProp(int index)
-{
-VstPinProperties ptr;
-bool retval;
-
-        retval = m_plugin->dispatcher(m_plugin, effGetOutputProperties, index, 0, &ptr, 0);
-
-        tryWrite(&m_shm2[FIXED_SHM_SIZE2 - sizeof(VstPinProperties)], &ptr, sizeof(VstPinProperties));
-
-        return retval;         
-}
-
 bool RemoteVSTServer::getMidiKey(int index)
 {
 MidiKeyName ptr;
