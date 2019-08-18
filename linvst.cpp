@@ -644,7 +644,7 @@ int32_t b;
 #ifdef VESTIGE        
     case effGetInputProperties:
          {
-            if(index >= 0 && index < effect->numInputs && ptr)
+            if(index >= 0 && index < effect->numInputs)
             {
                 struct vinfo2 *ptr2 = (struct vinfo2 *)ptr;
 
@@ -661,7 +661,7 @@ int32_t b;
 
     case effGetOutputProperties: 
          {
-            if(index >= 0 && index < effect->numOutputs && ptr)
+            if(index >= 0 && index < effect->numOutputs)
             {
                 struct vinfo2 *ptr2 = (struct vinfo2 *)ptr;
 
@@ -676,13 +676,11 @@ int32_t b;
             break;
             }	    
 #else
-    case effGetInputProperties:  
-	if(ptr)	    
+    case effGetInputProperties:      
         v = plugin->getEffInProp(index, (char *)ptr); 
         break;  
         
-    case effGetOutputProperties:   
-	if(ptr)			    
+    case effGetOutputProperties:   		    
         v = plugin->getEffOutProp(index, (char *)ptr);
         break; 
 #endif      		    
