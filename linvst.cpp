@@ -525,6 +525,14 @@ VstIntPtr dispatcher(AEffect* effect, VstInt32 opcode, VstInt32 index, VstIntPtr
 #endif
 #endif
 	
+#ifdef VESTIGE
+struct vinfo2
+{
+char a[64];
+int32_t b;
+}; 
+#endif	
+	
     if(!effect)
     return 0;	
 	
@@ -632,13 +640,49 @@ VstIntPtr dispatcher(AEffect* effect, VstInt32 opcode, VstInt32 index, VstIntPtr
         v = plugin->setPrecision(value);
       break;  
 #endif
-		    
-#ifndef VESTIGE
-    case effGetInputProperties:    
+
+#ifdef VESTIGE        
+    case effGetInputProperties:
+         {
+            if(index >= 0 && index < effect->numInputs && ptr)
+            {
+                struct vinfo2 *ptr2 = (struct vinfo2 *)ptr;
+
+                ptr2->b = 1;
+
+                if(index % 2 == 0)
+                ptr2->b |= 2;
+
+                sprintf(ptr2->a, "In %d", index + 1);
+                v = 1;
+            }
+            break;
+            }
+
+    case effGetOutputProperties: 
+         {
+            if(index >= 0 && index < effect->numOutputs && ptr)
+            {
+                struct vinfo2 *ptr2 = (struct vinfo2 *)ptr;
+
+                ptr2->b = 1;
+
+                if(index % 2 == 0)
+                ptr2->b |= 2;
+
+                sprintf(ptr2->a, "Out %d", index + 1);            
+                v = 1;
+            }
+            break;
+            }	    
+#else
+    case effGetInputProperties:  
+	if(ptr)	    
         v = plugin->getEffInProp(index, (char *)ptr); 
         break;  
         
-    case effGetOutputProperties:    
+    case effGetOutputProperties:   
+	if(ptr)			    
         v = plugin->getEffOutProp(index, (char *)ptr);
         break; 
 #endif      		    
