@@ -595,18 +595,21 @@ int32_t b;
         break;
 
     case effGetVendorString:
-        strncpy((char *) ptr, plugin->getMaker().c_str(), kVstMaxVendorStrLen);
+      //  strncpy((char *) ptr, plugin->getMaker().c_str(), kVstMaxVendorStrLen);
+	strcpy((char *) ptr, plugin->getMaker().c_str());	    
 	v=1;	    
         break;
 
     case effGetEffectName:
-        strncpy((char *) ptr, plugin->getName().c_str(), kVstMaxEffectNameLen);
+       //  strncpy((char *) ptr, plugin->getName().c_str(), kVstMaxEffectNameLen);
+	strcpy((char *) ptr, plugin->getName().c_str());	    
         v=1;		    
         break;
 
     case effGetParamName:
       //  strncpy((char *) ptr, plugin->getParameterName(index).c_str(), kVstMaxParamStrLen);
-	strncpy((char *) ptr, plugin->getParameterName(index).c_str(), kVstMaxVendorStrLen);
+	// strncpy((char *) ptr, plugin->getParameterName(index).c_str(), kVstMaxVendorStrLen);
+        strcpy((char *) ptr, plugin->getParameterName(index).c_str());	    
         break;
 
     case effGetParamLabel:
@@ -624,7 +627,8 @@ int32_t b;
         break;
 
     case effGetProgramName:
-        strncpy((char *) ptr, plugin->getProgramName().c_str(), kVstMaxProgNameLen);
+        // strncpy((char *) ptr, plugin->getProgramName().c_str(), kVstMaxProgNameLen);
+	strcpy((char *) ptr, plugin->getProgramName().c_str());	    
         break;
 
     case effSetSampleRate:
