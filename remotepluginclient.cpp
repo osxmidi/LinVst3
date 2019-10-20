@@ -811,7 +811,7 @@ ptr = (int *)m_shm;
 
     for (int i=0;i<40000;i++)
     {
-        if (*ptr == 171)
+        if (*ptr == 172)
          {
             startok = 1;
             break;
