@@ -2480,57 +2480,6 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
     if(!remoteVSTServerInstance)
     {
     cerr << "ERROR: Remote VST startup failed" << endl;
-    /*
-    TCHAR wbuf[1024];
-    wsprintf(wbuf, "Remote VST startup failed %s", fileName.c_str());
-    UINT_PTR errtimer = SetTimer(NULL, 800, 10000, (TIMERPROC) TimerProc);
-    MessageBox(NULL, wbuf, "LinVst Error", MB_OK | MB_TOPMOST);
-    KillTimer(NULL, errtimer); 
-    */ 
-    usleep(5000000);      
-    if(libHandle)
-    {
-    ExitModuleProc exitProc = (ExitModuleProc)::GetProcAddress ((HMODULE)libHandle, kExitModuleProcName);
-	if (exitProc)
-	exitProc ();
-    FreeLibrary(libHandle);	
-    }   	 	
-    exit(0);	
-    // return 1; 
-    }
-        
-    if(remoteVSTServerInstance->starterror == 1)
-    {
-    cerr << "ERROR: Remote VST startup failed and/or mismatched LinVst versions" << endl;
-    /*
-    TCHAR wbuf[1024];
-    wsprintf(wbuf, "Remote VST startup failed and/or mismatched LinVst versions %s", fileName.c_str());
-    UINT_PTR errtimer = SetTimer(NULL, 800, 10000, (TIMERPROC) TimerProc);
-    MessageBox(NULL, wbuf, "LinVst Error", MB_OK | MB_TOPMOST);
-    KillTimer(NULL, errtimer);   
-    */ 
-    usleep(5000000);     
-	if(remoteVSTServerInstance)
-	delete remoteVSTServerInstance;
-    if(libHandle)
-    {
-    ExitModuleProc exitProc = (ExitModuleProc)::GetProcAddress ((HMODULE)libHandle, kExitModuleProcName);
-	if (exitProc)
-	exitProc ();
-    FreeLibrary(libHandle);	
-    }		
-    exit(0);	
-    // return 1; 
-    }
-                
-    audioMasterCallback hostCallbackFuncPtr = hostCallback;
-               
-    remoteVSTServerInstance->vst2wrap = createEffectInstance2 (hostCallbackFuncPtr, libHandle, libnamepath, partidx, remoteVSTServerInstance->factory, &remoteVSTServerInstance->vst2uid);
-    
-	if (!remoteVSTServerInstance->vst2wrap)
-	{
-    cerr << "dssi-vst-server: ERROR: Failed to instantiate plugin in VST DLL \"" << libname << "\"" << endl;
-    /*
     remoteVSTServerInstance->writeOpcodering(&remoteVSTServerInstance->m_shmControl->ringBuffer, (RemotePluginOpcode)disconnectserver);
     remoteVSTServerInstance->commitWrite(&remoteVSTServerInstance->m_shmControl->ringBuffer);
     remoteVSTServerInstance->waitForServer();  
@@ -2538,6 +2487,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
     remoteVSTServerInstance->waitForClient3exit();
     remoteVSTServerInstance->waitForClient4exit();
     remoteVSTServerInstance->waitForClient5exit();
+    /*
     TCHAR wbuf[1024];
     wsprintf(wbuf, "Error getting instance %s", fileName.c_str());
     UINT_PTR errtimer = SetTimer(NULL, 800, 10000, (TIMERPROC) TimerProc);
@@ -2545,8 +2495,74 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
     KillTimer(NULL, errtimer);    
     */
     usleep(5000000);     
-	if(remoteVSTServerInstance)
-	delete remoteVSTServerInstance;
+    if(remoteVSTServerInstance)
+    delete remoteVSTServerInstance;
+    if(libHandle)
+    {
+    ExitModuleProc exitProc = (ExitModuleProc)::GetProcAddress ((HMODULE)libHandle, kExitModuleProcName);
+	if (exitProc)
+	exitProc ();
+    FreeLibrary(libHandle);	
+    }	    
+    exit(0);
+	// return 1;
+    }
+        
+    if(remoteVSTServerInstance->starterror == 1)
+    {
+    cerr << "ERROR: Remote VST startup failed and/or mismatched LinVst versions" << endl;
+    remoteVSTServerInstance->writeOpcodering(&remoteVSTServerInstance->m_shmControl->ringBuffer, (RemotePluginOpcode)disconnectserver);
+    remoteVSTServerInstance->commitWrite(&remoteVSTServerInstance->m_shmControl->ringBuffer);
+    remoteVSTServerInstance->waitForServer();  
+    remoteVSTServerInstance->waitForClient2exit();
+    remoteVSTServerInstance->waitForClient3exit();
+    remoteVSTServerInstance->waitForClient4exit();
+    remoteVSTServerInstance->waitForClient5exit();
+    /*
+    TCHAR wbuf[1024];
+    wsprintf(wbuf, "Error getting instance %s", fileName.c_str());
+    UINT_PTR errtimer = SetTimer(NULL, 800, 10000, (TIMERPROC) TimerProc);
+    MessageBox(NULL, wbuf, "LinVst Error", MB_OK | MB_TOPMOST);
+    KillTimer(NULL, errtimer);    
+    */
+    usleep(5000000);     
+    if(remoteVSTServerInstance)
+    delete remoteVSTServerInstance;
+    if(libHandle)
+    {
+    ExitModuleProc exitProc = (ExitModuleProc)::GetProcAddress ((HMODULE)libHandle, kExitModuleProcName);
+	if (exitProc)
+	exitProc ();
+    FreeLibrary(libHandle);	
+    }	    
+    exit(0);
+	// return 1;
+    }
+                
+    audioMasterCallback hostCallbackFuncPtr = hostCallback;
+               
+    remoteVSTServerInstance->vst2wrap = createEffectInstance2 (hostCallbackFuncPtr, libHandle, libnamepath, partidx, remoteVSTServerInstance->factory, &remoteVSTServerInstance->vst2uid);
+    
+    if (!remoteVSTServerInstance->vst2wrap)
+    {
+    cerr << "dssi-vst-server: ERROR: Failed to instantiate plugin in VST DLL \"" << libname << "\"" << endl;   
+    remoteVSTServerInstance->writeOpcodering(&remoteVSTServerInstance->m_shmControl->ringBuffer, (RemotePluginOpcode)disconnectserver);
+    remoteVSTServerInstance->commitWrite(&remoteVSTServerInstance->m_shmControl->ringBuffer);
+    remoteVSTServerInstance->waitForServer();  
+    remoteVSTServerInstance->waitForClient2exit();
+    remoteVSTServerInstance->waitForClient3exit();
+    remoteVSTServerInstance->waitForClient4exit();
+    remoteVSTServerInstance->waitForClient5exit();
+    /*
+    TCHAR wbuf[1024];
+    wsprintf(wbuf, "Error getting instance %s", fileName.c_str());
+    UINT_PTR errtimer = SetTimer(NULL, 800, 10000, (TIMERPROC) TimerProc);
+    MessageBox(NULL, wbuf, "LinVst Error", MB_OK | MB_TOPMOST);
+    KillTimer(NULL, errtimer);    
+    */
+    usleep(5000000);     
+    if(remoteVSTServerInstance)
+    delete remoteVSTServerInstance;
     if(libHandle)
     {
     ExitModuleProc exitProc = (ExitModuleProc)::GetProcAddress ((HMODULE)libHandle, kExitModuleProcName);
