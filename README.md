@@ -21,7 +21,7 @@ Some vst3's might not work due to Wines current capabilities or for some other r
 
 To Make
 
-sudo apt-get cmake
+sudo apt-get install cmake
 
 Libraries that need to be pre installed, 
 
