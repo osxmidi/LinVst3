@@ -19,6 +19,10 @@ Some vst3's might not work due to Wines current capabilities or for some other r
 
 -------
 
+LinVst3 currently builds ok using gcc6 (Debian Stretch) but not gcc8 (Debian Buster).
+LinVst3 binaries built with gcc6 (Debian Stretch) will run ok on Debian Buster.
+LinVst3 binaries are on the releases page.
+
 To Make
 
 sudo apt-get install cmake
