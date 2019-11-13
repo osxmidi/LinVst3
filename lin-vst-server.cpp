@@ -2306,7 +2306,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
     cout << "Copyright (c) 2012-2013 Filipe Coelho" << endl;
     cout << "Copyright (c) 2010-2011 Kristian Amlie" << endl;
     cout << "Copyright (c) 2004-2006 Chris Cannam" << endl;
-    cout << "LinVst3 version 1.7.2" << endl;
+    cout << "LinVst3 version 1.7.3" << endl;
     
     /*
 
@@ -2816,20 +2816,22 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
     int tcount = 0;
 
     while (!remoteVSTServerInstance->exiting)
-    {		         
-    while(PeekMessage(&msg, 0, 0, 0, PM_REMOVE))
+    {	
+    if(remoteVSTServerInstance->wavesthread == 1)
+    {	         
+    for (int loopidx=0; (loopidx < 10) && PeekMessage(&msg, 0, 0, 0, PM_REMOVE); loopidx++)
     {       
     if(remoteVSTServerInstance->exiting)
     break;
 	    
-    if(msg.message == 15 && !remoteVSTServerInstance->guiVisible)
-    break;    	    
+ //   if(msg.message == 15 && !remoteVSTServerInstance->guiVisible)
+ //   break;    
     
     TranslateMessage(&msg);
     DispatchMessage(&msg);
        
     if(remoteVSTServerInstance->hidegui == 1)
-    break;    
+    break;       
     } 
     
     if(remoteVSTServerInstance->hidegui == 1)
@@ -2840,6 +2842,33 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
     if(remoteVSTServerInstance->exiting)
     break;	                   
     remoteVSTServerInstance->dispatchControl(50);               
+    }
+    else
+    {	         
+    while(PeekMessage(&msg, 0, 0, 0, PM_REMOVE))
+    {       
+    if(remoteVSTServerInstance->exiting)
+    break;
+	    
+    if(msg.message == 15 && !remoteVSTServerInstance->guiVisible)
+    break;    
+    
+    TranslateMessage(&msg);
+    DispatchMessage(&msg);
+       
+    if(remoteVSTServerInstance->hidegui == 1)
+    break;  
+    } 
+    
+    if(remoteVSTServerInstance->hidegui == 1)
+    {
+    remoteVSTServerInstance->hideGUI();
+    }
+    
+    if(remoteVSTServerInstance->exiting)
+    break;	                   
+    remoteVSTServerInstance->dispatchControl(50);               
+    }
     }
 	
 /*
