@@ -144,35 +144,27 @@ RemoteVSTClient::RemoteVSTClient(audioMasterCallback theMaster) : RemotePluginCl
         size_t found3 = dllName.find("-part-");
         
         if(found3 != std::string::npos)
-        {        
-        
-        printf("partnamesofile %s\n", dllName.c_str()); 
-        
-        
+        {                
+    //    printf("partnamesofile %s\n", dllName.c_str()); 
+                
         size_t found4 = dllName.find_last_of("-");
         
         if(found4 != std::string::npos)
         {           
         filename = dllName.substr(found4 + 1, strlen(dllName.c_str()) - (found4 +1));          
-        filename.replace(filename.begin() + filename.find(".so"), filename.end(), "");
-        
+        filename.replace(filename.begin() + filename.find(".so"), filename.end(), "");        
         }
         
        dllName = dllName.substr(0, found3);
        dllName = dllName + ".so";
        
-printf("partname %s\n", dllName.c_str()); 
+// printf("partname %s\n", dllName.c_str()); 
 
-printf("idxname %s\n", filename.c_str());        
-       
+// printf("idxname %s\n", filename.c_str());               
         }
         else 
         filename = "10000"; 
         
-        
-           
-
-
     dllName.replace(dllName.begin() + dllName.find(".so"), dllName.end(), ".vst3");
     test = std::ifstream(dllName.c_str()).good();
 
