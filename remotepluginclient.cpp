@@ -1896,10 +1896,10 @@ bool RemotePluginClient::getEffInProp(int index, void *ptr)
 VstPinProperties ptr2;
 bool b;
 
-    writeOpcodering(&m_shmControl5->ringBuffer, RemoteInProp);
-    writeIntring(&m_shmControl5->ringBuffer, index);
-    commitWrite(&m_shmControl5->ringBuffer);
-    waitForServer5();  
+    writeOpcodering(&m_shmControl3->ringBuffer, RemoteInProp);
+    writeIntring(&m_shmControl3->ringBuffer, index);
+    commitWrite(&m_shmControl3->ringBuffer);
+    waitForServer3();  
  
     tryRead(&m_shm2[FIXED_SHM_SIZE2], &b, sizeof(bool));
     tryRead(&m_shm2[FIXED_SHM_SIZE2 - sizeof(VstPinProperties)], &ptr2, sizeof(VstPinProperties));
@@ -1913,10 +1913,10 @@ bool RemotePluginClient::getEffOutProp(int index, void *ptr)
 VstPinProperties ptr2;
 bool b;
 
-    writeOpcodering(&m_shmControl5->ringBuffer, RemoteOutProp);
-    writeIntring(&m_shmControl5->ringBuffer, index);
-    commitWrite(&m_shmControl5->ringBuffer);
-    waitForServer5();  
+    writeOpcodering(&m_shmControl3->ringBuffer, RemoteOutProp);
+    writeIntring(&m_shmControl3->ringBuffer, index);
+    commitWrite(&m_shmControl3->ringBuffer);
+    waitForServer3();  
  
     tryRead(&m_shm2[FIXED_SHM_SIZE2], &b, sizeof(bool));
     tryRead(&m_shm2[FIXED_SHM_SIZE2 - sizeof(VstPinProperties)], &ptr2, sizeof(VstPinProperties));
