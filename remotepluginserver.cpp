@@ -1423,6 +1423,7 @@ void RemotePluginServer::dispatchControlEvents()
         break;
 #endif
 		    
+#ifndef VESTIGE
      case RemoteInProp:
     {   
         int index = readIntring(&m_shmControl3->ringBuffer);
@@ -1437,7 +1438,8 @@ void RemotePluginServer::dispatchControlEvents()
         bool b = getOutProp(index);
         tryWrite(&m_shm2[FIXED_SHM_SIZE2], &b, sizeof(bool));
         break;
-    }    		    
+    }
+#endif	    
 		    
     case RemotePluginEffectOpen:
         EffectOpen();
