@@ -1030,6 +1030,24 @@ void RemotePluginServer::dispatchGetSetEvents()
         writeFloat2(&m_shm2[FIXED_SHM_SIZE2 + 1024], floatval);
         break;
     }
+		    
+#ifndef VESTIGE
+     case RemoteInProp:
+    {   
+        int index = readIntring(&m_shmControl4->ringBuffer);
+        bool b = getInProp(index);
+        tryWrite(&m_shm2[FIXED_SHM_SIZE2], &b, sizeof(bool));
+        break;
+    }
+    
+     case RemoteOutProp:
+    {   
+        int index = readIntring(&m_shmControl4->ringBuffer);
+        bool b = getOutProp(index);
+        tryWrite(&m_shm2[FIXED_SHM_SIZE2], &b, sizeof(bool));
+        break;
+    }
+#endif	    	    
 
     default:
         std::cerr << "WARNING: RemotePluginServer::dispatchGetSetEvents: unexpected opcode " << opcode << std::endl;
@@ -1422,25 +1440,7 @@ void RemotePluginServer::dispatchControlEvents()
         openGUI();
         break;
 #endif
-		    
-#ifndef VESTIGE
-     case RemoteInProp:
-    {   
-        int index = readIntring(&m_shmControl3->ringBuffer);
-        bool b = getInProp(index);
-        tryWrite(&m_shm2[FIXED_SHM_SIZE2], &b, sizeof(bool));
-        break;
-    }
-    
-     case RemoteOutProp:
-    {   
-        int index = readIntring(&m_shmControl3->ringBuffer);
-        bool b = getOutProp(index);
-        tryWrite(&m_shm2[FIXED_SHM_SIZE2], &b, sizeof(bool));
-        break;
-    }
-#endif	    
-		    
+		    		    
     case RemotePluginEffectOpen:
         EffectOpen();
         break;
