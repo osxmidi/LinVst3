@@ -607,7 +607,31 @@ bool retval;
 }    
 #endif
 
-#ifndef VESTIGE
+#ifdef VESTIGE
+bool RemoteVSTServer::getOutProp(int index)
+{
+char ptr[sizeof(vinfo)];
+bool retval;
+
+        retval = vst2wrap->getOutputProperties(index, &ptr);
+
+        tryWrite(&m_shm2[FIXED_SHM_SIZE2 - sizeof(vinfo)], &ptr, sizeof(vinfo));
+
+        return retval;         
+}
+
+bool RemoteVSTServer::getInProp(int index)
+{
+char ptr[sizeof(vinfo)];
+bool retval;
+
+        retval = vst2wrap->getInputProperties(index, &ptr);
+
+        tryWrite(&m_shm2[FIXED_SHM_SIZE2 - sizeof(vinfo)], &ptr, sizeof(vinfo));
+
+        return retval;       
+}
+#else
 bool RemoteVSTServer::getInProp(int index)
 {
 VstPinProperties ptr;
