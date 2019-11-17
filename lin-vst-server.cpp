@@ -458,6 +458,11 @@ void RemoteVSTServer::EffectOpen()
     wavesthread = 1;
     }
 	
+    if(strcmp("Soda Devices", buffer) == 0)
+    {	
+    wavesthread = 1;
+    }
+	
 #ifdef WAVES2
     if(strcmp("Waves", buffer) == 0)
     {
@@ -1214,10 +1219,10 @@ void RemoteVSTServer::hideGUI()
   UpdateWindow(hWnd);
 #endif
  
-  if(melda == 0)
-  {
+//  if(melda == 0)
+//  {
   vst2wrap->editor->close ();	  	   	  	  
-  }	  
+//  }	  
 
 #ifdef EMBED    
 #ifndef WCLASS  
@@ -1256,11 +1261,13 @@ void RemoteVSTServer::hideGUI()
   #endif 
   #endif         	  
   }
-	
+
+/*
   if(melda == 1)
   {
   vst2wrap->editor->close ();	  	   	  	  
-  }	  	
+  }
+*/  
      	
   guiVisible = false;
 	
