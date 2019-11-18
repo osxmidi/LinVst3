@@ -591,7 +591,7 @@ int32_t b;
         break;
 		    
     case effMainsChanged:
-        plugin->effVoidOp2(effMainsChanged, index, value, opt);
+        v = plugin->getEffInt(effMainsChanged, value);
         break;
  
     case effGetVendorString:		    
@@ -641,7 +641,7 @@ int32_t b;
 
 #ifdef DOUBLEP
     case effSetProcessPrecision:
-        v = plugin->setPrecision(value);
+        v = plugin->getEffInt(effSetProcessPrecision, value);
       break;  
 #endif
 
@@ -724,7 +724,7 @@ int32_t b;
         break;
 
     case effGetPlugCategory:
-        v = plugin->getEffInt(effGetPlugCategory);
+        v = plugin->getEffInt(effGetPlugCategory, 0);
         break;
 #ifdef WAVES
     case effShellGetNextPlugin:
