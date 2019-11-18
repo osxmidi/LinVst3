@@ -2831,8 +2831,8 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
     if(remoteVSTServerInstance->exiting)
     break;
 	    
- //   if(msg.message == 15 && !remoteVSTServerInstance->guiVisible)
- //   break;    
+    if(msg.message == 15 && !remoteVSTServerInstance->guiVisible)
+    break;    
     
     TranslateMessage(&msg);
     DispatchMessage(&msg);
