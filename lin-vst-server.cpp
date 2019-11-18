@@ -2313,7 +2313,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
     cout << "Copyright (c) 2012-2013 Filipe Coelho" << endl;
     cout << "Copyright (c) 2010-2011 Kristian Amlie" << endl;
     cout << "Copyright (c) 2004-2006 Chris Cannam" << endl;
-    cout << "LinVst3 version 1.7.3" << endl;
+    cout << "LinVst3 version 1.7.4" << endl;
     
     /*
 
