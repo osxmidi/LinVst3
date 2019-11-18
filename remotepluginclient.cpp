@@ -1213,10 +1213,11 @@ void RemotePluginClient::terminate()
     writeOpcodering(&m_shmControl5->ringBuffer, RemotePluginTerminate);
 }
 
-int RemotePluginClient::getEffInt(int opcode)
+int RemotePluginClient::getEffInt(int opcode, int value)
 {
     writeOpcodering(&m_shmControl5->ringBuffer, RemotePluginGetEffInt);
     writeIntring(&m_shmControl5->ringBuffer, opcode);
+    writeIntring(&m_shmControl5->ringBuffer, value);
     commitWrite(&m_shmControl5->ringBuffer);
     waitForServer5();  
 
@@ -2085,11 +2086,11 @@ void RemotePluginClient::showGUI()
 
 void RemotePluginClient::hideGUI()
 {
-      effVoidOp2(hidegui2, 0, 0, 0);	
+ //     effVoidOp(hidegui2);	
 	
-//    writeOpcodering(&m_shmControl3->ringBuffer, RemotePluginHideGUI);
-//    commitWrite(&m_shmControl3->ringBuffer);
-//    waitForServer3();  
+    writeOpcodering(&m_shmControl4->ringBuffer, RemotePluginHideGUI);
+    commitWrite(&m_shmControl4->ringBuffer);
+    waitForServer4();  
 }
 
 #ifdef EMBED
