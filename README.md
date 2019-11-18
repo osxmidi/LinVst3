@@ -6,6 +6,8 @@ For 64 bit vst3's only.
 
 Not all vst3 features are supported.
 
+LinVst3 binaries are on the releases page https://github.com/osxmidi/LinVst3/releases
+
 Same usage applies as per LinVst except that it's linvst3.so instead of linvst.so and the vst dll filename extensions are .vst3 instead of .dll https://github.com/osxmidi/LinVst/wiki https://github.com/osxmidi/LinVst/blob/master/README.md https://github.com/osxmidi/LinVst/tree/master/Detailed-Guide
 
 So for example, linvst3.so would be renamed to Delay.so for Delay.vst3 (see convert folder for batch name conversion utilities)
@@ -19,7 +21,7 @@ Some vst3's might not work due to Wines current capabilities or for some other r
 
 -------
 
-LinVst3 binaries are on the releases page.
+LinVst3 binaries are on the releases page https://github.com/osxmidi/LinVst3/releases
 
 To Make
 
