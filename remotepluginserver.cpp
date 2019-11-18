@@ -1047,8 +1047,12 @@ void RemotePluginServer::dispatchGetSetEvents()
         tryWrite(&m_shm2[FIXED_SHM_SIZE2], &b, sizeof(bool));
         break;
     }
-#endif	    	    
-
+#endif	
+		    
+   case RemotePluginHideGUI:
+        hideGUI2();
+        break;	   	    
+		    
     default:
         std::cerr << "WARNING: RemotePluginServer::dispatchGetSetEvents: unexpected opcode " << opcode << std::endl;
     }
@@ -1312,7 +1316,8 @@ void RemotePluginServer::dispatchParEvents()
     case RemotePluginGetEffInt:
     {
         int opcode = readIntring(&m_shmControl5->ringBuffer);
-        writeInt(&m_shm[FIXED_SHM_SIZE], getEffInt(opcode));
+        int  value = readIntring(&m_shmControl5->ringBuffer);
+        writeInt(&m_shm[FIXED_SHM_SIZE], getEffInt(opcode, value));
         break;
     }
 
@@ -1430,11 +1435,7 @@ void RemotePluginServer::dispatchControlEvents()
     case RemotePluginShowGUI:
         showGUI();
         break;
-		    
-   case RemotePluginHideGUI:
-        hideGUI();
-        break;		    
-		    
+		    		    
 #ifdef EMBED
     case RemotePluginOpenGUI:
         openGUI();
