@@ -1897,10 +1897,10 @@ bool RemotePluginClient::getEffInProp(int index, void *ptr)
 VstPinProperties ptr2;
 bool b;
 
-    writeOpcodering(&m_shmControl4->ringBuffer, RemoteInProp);
-    writeIntring(&m_shmControl4->ringBuffer, index);
-    commitWrite(&m_shmControl4->ringBuffer);
-    waitForServer4();  
+    writeOpcodering(&m_shmControl5->ringBuffer, RemoteInProp);
+    writeIntring(&m_shmControl5->ringBuffer, index);
+    commitWrite(&m_shmControl5->ringBuffer);
+    waitForServer5();  
  
     tryRead(&m_shm2[FIXED_SHM_SIZE2], &b, sizeof(bool));
     tryRead(&m_shm2[FIXED_SHM_SIZE2 - sizeof(VstPinProperties)], &ptr2, sizeof(VstPinProperties));
@@ -1914,10 +1914,10 @@ bool RemotePluginClient::getEffOutProp(int index, void *ptr)
 VstPinProperties ptr2;
 bool b;
 
-    writeOpcodering(&m_shmControl4->ringBuffer, RemoteOutProp);
-    writeIntring(&m_shmControl4->ringBuffer, index);
-    commitWrite(&m_shmControl4->ringBuffer);
-    waitForServer4();  
+    writeOpcodering(&m_shmControl5->ringBuffer, RemoteOutProp);
+    writeIntring(&m_shmControl5->ringBuffer, index);
+    commitWrite(&m_shmControl5->ringBuffer);
+    waitForServer5();  
  
     tryRead(&m_shm2[FIXED_SHM_SIZE2], &b, sizeof(bool));
     tryRead(&m_shm2[FIXED_SHM_SIZE2 - sizeof(VstPinProperties)], &ptr2, sizeof(VstPinProperties));
@@ -2136,9 +2136,9 @@ void RemotePluginClient::effVoidOp(int opcode)
 #endif
 #endif 
         m_finishaudio = 1;
-        writeOpcodering(&m_shmControl2->ringBuffer, RemotePluginDoVoid);
-        writeIntring(&m_shmControl2->ringBuffer, effClose);
-        commitWrite(&m_shmControl2->ringBuffer);
+        writeOpcodering(&m_shmControl5->ringBuffer, RemotePluginDoVoid);
+        writeIntring(&m_shmControl5->ringBuffer, effClose);
+        commitWrite(&m_shmControl5->ringBuffer);
       }
       else
       {
@@ -2168,9 +2168,9 @@ void RemotePluginClient::effVoidOp(int opcode)
 #endif
 #endif 
         m_finishaudio = 1;
-        writeOpcodering(&m_shmControl2->ringBuffer, RemotePluginDoVoid);
-        writeIntring(&m_shmControl2->ringBuffer, opcode);
-        commitWrite(&m_shmControl2->ringBuffer);
+        writeOpcodering(&m_shmControl5->ringBuffer, RemotePluginDoVoid);
+        writeIntring(&m_shmControl5->ringBuffer, opcode);
+        commitWrite(&m_shmControl5->ringBuffer);
 
         waitForServer2exit(); 
         waitForServer3exit(); 
@@ -2180,10 +2180,10 @@ void RemotePluginClient::effVoidOp(int opcode)
     }
     else
     {
-        writeOpcodering(&m_shmControl2->ringBuffer, RemotePluginDoVoid);
-        writeIntring(&m_shmControl2->ringBuffer, opcode);
-        commitWrite(&m_shmControl2->ringBuffer);
-        waitForServer2();  
+        writeOpcodering(&m_shmControl5->ringBuffer, RemotePluginDoVoid);
+        writeIntring(&m_shmControl5->ringBuffer, opcode);
+        commitWrite(&m_shmControl5->ringBuffer);
+        waitForServer5();  
     }
 }
 
