@@ -906,22 +906,7 @@ void RemotePluginServer::dispatchProcessEvents()
     case RemotePluginProcessEvents:
         processVstEvents();
         break;
-        
-    case RemotePluginDoVoid:
-    {
-        int opcode = readIntring(&m_shmControl2->ringBuffer);
-        if (opcode == effClose)
-	{	
-        m_threadsfinish = 1;
-	    waitForClient2exit();
-        waitForClient3exit();
-        waitForClient4exit();
-        waitForClient5exit();
-	}	
-        effDoVoid(opcode);
-        break;
-    }
-
+       
     default:
         std::cerr << "WARNING: RemotePluginServer::dispatchProcessEvents: unexpected opcode " << opcode << std::endl;
     }
@@ -1030,29 +1015,7 @@ void RemotePluginServer::dispatchGetSetEvents()
         writeFloat2(&m_shm2[FIXED_SHM_SIZE2 + 1024], floatval);
         break;
     }
-		    
-#ifndef VESTIGE
-     case RemoteInProp:
-    {   
-        int index = readIntring(&m_shmControl4->ringBuffer);
-        bool b = getInProp(index);
-        tryWrite(&m_shm2[FIXED_SHM_SIZE2], &b, sizeof(bool));
-        break;
-    }
-    
-     case RemoteOutProp:
-    {   
-        int index = readIntring(&m_shmControl4->ringBuffer);
-        bool b = getOutProp(index);
-        tryWrite(&m_shm2[FIXED_SHM_SIZE2], &b, sizeof(bool));
-        break;
-    }
-#endif	
-		    
-   case RemotePluginHideGUI:
-        hideGUI2();
-        break;	   	    
-		    
+		    		    		    
     default:
         std::cerr << "WARNING: RemotePluginServer::dispatchGetSetEvents: unexpected opcode " << opcode << std::endl;
     }
@@ -1227,6 +1190,44 @@ void RemotePluginServer::dispatchParEvents()
 
     switch (opcode)
     {
+		    
+    case RemotePluginDoVoid:
+    {
+        int opcode = readIntring(&m_shmControl5->ringBuffer);
+        if (opcode == effClose)
+	{	
+        m_threadsfinish = 1;
+	waitForClient2exit();
+        waitForClient3exit();
+        waitForClient4exit();
+        waitForClient5exit();
+	}	
+        effDoVoid(opcode);
+        break;
+    }
+		    
+		    
+    case RemotePluginHideGUI:
+        hideGUI2();
+        break;	
+		    
+#ifndef VESTIGE
+     case RemoteInProp:
+    {   
+        int index = readIntring(&m_shmControl5->ringBuffer);
+        bool b = getInProp(index);
+        tryWrite(&m_shm2[FIXED_SHM_SIZE2], &b, sizeof(bool));
+        break;
+    }
+    
+     case RemoteOutProp:
+    {   
+        int index = readIntring(&m_shmControl5->ringBuffer);
+        bool b = getOutProp(index);
+        tryWrite(&m_shm2[FIXED_SHM_SIZE2], &b, sizeof(bool));
+        break;
+    }
+#endif			    
 		    
     case RemotePluginDoVoid2:
     {
