@@ -795,7 +795,8 @@ void RemoteVSTServer::effDoVoid(int opcode)
 }
 
 int RemoteVSTServer::effDoVoid2(int opcode, int index, int value, float opt)
-{	
+{
+/*
     if(opcode == hidegui2)
     {
     hidegui = 1;  
@@ -814,6 +815,7 @@ int RemoteVSTServer::effDoVoid2(int opcode, int index, int value, float opt)
     if(value == 1)
     vst2wrap->resume ();
     }
+*/
 }
 
 std::string RemoteVSTServer::getEffString(int opcode, int index)
