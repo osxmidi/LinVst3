@@ -1215,11 +1215,11 @@ void RemotePluginClient::terminate()
 
 int RemotePluginClient::getEffInt(int opcode, int value)
 {
-    writeOpcodering(&m_shmControl5->ringBuffer, RemotePluginGetEffInt);
-    writeIntring(&m_shmControl5->ringBuffer, opcode);
-    writeIntring(&m_shmControl5->ringBuffer, value);
-    commitWrite(&m_shmControl5->ringBuffer);
-    waitForServer5();  
+    writeOpcodering(&m_shmControl3->ringBuffer, RemotePluginGetEffInt);
+    writeIntring(&m_shmControl3->ringBuffer, opcode);
+    writeIntring(&m_shmControl3->ringBuffer, value);
+    commitWrite(&m_shmControl3->ringBuffer);
+    waitForServer3();  
 
     return readInt(&m_shm[FIXED_SHM_SIZE]);
 }
