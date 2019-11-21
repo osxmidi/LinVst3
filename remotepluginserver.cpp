@@ -1205,8 +1205,7 @@ void RemotePluginServer::dispatchParEvents()
         effDoVoid(opcode);
         break;
     }
-		    
-		    
+		    		    
     case RemotePluginHideGUI:
         hideGUI2();
         break;	
