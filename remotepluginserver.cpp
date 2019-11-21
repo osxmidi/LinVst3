@@ -1313,14 +1313,6 @@ void RemotePluginServer::dispatchParEvents()
         break;
     }
 
-    case RemotePluginGetEffInt:
-    {
-        int opcode = readIntring(&m_shmControl5->ringBuffer);
-        int  value = readIntring(&m_shmControl5->ringBuffer);
-        writeInt(&m_shm[FIXED_SHM_SIZE], getEffInt(opcode, value));
-        break;
-    }
-
     case RemotePluginGetEffString:
     {
         int opcode = readIntring(&m_shmControl5->ringBuffer);
@@ -1445,6 +1437,14 @@ void RemotePluginServer::dispatchControlEvents()
     case RemotePluginEffectOpen:
         EffectOpen();
         break;
+		    
+    case RemotePluginGetEffInt:
+    {
+        int opcode = readIntring(&m_shmControl3->ringBuffer);
+        int  value = readIntring(&m_shmControl3->ringBuffer);
+        writeInt(&m_shm[FIXED_SHM_SIZE], getEffInt(opcode, value));
+        break;
+    }		    
                 
     case RemotePluginGetProgramNameIndexed:
     {
