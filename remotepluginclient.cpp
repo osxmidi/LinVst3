@@ -2088,9 +2088,9 @@ void RemotePluginClient::hideGUI()
 {
  //     effVoidOp(hidegui2);	
 	
-    writeOpcodering(&m_shmControl4->ringBuffer, RemotePluginHideGUI);
-    commitWrite(&m_shmControl4->ringBuffer);
-    waitForServer4();  
+    writeOpcodering(&m_shmControl5->ringBuffer, RemotePluginHideGUI);
+    commitWrite(&m_shmControl5->ringBuffer);
+    waitForServer5();  
 }
 
 #ifdef EMBED
