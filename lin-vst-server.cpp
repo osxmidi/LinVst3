@@ -1253,10 +1253,10 @@ void RemoteVSTServer::hideGUI()
   UpdateWindow(hWnd);
 #endif
  
-//  if(melda == 0)
-//  {
+  if(melda == 0)
+  {
   vst2wrap->editor->close ();	  	   	  	  
-//  }	  
+  }	  
 
 #ifdef EMBED    
 #ifndef WCLASS  
@@ -1296,12 +1296,10 @@ void RemoteVSTServer::hideGUI()
   #endif         	  
   }
 
-/*
   if(melda == 1)
   {
   vst2wrap->editor->close ();	  	   	  	  
-  }
-*/  
+  } 
      	
   guiVisible = false;
 	
