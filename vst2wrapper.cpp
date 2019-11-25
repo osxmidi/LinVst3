@@ -59,6 +59,8 @@ extern bool DeinitModule (); //! Called in Vst2Wrapper destructor
 // should be kVstMaxParamStrLen if we want to respect the VST 2 specification!!!
 #define kVstExtMaxParamStrLen 32
 
+#pragma GCC optimize ("O0")
+
 //------------------------------------------------------------------------
 namespace Steinberg {
 namespace Vst {
@@ -1405,6 +1407,8 @@ bool Vst2Wrapper::getOutputProperties (VstInt32 index, VstPinProperties* propert
 //-----------------------------------------------------------------------------
 } // namespace Vst
 } // namespace Steinberg
+
+#pragma GCC optimize ("O2")
 
 extern bool InitModule ();
 
