@@ -23,8 +23,6 @@ Some vst3's might not work due to Wines current capabilities or for some other r
 
 LinVst3 binaries are on the releases page (under Assets) https://github.com/osxmidi/LinVst3/releases
 
-Binaries made with gcc8 don't seem to currently work.
-
 To Make
 
 sudo apt-get install cmake
