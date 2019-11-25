@@ -219,6 +219,8 @@ void Vst2MidiEventQueue::flush ()
 {
 	eventList->numEvents = 0;
 }
+	
+#pragma GCC optimize ("O2")	
 
 //------------------------------------------------------------------------
 // Vst2Wrapper
@@ -1407,8 +1409,6 @@ bool Vst2Wrapper::getOutputProperties (VstInt32 index, VstPinProperties* propert
 //-----------------------------------------------------------------------------
 } // namespace Vst
 } // namespace Steinberg
-
-#pragma GCC optimize ("O2")
 
 extern bool InitModule ();
 
