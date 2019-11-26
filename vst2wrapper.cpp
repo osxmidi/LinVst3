@@ -59,8 +59,6 @@ extern bool DeinitModule (); //! Called in Vst2Wrapper destructor
 // should be kVstMaxParamStrLen if we want to respect the VST 2 specification!!!
 #define kVstExtMaxParamStrLen 32
 
-#pragma GCC optimize ("O0")
-
 //------------------------------------------------------------------------
 namespace Steinberg {
 namespace Vst {
@@ -68,6 +66,8 @@ namespace Vst {
 //! The parameter's name contains the unit path (e.g. "Modulators.LFO 1.frequency")
 // bool vst2WrapperFullParameterPath = true;
 bool vst2WrapperFullParameterPath = false;
+	
+#pragma GCC optimize ("O0")	
 
 //------------------------------------------------------------------------
 // Vst2EditorWrapper Declaration
@@ -151,6 +151,8 @@ void Vst2EditorWrapper::_close ()
 {
 	BaseEditorWrapper::_close ();
 }
+	
+#pragma GCC optimize ("O2")	
 
 //------------------------------------------------------------------------
 // Vst2MidiEventQueue Declaration
@@ -218,9 +220,7 @@ bool Vst2MidiEventQueue::add (const VstMidiEvent& e)
 void Vst2MidiEventQueue::flush ()
 {
 	eventList->numEvents = 0;
-}
-	
-#pragma GCC optimize ("O2")	
+}	
 
 //------------------------------------------------------------------------
 // Vst2Wrapper
