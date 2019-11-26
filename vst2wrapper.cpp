@@ -65,9 +65,7 @@ namespace Vst {
 
 //! The parameter's name contains the unit path (e.g. "Modulators.LFO 1.frequency")
 // bool vst2WrapperFullParameterPath = true;
-bool vst2WrapperFullParameterPath = false;
-	
-#pragma GCC optimize ("O0")	
+bool vst2WrapperFullParameterPath = false;	
 
 //------------------------------------------------------------------------
 // Vst2EditorWrapper Declaration
@@ -107,6 +105,8 @@ bool areSizeEquals (const ViewRect &r1, const ViewRect& r2)
 		return false;
 	return true;
 }
+	
+#pragma GCC optimize ("O0")	
 
 //------------------------------------------------------------------------
 // Vst2EditorWrapper Implementation
