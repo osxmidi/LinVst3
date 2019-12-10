@@ -33,6 +33,8 @@ sudo apt-get install libfreetype6-dev libxcb-util0-dev libxcb-cursor-dev libxcb-
 
 Wine libwine development files.
 
+------
+
 For Ubuntu/Debian, sudo apt-get install libwine-development-dev (For Debian, Wine might need to be reinstalled after installing libwine-development-dev)
 
 wine-devel packages for other distros (sudo apt-get install wine-devel).
@@ -40,8 +42,27 @@ wine-devel packages for other distros (sudo apt-get install wine-devel).
 libX11 development (sudo apt-get install libx11-dev)
 
 For Fedora 
+
 sudo yum -y install wine-devel wine-devel.i686 libX11-devel libX11-devel.i686
 sudo yum -y install libstdc++.i686 libX11.i686
+
+------
+
+For Manjaro/Arch
+
+sudo pacman -Sy wine-staging
+sudo pacman -Sy libx11
+sudo pacman -Sy gcc-multilib
+
+sudo pacman -Sy cmake
+sudo pacman -Sy freetype2
+sudo pacman -Sy sqlite
+sudo pacman -Sy libxcb
+sudo pacman -Sy xcb-util 
+sudo pacman -Sy gtkmm3
+sudo pacman -Sy xcb-util-cursor
+
+------
 
 (Optional libraries, Maybe needed for some systems),
 
