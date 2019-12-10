@@ -41,6 +41,8 @@ wine-devel packages for other distros (sudo apt-get install wine-devel).
 
 libX11 development (sudo apt-get install libx11-dev)
 
+------
+
 For Fedora 
 
 sudo yum -y install wine-devel wine-devel.i686 libX11-devel libX11-devel.i686
