@@ -54,17 +54,9 @@ sudo yum -y install libstdc++.i686 libX11.i686
 
 For Manjaro/Arch
 
-sudo pacman -Sy wine-staging
-sudo pacman -Sy libx11
-sudo pacman -Sy gcc-multilib
+sudo pacman -Sy wine-staging libx11 gcc-multilib
 
-sudo pacman -Sy cmake
-sudo pacman -Sy freetype2
-sudo pacman -Sy sqlite
-sudo pacman -Sy libxcb
-sudo pacman -Sy xcb-util 
-sudo pacman -Sy gtkmm3
-sudo pacman -Sy xcb-util-cursor
+sudo pacman -Sy cmake freetype2 sqlite libxcb xcb-util gtkmm3 xcb-util-cursor
 
 ------
 
