@@ -10,3 +10,5 @@ paths and vst3 filenames that contain spaces need to be enclosed in quotes.
 
 testvst3.exe is for 64 bit vst3's only
 
+If TestVst3 is run from a terminal and the output is looked at, then sometimes there can be an unimplemented function error in some dll and that dll can then be overriden.
+
