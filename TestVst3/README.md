@@ -17,3 +17,56 @@ To make
 This TestVst3 source folder needs to be placed within the VST3 SDK main folder (the VST3_SDK folder or the VST3 folder that contains the base, public.sdk, pluginterfaces etc folders) ie the TestVst3 source folder needs to be placed alongside the base, public.sdk, pluginterfaces etc folders of the VST3 SDK.
 
 Then change into the TestVst3 folder and run make.
+
+------
+
+Cmake needs to be preinstalled.
+
+sudo apt-get install cmake
+
+Libraries that need to be pre installed, 
+
+sudo apt-get install libfreetype6-dev libxcb-util0-dev libxcb-cursor-dev libxcb-keysyms1-dev libxcb-xkb-dev libxkbcommon-dev libxkbcommon-x11-dev libgtkmm-3.0-dev libsqlite3-dev
+
+Wine libwine development files.
+
+------
+
+For Ubuntu/Debian, sudo apt-get install libwine-development-dev (For Debian, Wine might need to be reinstalled after installing libwine-development-dev)
+
+wine-devel packages for other distros (sudo apt-get install wine-devel).
+
+libX11 development (sudo apt-get install libx11-dev)
+
+------
+
+For Fedora 
+
+sudo yum -y install wine-devel wine-devel.i686 libX11-devel libX11-devel.i686
+sudo yum -y install libstdc++.i686 libX11.i686
+
+------
+
+For Manjaro/Arch
+
+sudo pacman -Sy wine-staging libx11 gcc-multilib
+
+sudo pacman -Sy cmake freetype2 sqlite libxcb xcb-util gtkmm3 xcb-util-cursor
+
+------
+
+(Optional libraries, Maybe needed for some systems),
+
+libx11-xcb-dev
+libxcb-util-dev
+libxcb-cursor-dev
+libxcb-xkb-dev
+libxkbcommon-dev
+libxkbcommon-x11-dev
+libfontconfig1-dev
+libcairo2-dev
+libgtkmm-3.0-dev
+libsqlite3-dev
+libxcb-keysyms1-dev
+
+-------
