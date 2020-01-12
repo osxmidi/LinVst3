@@ -16,4 +16,4 @@ To make
 
 This TestVst3 source folder needs to be placed within the VST3 SDK main folder (the VST3_SDK folder or the VST3 folder that contains the base, public.sdk, pluginterfaces etc folders) ie the TestVst3 source folder needs to be placed alongside the base, public.sdk, pluginterfaces etc folders of the VST3 SDK.
 
-Then change into the TestVst3 folder and run make and then sudo make install
+Then change into the TestVst3 folder and run make.
