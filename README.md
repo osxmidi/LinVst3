@@ -19,7 +19,9 @@ The vst3 dlls are most likely going to be in ~/.wine/drive_c/Program Files/Commo
 LinVst3 will try to produce multiple loader part files for vst3's that contain multiple plugins. 
 The multiple loader part files should be picked up on the daw's next plugin scan and then the multiple plugins should be available for use in the daw.
 
-Some vst3's might not work due to Wines current capabilities or for some other reason.
+Some vst3 plugins might not work due to Wines current capabilities or for some other reason.
+
+Use TestVst3 for testing how a vst3 plugin might run under Wine.
 
 Some vst3 plugins rely on the d2d1 dll which is not totally implemented in current Wine.
 
