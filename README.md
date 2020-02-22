@@ -21,6 +21,12 @@ The multiple loader part files should be picked up on the daw's next plugin scan
 
 Some vst3's might not work due to Wines current capabilities or for some other reason.
 
+Some vst3 plugins rely on the d2d1 dll which is not totally implemented in current Wine.
+
+If a plugin has trouble with it's display then disabling d2d1 in the winecfg Libraries tab can be tried.
+
+The Sforzando VST3 runs in a better way with d2d1 disabled for instance.
+
 -------
 
 LinVst3 binaries are on the releases page (under Assets) https://github.com/osxmidi/LinVst3/releases
