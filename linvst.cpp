@@ -1109,7 +1109,9 @@ int32_t b;
         usleep(500000);
 #endif
 */
-        wait(NULL);	        	    
+#ifndef BITWIG		    
+        wait(NULL);
+#endif		    	        	    
         delete plugin;				          
         break;
 
