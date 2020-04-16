@@ -33,6 +33,13 @@ The Sforzando VST3 runs in a better way with d2d1 disabled for instance.
 
 -------
 
+**Bitwig**
+
+LinVst3 may have some problems with some plugins and Bitwig.
+If LinVst3 has trouble with Bitwig see the Bitwig folder for instructions.
+
+-------
+
 LinVst3 binaries are on the releases page (under Assets) https://github.com/osxmidi/LinVst3/releases
 
 To Make
