@@ -557,10 +557,30 @@ int32_t b;
     {
     case effEditGetRect:
     {
+#ifdef EMBED
+        if(plugin->winrect == 0)
+        {
+        plugin->effVoidOp(effEditGetRect);
+
+        if(!plugin->winm->winerror)
+        {
+        plugin->width = plugin->winm->width;
+        plugin->height = plugin->winm->height;
+
+        rp = &plugin->retRect;
+        rp->bottom = plugin->height;
+        rp->top = 0;
+        rp->right = plugin->width;
+        rp->left = 0;
+
+	plugin->winrect = 1;	
+        }
+        }
+#endif
         rp = &plugin->retRect;
         *((struct ERect **)ptr) = rp;
-	v=1;    
-    }	    
+	v=plugin->winrect;		    
+    }
         break;
 
     case effEditIdle:
@@ -760,8 +780,9 @@ int32_t b;
 
         plugin->display = XOpenDisplay(0);
 
-        if(plugin->display && plugin->handle)
-        {	        
+        if(plugin->display && plugin->handle && !plugin->winm->winerror)
+        {
+	plugin->winrect = 1;	
         plugin->eventrun = 1; 
              
      //   XResizeWindow(plugin->display, plugin->parent, plugin->width, plugin->height);
@@ -855,9 +876,10 @@ int32_t b;
 
        plugin->display = XOpenDisplay(0);
 
-       if(plugin->display && plugin->handle)
-       {
-       plugin->eventrun = 1;  
+        if(plugin->display && plugin->handle && !plugin->winm->winerror)
+        {
+	plugin->winrect = 1;	
+        plugin->eventrun = 1; 
             
 #ifdef XECLOSE
        data[0] = 0;
@@ -997,6 +1019,9 @@ int32_t b;
         plugin->hideGUI();
 #endif  
 	plugin->editopen = 0;	
+#ifdef EMBED
+        plugin->winrect = 0;	
+#endif 				    
 	v=1;    
         break;
 		    
