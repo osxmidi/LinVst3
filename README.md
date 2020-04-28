@@ -6,6 +6,8 @@ For 64 bit vst3's only.
 
 Not all vst3 features are supported.
 
+Saved projects are not compatible/transferable between Linux daws and their Windows versions and vice versa.
+
 LinVst3 binaries are on the releases page (under Assets) https://github.com/osxmidi/LinVst3/releases
 
 See LinVst3-X (https://github.com/osxmidi/LinVst3-X) for running vst plugins in a single Wine process so that plugins can communicate with each other or plugins that can use shared samples between instances will be able to communicate with their other instances.
