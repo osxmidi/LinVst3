@@ -775,8 +775,8 @@ void RemoteVSTServer::effDoVoid(int opcode)
    {
     rect = 0;
  
-//    vst2wrap->editor->getRect (&rect);
-    vst2wrap->editor->open (hWnd);
+    vst2wrap->editor->getRect (&rect);
+ //   vst2wrap->editor->open (hWnd);
 //    vst2wrap->editor->getRect (&rect);
 	   
     if (!rect)
