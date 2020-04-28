@@ -202,8 +202,10 @@ public:
     int handle;
     int width;
     int height;
+    int winerror;        
    } winm2;         
    winmessage *winm;
+  int winrect;     
   int displayerr;
 #ifdef EMBEDTHREAD
    pthread_t           m_EMBEDThread;
