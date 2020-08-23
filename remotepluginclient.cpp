@@ -263,7 +263,7 @@ else
                    retstr2[0]='\0';
                    strcpy(retstr2, &m_shm[FIXED_SHM_SIZE3]);
                    retval = m_audioMaster(theEffect, audioMasterCanDo, 0, 0, (char *) retstr2, 0);
-                   memcpy(&m_shm3[FIXED_SHM_SIZE3], &retval, sizeof(int));
+                   memcpy(&m_shm3[FIXED_SHM_SIZE3 + 512], &retval, sizeof(int));
                    break;  
 #endif				
                    case audioMasterGetVendorString:
@@ -296,12 +296,18 @@ else
                     height = retRect.bottom;
                     if(display && parent && child)
                     {
+		    if(reaperid == 0)
+		    retval = m_audioMaster(theEffect, audioMasterSizeWindow, width, height, 0, 0);                   							
                     XUnmapWindow(display, child);
-                    XResizeWindow(display, parent, width, height);
+                  //  XResizeWindow(display, parent, width, height);
                     XResizeWindow(display, child, width, height);
+                    XEvent e;
+                    if (XCheckTypedWindowEvent(display, child, ConfigureNotify, &e))
+                    {        
                     XMapWindow(display, child);
                     XSync(display, false);
                     XFlush(display);
+			    	}
                     }
                     break;
 #endif
@@ -528,7 +534,6 @@ RemotePluginClient::RemotePluginClient(audioMasterCallback theMaster) :
     height(0),
     displayerr(0),
     winm(0),
-    winrect(0),
 #ifdef EMBEDDRAG
     x11_win(0),
     pparent(0),
@@ -2085,7 +2090,6 @@ void RemotePluginClient::showGUI()
     waitForServer3();  
 
 #ifdef EMBED
-    winrect = 0;
     tryRead(&m_shm[FIXED_SHM_SIZE], winm, sizeof(winmessage));
 #endif
 }
