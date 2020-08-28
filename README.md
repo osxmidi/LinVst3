@@ -35,6 +35,12 @@ The Sforzando VST3 runs in a better way with d2d1 disabled for instance.
 
 -------
 
+**Waveform**
+
+For Waveform see https://github.com/osxmidi/LinVst3/tree/Waveform
+
+-------
+
 **Bitwig**
 
 LinVst3 may have some problems with some plugins and Bitwig.
