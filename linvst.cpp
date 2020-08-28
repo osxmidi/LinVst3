@@ -402,7 +402,14 @@ Atom xembedatom = XInternAtom(display, "_XEMBED_INFO", False);
       e.xconfigure.event = child;
       e.xconfigure.window = child;
       e.xconfigure.x = x;
+#ifdef TRACKTIONWM  
+      if(plugin->waveformid > 0)     
+      e.xconfigure.y = y + plugin->waveformid;
+      else
       e.xconfigure.y = y;
+#else
+      e.xconfigure.y = y;
+#endif      
       e.xconfigure.width = width;
       e.xconfigure.height = height;
       e.xconfigure.border_width = 0;
@@ -1017,7 +1024,10 @@ int32_t b;
         {
         plugin->m_audioMaster(plugin->theEffect, audioMasterGetProductString, 0, 0, dawbuf, 0);
         if((strcmp(dawbuf, "Tracktion") == 0) || (strcmp(dawbuf, "Waveform") == 0))
-        plugin->effVoidOp(67584930);
+        {
+		plugin->hosttracktion = 1;
+        plugin->waveformid = plugin->effVoidOp2(67584930, index, value, opt);
+	    }
         }
         }
 #endif

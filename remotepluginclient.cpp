@@ -534,6 +534,10 @@ RemotePluginClient::RemotePluginClient(audioMasterCallback theMaster) :
     height(0),
     displayerr(0),
     winm(0),
+#ifdef TRACKTIONWM     
+    waveformid(0),
+    hosttracktion(0),
+#endif        
 #ifdef EMBEDDRAG
     x11_win(0),
     pparent(0),
@@ -821,7 +825,7 @@ ptr = (int *)m_shm;
 
     for (int i=0;i<40000;i++)
     {
-        if (*ptr == 182)
+        if (*ptr == 200)
          {
             startok = 1;
             break;
@@ -1300,6 +1304,33 @@ int RemotePluginClient::getOutputCount()
     return m_numOutputs;
 }
 
+std::string RemotePluginClient::getParameterName(int p)
+{
+    writeOpcodering(&m_shmControl5->ringBuffer, RemotePluginGetParameterName);
+    writeIntring(&m_shmControl5->ringBuffer, p);
+    commitWrite(&m_shmControl5->ringBuffer);
+    waitForServer5();   
+    return &m_shm[FIXED_SHM_SIZE];			
+}
+
+std::string RemotePluginClient::getParameterLabel(int p)
+{
+    writeOpcodering(&m_shmControl5->ringBuffer, RemotePluginGetParameterLabel);
+    writeIntring(&m_shmControl5->ringBuffer, p);
+    commitWrite(&m_shmControl5->ringBuffer);
+    waitForServer5();  
+    return &m_shm[FIXED_SHM_SIZE];	
+}
+
+std::string RemotePluginClient::getParameterDisplay(int p)
+{
+    writeOpcodering(&m_shmControl5->ringBuffer, RemotePluginGetParameterDisplay);
+    writeIntring(&m_shmControl5->ringBuffer, p);
+    commitWrite(&m_shmControl5->ringBuffer);
+    waitForServer5();  
+    return &m_shm[FIXED_SHM_SIZE];
+}
+
 int RemotePluginClient::getParameterCount()
 {
     if (m_inexcept == 1 || m_finishaudio == 1)
@@ -1307,37 +1338,10 @@ int RemotePluginClient::getParameterCount()
         return 0;
     }
 
-    writeOpcodering(&m_shmControl3->ringBuffer, RemotePluginGetParameterCount);
-    commitWrite(&m_shmControl3->ringBuffer);
-    waitForServer3();  
+    writeOpcodering(&m_shmControl5->ringBuffer, RemotePluginGetParameterCount);
+    commitWrite(&m_shmControl5->ringBuffer);
+    waitForServer5();  
     return readInt(&m_shm[FIXED_SHM_SIZE]);
-}
-
-std::string RemotePluginClient::getParameterName(int p)
-{
-    writeOpcodering(&m_shmControl3->ringBuffer, RemotePluginGetParameterName);
-    writeIntring(&m_shmControl3->ringBuffer, p);
-    commitWrite(&m_shmControl3->ringBuffer);
-    waitForServer3();  
-    return &m_shm[FIXED_SHM_SIZE];
-}
-
-std::string RemotePluginClient::getParameterLabel(int p)
-{
-    writeOpcodering(&m_shmControl3->ringBuffer, RemotePluginGetParameterLabel);
-    writeIntring(&m_shmControl3->ringBuffer, p);
-    commitWrite(&m_shmControl3->ringBuffer);
-    waitForServer3();  
-    return &m_shm[FIXED_SHM_SIZE];
-}
-
-std::string RemotePluginClient::getParameterDisplay(int p)
-{
-    writeOpcodering(&m_shmControl3->ringBuffer, RemotePluginGetParameterDisplay);
-    writeIntring(&m_shmControl3->ringBuffer, p);
-    commitWrite(&m_shmControl3->ringBuffer);
-    waitForServer3();  
-    return &m_shm[FIXED_SHM_SIZE];
 }
 
 #ifdef WAVES
