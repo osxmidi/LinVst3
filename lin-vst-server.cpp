@@ -442,10 +442,7 @@ std::string RemoteVSTServer::getMaker()
 void RemoteVSTServer::EffectOpen()
 {
     if (debugLevel > 0)
-        cerr << "dssi-vst-server[1]: opening plugin" << endl;	
-
-    offset.x = 0;
-    offset.y = 0;     
+        cerr << "dssi-vst-server[1]: opening plugin" << endl;	   
 	
     vst2wrap->suspend ();
 
@@ -508,7 +505,10 @@ void RemoteVSTServer::EffectOpen()
             cerr << "dssi-vst-server: ERROR: Failed to register Windows application class!\n" << endl;
             haveGui = false;
         }
-#ifdef TRACKTIONWM       
+#ifdef TRACKTIONWM   
+        offset.x = 0;
+        offset.y = 0;    		    
+		    
     	memset(&wclass2, 0, sizeof(WNDCLASSEX));
         wclass2.cbSize = sizeof(WNDCLASSEX);
         wclass2.style = 0;
