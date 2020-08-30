@@ -1021,7 +1021,6 @@ bool RemoteVSTServer::warn(std::string warning)
 
 void RemoteVSTServer::showGUI()
 {	
-#ifdef EMBED		
        winm->winerror = 0;
 	
        if(haveGui == false)
@@ -1033,7 +1032,6 @@ void RemoteVSTServer::showGUI()
         guiVisible = false;
         return;
        }
-#endif
 	
 #ifdef WCLASS
         memset(&wclass, 0, sizeof(WNDCLASSEX));
@@ -1259,7 +1257,6 @@ void RemoteVSTServer::hideGUI2()
 	
 void RemoteVSTServer::hideGUI()
 {
-#ifdef EMBED	
       if(haveGui == false)
        {
         winm->handle = 0;
@@ -1270,7 +1267,6 @@ void RemoteVSTServer::hideGUI()
         hidegui = 0;	
         return;
        }
-#endif       
 	
     // if (!hWnd)
         // return;
@@ -1309,15 +1305,13 @@ void RemoteVSTServer::hideGUI()
 		
   if(hWnd)
   {	
-  KillTimer(hWnd, timerval);
+  // KillTimer(hWnd, timerval);
   #ifdef EMBED
   #ifdef XEMBED
   DestroyWindow(hWnd);
   #else
   #ifdef XECLOSE	  
   DestroyWindow(hWnd); 
-  #else
-  DestroyWindow(hWnd);   
   #endif	  
   #endif	  
   #else
