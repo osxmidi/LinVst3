@@ -765,12 +765,12 @@ int32_t b;
         rp->bottom = plugin->height;
         rp->top = 0;
         rp->right = plugin->width;
-        rp->left = 0;
+        rp->left = 0;      
 
         plugin->display = XOpenDisplay(0);
 
         if(plugin->display && plugin->handle && !plugin->winm->winerror)
-        {	
+        {
         plugin->eventrun = 1; 
              
      //   XResizeWindow(plugin->display, plugin->parent, plugin->width, plugin->height);
@@ -842,11 +842,21 @@ int32_t b;
        else
        {
        plugin->displayerr = 1;
-       plugin->eventrun = 0; 		       
+       plugin->eventrun = 0;  	       
        }
      }   
 #else
     {
+		
+#ifndef XECLOSE
+		if(plugin->display)
+		{
+		XSync(plugin->display, true);	
+		XCloseDisplay(plugin->display);
+		plugin->display = 0;  
+	    }
+#endif		
+		
         plugin->showGUI();
       //  usleep(50000);
 
@@ -860,13 +870,13 @@ int32_t b;
        rp->bottom = plugin->height;
        rp->top = 0;
        rp->right = plugin->width;
-       rp->left = 0;
+       rp->left = 0;   
 
        plugin->display = XOpenDisplay(0);
 
-        if(plugin->display && plugin->handle && !plugin->winm->winerror)
-        {	
-        plugin->eventrun = 1; 
+	   if(plugin->display && plugin->handle && !plugin->winm->winerror)
+       {	
+       plugin->eventrun = 1; 
             
 #ifdef XECLOSE
        data[0] = 0;
@@ -945,7 +955,7 @@ int32_t b;
        else
        {
        plugin->displayerr = 1;
-       plugin->eventrun = 0;		       
+       plugin->eventrun = 0;	       
        }
      }
 #endif
@@ -957,6 +967,8 @@ int32_t b;
         break;
 
         case effEditClose:
+    	if(plugin->editopen == 1)
+        {        
 #ifdef EMBED                      
         if(plugin->displayerr == 1)
 	    {
@@ -964,12 +976,14 @@ int32_t b;
 	    {
         XSync(plugin->display, true);
         XCloseDisplay(plugin->display);
+        plugin->display = 0;  
 	    }	
         break;
-	    }			    
+	    }
+#ifndef XEMBED 	    			    
 #ifdef XECLOSE 
         plugin->eventrun = 0;  
-	XSync(plugin->display, true);	
+    	XSync(plugin->display, true);	
 		 
         plugin->xeclose = 1;
         sendXembedMessage(plugin->display, plugin->child, XEMBED_EMBEDDED_NOTIFY, 0, plugin->parent, 0);
@@ -989,7 +1003,12 @@ int32_t b;
 	plugin->xeclose = 0;
 	
 	XSync(plugin->display, false);	  	    
-#endif       
+#else
+       XReparentWindow(plugin->display, plugin->child, XDefaultRootWindow(plugin->display), 0, 0);  
+       XSync(plugin->display, false);	
+#endif        
+#endif
+
         plugin->hideGUI();	 
            
         if(plugin->display)
@@ -999,15 +1018,20 @@ int32_t b;
         XDestroyWindow (plugin->display, plugin->x11_win);
         plugin->x11_win = 0;
 #endif      	  	 
+#if defined(XEMBED) || defined(XECLOSE)  
+        XSync(plugin->display, false);	 	  	 
         XCloseDisplay(plugin->display);
         plugin->display = 0; 
+#endif        
         }  		    
 #else            
         plugin->hideGUI();
 #endif  
-	plugin->editopen = 0;	
-		    
-	v=1;    
+	plugin->editopen = 0;
+	
+    }	
+    
+	v=1;		    
         break;
 		    
     case effCanDo:
@@ -1066,7 +1090,8 @@ int32_t b;
         case effClose:         
      	if(plugin->editopen == 1)
         {
-#ifdef EMBED		    
+#ifdef EMBED		
+#ifndef XEMBED    
 #ifdef XECLOSE
         plugin->eventrun = 0;  
         XSync(plugin->display, true);	
@@ -1089,10 +1114,14 @@ int32_t b;
 	plugin->xeclose = 0;
 	
 	XSync(plugin->display, false);	  	    
+#else
+       XReparentWindow(plugin->display, plugin->child, XDefaultRootWindow(plugin->display), 0, 0);  
+       XSync(plugin->display, false);	
 #endif  
+#endif
 #endif		
         plugin->hideGUI();
-        }	
+        	
 #ifdef EMBED		
         if(plugin->display)
         {
@@ -1100,11 +1129,13 @@ int32_t b;
         if(plugin->x11_win)
         XDestroyWindow (plugin->display, plugin->x11_win);
         plugin->x11_win = 0;
-#endif      	  	 
+#endif  
+  	  	XSync(plugin->display, false);	 
         XCloseDisplay(plugin->display);
-        plugin->display = 0; 
+        plugin->display = 0;        
         }  		       
-#endif            		    
+#endif  
+	    }          		    
 	plugin->effVoidOp(effClose);	    
 
 /*
@@ -1128,7 +1159,7 @@ int32_t b;
 */
 #ifndef BITWIG		    
         wait(NULL);
-#endif		    	        	    
+#endif		    
         delete plugin;				          
         break;
 
