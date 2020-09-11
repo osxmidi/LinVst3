@@ -151,7 +151,6 @@ private:
     void                    dispatchParEvents();
 
     int                     m_flags;
-    int                     m_delay;
     int                     m_shmFd;
     int                     m_shmFd2;
     int                     m_shmFd3;
@@ -220,11 +219,15 @@ bool fpost(int *fcount);
 
 VstTimeInfo *timeinfo;
     
-VstTimeInfo timeinfo2;    
+VstTimeInfo timeinfo2; 
+
+int bufferSize;
+int sampleRate;     
     
 int                 m_updateio;
 int                 m_updatein;
 int                 m_updateout;
+int                 m_delay;
 
 void rdwr_tryReadring(RingBuffer *ringbuf, void *buf, size_t count, const char *file, int line);
 void rdwr_tryWritering(RingBuffer *ringbuf, const void *buf, size_t count, const char *file, int line);
