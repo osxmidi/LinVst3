@@ -200,7 +200,7 @@ int numargs;
     int vst2uid;
     Steinberg::IPluginFactory* factory;
    
-    cout << "LinVst Vst Test" << endl;	
+    cout << "LinVst3 Vst3 Test: " << cmdline << endl;	
 
     args = CommandLineToArgvW(GetCommandLineW(), &numargs);
    
