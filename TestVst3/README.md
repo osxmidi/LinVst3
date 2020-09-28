@@ -24,7 +24,7 @@ The Sforzando VST3 runs in a better way with d2d1 disabled for instance.
 
 Batch Testing
 
-For testing multiple vst3 files at once, place testvst3.exe and testvst3-batch into the vst3 folder containing the vst3 files.
+For testing multiple vst3 files at once, place testvst3.exe and testvst3.exe.so and testvst3-batch into the vst3 folder containing the vst3 files.
 
 Using the terminal, cd into the vst3 folder and enter
 
