@@ -20,6 +20,24 @@ If a plugin has trouble with it's display then disabling d2d1 in the winecfg Lib
 
 The Sforzando VST3 runs in a better way with d2d1 disabled for instance.
 
+-----
+
+Batch Testing
+
+For testing multiple vst3 files at once, place testvst3.exe and testvst3-batch into the vst3 folder containing the vst3 files.
+
+Using the terminal, cd into the vst3 folder and enter
+
+chmod +x testvst3-batch
+
+then enter
+
+./testvst3-batch
+
+After that, testvst3.exe will attempt to run the plugins one after another, any plugin dialogs that popup should be dismissed as soon as possible.
+
+If a Wine plugin problem is encountered, then that plugin can be identified by the terminal output from testvst3.exe.
+
 ------
 
 To make
