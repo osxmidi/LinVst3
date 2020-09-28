@@ -16,9 +16,7 @@ sed -i 's@return GetTickCount64 ();@struct timespec now; \n if (clock_gettime(CL
 sed -i 's@#include <windows.h>@#include <windows.h> \n #include <ctime>@g' ../base/source/timer.cpp
 sed -i 's@#include <stdio.h>@#include <stdio.h> \n #include <uuid/uuid.h>@g' ../pluginterfaces/base/funknown.cpp
 sed -i '/GUID guid;/,/}/c\ \n' ../pluginterfaces/base/funknown.cpp
-sed -i 's@#include <cstdio>@#include <cstdio> \n #include <wchar.h>@g' ../pluginterfaces/base/ustring.cpp
-sed -i 's@SMTG_OS_WINDOWS@SMTG_OS_WINDOWS2@g' ../public.sdk/source/common/openurl.cpp
-sed -i 's@SMTG_OS_LINUX@SMTG_OS_WINDOWS@g' ../public.sdk/source/common/openurl.cpp
+sed -i 's@#include <stdio.h>@#include <stdio.h> \n #include <wchar.h>@g' ../pluginterfaces/base/ustring.cpp
 sed -i 's@tstrlen ((char16_t)@tstrlen (@g' ../public.sdk/source/vst/vstparameters.cpp
 sed -i 's@tstrlen((char16_t)@tstrlen(@g' ../public.sdk/source/vst/vstparameters.cpp
 sed -i 's@tstrlen (@tstrlen ((char16_t)@g' ../public.sdk/source/vst/vstparameters.cpp

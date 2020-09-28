@@ -16,14 +16,11 @@ sed -i 's@return GetTickCount64 ();@struct timespec now; \n if (clock_gettime(CL
 sed -i 's@#include <windows.h>@#include <windows.h> \n #include <ctime>@g' ../base/source/timer.cpp
 sed -i 's@#include <stdio.h>@#include <stdio.h> \n #include <uuid/uuid.h>@g' ../pluginterfaces/base/funknown.cpp
 sed -i '/GUID guid;/,/}/c\ \n' ../pluginterfaces/base/funknown.cpp
-sed -i 's@#include <cstdio>@#include <cstdio> \n #include <wchar.h>@g' ../pluginterfaces/base/ustring.cpp
-sed -i 's@SMTG_OS_WINDOWS@SMTG_OS_WINDOWS2@g' ../public.sdk/source/common/openurl.cpp
-sed -i 's@SMTG_OS_LINUX@SMTG_OS_WINDOWS@g' ../public.sdk/source/common/openurl.cpp
+sed -i 's@#include <stdio.h>@#include <stdio.h> \n #include <wchar.h>@g' ../pluginterfaces/base/ustring.cpp
 sed -i 's@tstrlen ((char16_t)@tstrlen (@g' ../public.sdk/source/vst/vstparameters.cpp
 sed -i 's@tstrlen((char16_t)@tstrlen(@g' ../public.sdk/source/vst/vstparameters.cpp
 sed -i 's@tstrlen (@tstrlen ((char16_t)@g' ../public.sdk/source/vst/vstparameters.cpp
 sed -i 's@tstrlen(@tstrlen((char16_t)@g' ../public.sdk/source/vst/vstparameters.cpp
-sed -i 's@#include <processthreadsapi.h>@// #include <processthreadsapi.h>@g' ../public.sdk/source/common/threadchecker_win32.cpp
 sed -i 's@include_directories(${ROOT} ${SDK_ROOT})@include_directories(${ROOT} ${SDK_ROOT} "/usr/include/wine-development/windows" "/usr/include/wine-development/wine/windows" "/usr/include/wine/wine/windows") \n add_definitions(-DRELEASE=1) \n add_definitions(-D_stricmp=strcasecmp) \n add_definitions(-D_strnicmp=strncasecmp) \n add_definitions(-Dstricmp=strcasecmp) \n add_definitions(-Dstrnicmp=strncasecmp) \n add_definitions(-D__forceinline=inline) \n add_definitions(-DWIN32_LEAN_AND_MEAN) \n add_definitions(-DUNICODE_OFF) \n add_definitions(-DNOMINMAX=1) \n add_definitions(-fpermissive) \n add_definitions(-m64)@g' ../CMakeLists.txt
 mkdir ../build
 cd ../build
