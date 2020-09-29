@@ -408,34 +408,19 @@ int numargs;
     }              
     }	
     
-    printf("ok1\n");
-    
     vst2wrap->editor->close ();
-    
-       printf("ok2\n");
      
 	DestroyWindow(hWnd);
-	
-	   printf("ok3\n");
 		
 	UnregisterClassA(APPLICATION_CLASS_NAME, GetModuleHandle(0));
-	
-	   printf("ok4\n");
 	        
     vst2wrap->suspend ();
     
-       printf("ok5\n");
-    
     if(vst2wrap)
     delete vst2wrap;  
-    
-    
-       printf("ok6\n");
 	
     if (factory)
     factory->release ();    
-    
-       printf("ok7\n");
 	
     if(libHandle)
     {
@@ -444,10 +429,7 @@ int numargs;
 	exitProc ();
     FreeLibrary(libHandle);	
     } 	  	
-    
-       printf("ok8\n");
        
-       exit(0);
-    
+    exit(0);    
 }
 
