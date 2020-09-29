@@ -250,7 +250,7 @@ int numargs;
     
     if (!vst2wrap)
     {
-    printf("InstnceError\n");
+    printf("InstanceError\n");
     
     if(libHandle)
     {
