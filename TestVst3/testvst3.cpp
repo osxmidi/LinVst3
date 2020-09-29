@@ -10,25 +10,7 @@
 #define WIN32_LEAN_AND_MEAN
 
 #include <windows.h>
-
 #include <shellapi.h>
-
-#include "vst2wrapper.sdk.cpp"
-#include "vst2wrapper.h"
-#include "public.sdk/source/vst/hosting/module.h"
-
-extern "C"
-{
-	typedef bool (PLUGIN_API *InitModuleProc) ();
-	typedef bool (PLUGIN_API *ExitModuleProc) ();
-}
-static const Steinberg::FIDString kInitModuleProcName = "InitDll";
-static const Steinberg::FIDString kExitModuleProcName = "ExitDll";
-
-#define APPLICATION_CLASS_NAME "dssi_vst"
-
-#define OLD_PLUGIN_ENTRY_POINT "main"
-#define NEW_PLUGIN_ENTRY_POINT "VSTPluginMain"
 
 #ifdef VESTIGE
 typedef int16_t VstInt16;	
@@ -46,6 +28,23 @@ typedef AEffect *(VESTIGECALLBACK *VstEntry)(audioMasterCallback audioMaster);
 #else
 typedef AEffect *(VSTCALLBACK *VstEntry)(audioMasterCallback audioMaster);
 #endif
+
+#include "vst2wrapper.sdk.cpp"
+#include "vst2wrapper.h"
+#include "public.sdk/source/vst/hosting/module.h"
+
+extern "C"
+{
+	typedef bool (PLUGIN_API *InitModuleProc) ();
+	typedef bool (PLUGIN_API *ExitModuleProc) ();
+}
+static const Steinberg::FIDString kInitModuleProcName = "InitDll";
+static const Steinberg::FIDString kExitModuleProcName = "ExitDll";
+
+#define APPLICATION_CLASS_NAME "dssi_vst"
+
+#define OLD_PLUGIN_ENTRY_POINT "main"
+#define NEW_PLUGIN_ENTRY_POINT "VSTPluginMain"
 
 using namespace std;
 
