@@ -250,7 +250,7 @@ int numargs;
     
     if (!vst2wrap)
     {
-    printf("InstanceError\n");
+    printf("InstnceError\n");
     
     if(libHandle)
     {
@@ -269,6 +269,11 @@ int numargs;
     else 
     {
     printf("NoEditor\n");
+    
+	printf("NumInputs %d\n", vst2wrap->numinputs);
+    printf("NumOutputs %d\n", vst2wrap->numoutputs);
+		
+	cout << "Maker " << getMaker(vst2wrap)	<< endl;	    
     
     vst2wrap->suspend ();
     
@@ -409,6 +414,8 @@ int numargs;
     }	
     
     vst2wrap->editor->close ();
+       
+    KillTimer(hWnd, timerval);
      
 	DestroyWindow(hWnd);
 		
@@ -429,7 +436,7 @@ int numargs;
 	exitProc ();
     FreeLibrary(libHandle);	
     } 	  	
-       
+          
     exit(0);    
 }
 
