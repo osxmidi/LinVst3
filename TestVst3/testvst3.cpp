@@ -279,7 +279,12 @@ int numargs;
     factory->release ();   
       	
     if(libHandle)
-    FreeLibrary(libHandle);  	
+    {
+    ExitModuleProc exitProc = (ExitModuleProc)::GetProcAddress ((HMODULE)libHandle, kExitModuleProcName);
+	if (exitProc)
+	exitProc ();
+    FreeLibrary(libHandle);	
+    } 	  	
 	exit(0);    
     
     }
@@ -317,7 +322,12 @@ int numargs;
     factory->release ();   
       	
     if(libHandle)
-    FreeLibrary(libHandle);  	
+    {
+    ExitModuleProc exitProc = (ExitModuleProc)::GetProcAddress ((HMODULE)libHandle, kExitModuleProcName);
+	if (exitProc)
+	exitProc ();
+    FreeLibrary(libHandle);	
+    } 	  	 	
 	exit(0);
 	}
 
@@ -337,7 +347,12 @@ int numargs;
     factory->release ();    
 		
     if(libHandle)
-    FreeLibrary(libHandle);  	
+    {
+    ExitModuleProc exitProc = (ExitModuleProc)::GetProcAddress ((HMODULE)libHandle, kExitModuleProcName);
+	if (exitProc)
+	exitProc ();
+    FreeLibrary(libHandle);	
+    } 	  	 	
 	exit(0);		
 	}
 	
@@ -357,7 +372,12 @@ int numargs;
     if (factory)
     factory->release ();     	
     if(libHandle)
-    FreeLibrary(libHandle);  	
+    {
+    ExitModuleProc exitProc = (ExitModuleProc)::GetProcAddress ((HMODULE)libHandle, kExitModuleProcName);
+	if (exitProc)
+	exitProc ();
+    FreeLibrary(libHandle);	
+    } 	  	 	
 	exit(0);
     }
 	
@@ -388,20 +408,46 @@ int numargs;
     }              
     }	
     
+    printf("ok1\n");
+    
     vst2wrap->editor->close ();
+    
+       printf("ok2\n");
      
-	DestroyWindow(hWnd);	
+	DestroyWindow(hWnd);
+	
+	   printf("ok3\n");
+		
 	UnregisterClassA(APPLICATION_CLASS_NAME, GetModuleHandle(0));
+	
+	   printf("ok4\n");
 	        
     vst2wrap->suspend ();
     
+       printf("ok5\n");
+    
     if(vst2wrap)
     delete vst2wrap;  
+    
+    
+       printf("ok6\n");
 	
     if (factory)
     factory->release ();    
+    
+       printf("ok7\n");
 	
     if(libHandle)
-    FreeLibrary(libHandle);    	  	
+    {
+    ExitModuleProc exitProc = (ExitModuleProc)::GetProcAddress ((HMODULE)libHandle, kExitModuleProcName);
+	if (exitProc)
+	exitProc ();
+    FreeLibrary(libHandle);	
+    } 	  	
+    
+       printf("ok8\n");
+       
+       exit(0);
+    
 }
 
