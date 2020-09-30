@@ -194,13 +194,13 @@ int numargs;
     if(args == NULL)
     {
     printf("CommandLine arguments failed\n");
-    exit(0);
+    return 0;
     }
     
     if(args[1] == NULL)
     {
 	printf("Usage: vstest.exe path_to_vst_dll\n");	
-	exit(0);
+	return 0;
 	}	
   
     HINSTANCE libHandle = 0;
@@ -208,7 +208,7 @@ int numargs;
     if (!libHandle)
     {
 	printf("LibraryLoadError\n");	
-	exit(0);
+	return 0;
 	}	  
 	
     LocalFree(args);
@@ -227,7 +227,7 @@ int numargs;
 	exitProc ();
     FreeLibrary(libHandle);	
     }        
-	exit(0); 
+	return 0; 
 	}
     }       
 
@@ -246,7 +246,7 @@ int numargs;
 	exitProc ();
     FreeLibrary(libHandle);	
     }        
-	exit(0);         
+	return 0;         
     }
     
     if(vst2wrap->editor)
@@ -277,7 +277,7 @@ int numargs;
 	exitProc ();
     FreeLibrary(libHandle);	
     } 	  	
-	exit(0);    
+	return 0;    
     
     }
 	   	
@@ -320,7 +320,7 @@ int numargs;
 	exitProc ();
     FreeLibrary(libHandle);	
     } 	  	 	
-	exit(0);
+	return 0;
 	}
 
     HWND hWnd = CreateWindow(APPLICATION_CLASS_NAME, "LinVst", WS_OVERLAPPEDWINDOW & ~WS_THICKFRAME & ~WS_MAXIMIZEBOX,
@@ -345,7 +345,7 @@ int numargs;
 	exitProc ();
     FreeLibrary(libHandle);	
     } 	  	 	
-	exit(0);		
+	return 0;		
 	}
 	
     ERect *rect = 0;
@@ -370,7 +370,7 @@ int numargs;
 	exitProc ();
     FreeLibrary(libHandle);	
     } 	  	 	
-	exit(0);
+	return 0;
     }
 	
     SetWindowPos(hWnd, HWND_TOPMOST, 0, 0, rect->right - rect->left + 6, rect->bottom - rect->top + 25, SWP_NOMOVE);	
@@ -422,8 +422,8 @@ int numargs;
 	if (exitProc)
 	exitProc ();
     FreeLibrary(libHandle);	
-    } 	  	
+    } 	 
           
-    exit(0);    
+    return 0;    
 }
 
