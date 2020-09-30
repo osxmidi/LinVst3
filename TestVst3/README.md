@@ -26,6 +26,8 @@ Batch Testing
 
 For testing multiple vst3 files at once, place testvst3.exe and testvst3.exe.so and testvst3-batch into the vst3 folder containing the vst3 files.
 
+(remove the testvst3 files from any daw search paths after testing).
+
 Using the terminal, cd into the vst3 folder and enter
 
 chmod +x testvst3-batch
