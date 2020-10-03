@@ -34,7 +34,7 @@ pathnames must end with a /
 
 for example
 
-./testvst-batch3 "/home/your-user-name/.wine/drive_c/Program Files/Common Files/VST3/"
+./testvst3-batch "/home/your-user-name/.wine/drive_c/Program Files/Common Files/VST3/"
 
 After that, testvst3.exe will attempt to run the plugins one after another, any plugin dialogs that popup should be dismissed as soon as possible.
 
