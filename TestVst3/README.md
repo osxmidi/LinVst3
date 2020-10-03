@@ -1,44 +1,50 @@
 # TestVst3
 
-TestVst3 can roughly test how a vst3 plugin might run under Wine.
+TestVst3 can roughly test how a vst3 dll plugin might run under Wine.
 
-It tries to open the vst3 and display the vst3 window for roughly 8 seconds and then closes.
+It tries to open the vst3 dll and display the vst window for roughly 8 seconds and then closes.
 
-Usage is ./testvst3.exe "vst3file.vst3"
+Usage is ./testvst3.exe "path to vst3file.vst3"
 
 paths and vst3 filenames that contain spaces need to be enclosed in quotes.
 
-testvst3.exe is for 64 bit vst3's only
+for example (cd into the testvst3 folder using the terminal)
 
-If TestVst3 is run from a terminal and the output is looked at, then sometimes there can be an unimplemented function error in some dll and that dll can then be overriden.
+./testvst3.exe "/home/your-user-name/.wine/drive_c/Program Files/Common Files/VST3/delay.vst3"
 
-Some vst3's might not work due to Wines current capabilities or for some other reason.
+Use testvst3.exe from a folder that is not in a daw search path.
 
-Some vst3 plugins rely on the d2d1 dll which is not totally implemented in current Wine.
-
-If a plugin has trouble with it's display then disabling d2d1 in the winecfg Libraries tab can be tried.
-
-The Sforzando VST3 runs in a better way with d2d1 disabled for instance.
+If testvst3.exe.so is in any daw search path then it can cause problems if the daw tries to load it.
 
 -----
 
 Batch Testing
 
-For testing multiple vst3 files at once, place testvst3.exe and testvst3.exe.so and testvst3-batch into the vst3 folder containing the vst3 files.
-
-(remove the testvst3 files from any daw search paths after testing).
-
-Using the terminal, cd into the vst3 folder and enter
-
-chmod +x testvst3-batch
+For testing multiple vst3 dll files at once, unzip the testvst3 folder, then (using the terminal) cd into the unzipped testvst3 folder.
 
 then enter
 
-./testvst3-batch
+chmod +x testvst3-batch
+
+Usage is ./testvst3-batch "path to the vst3 folder containing the vst3 dll files"
+
+paths that contain spaces need to be enclosed in quotes.
+
+pathnames must end with a /
+
+for example
+
+./testvst-batch3 "/home/your-user-name/.wine/drive_c/Program Files/Common Files/VST3/"
 
 After that, testvst3.exe will attempt to run the plugins one after another, any plugin dialogs that popup should be dismissed as soon as possible.
 
 If a Wine plugin problem is encountered, then that plugin can be identified by the terminal output from testvst3.exe.
+
+Use testvst3.exe from a folder that is not in a daw search path.
+
+Use testvst3.exe from a folder that is not in a daw search path.
+
+If testvst3.exe.so is in any daw search path then it can cause problems if the daw tries to load it.
 
 ------
 
