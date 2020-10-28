@@ -65,7 +65,7 @@ public:
 
 	//--- ------------------------------------------------------
 	//--- BaseWrapper ------------------------------------------
-	bool init (audioMasterCallback audioMaster);
+	bool init ();
 	void _canDoubleReplacing (bool val);
 	void _setInitialDelay (int32 delay);
 	void _noTail (bool val);
