@@ -373,11 +373,11 @@ RemoteVSTClient::RemoteVSTClient(audioMasterCallback theMaster) : RemotePluginCl
     else if (child == 0)
     {
 // for (int fd=3; fd<256; fd++) (void) close(fd);
-
+/*
 int maxfd=sysconf(_SC_OPEN_MAX);
 for(int fd=3; fd<maxfd; fd++)
     close(fd);        
-        
+*/        
     #ifdef EMBED
     #ifdef TRACKTIONWM  
 #ifdef BITWIG
