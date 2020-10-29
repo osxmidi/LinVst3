@@ -23,9 +23,9 @@ PREFIX  = /usr
 BIN_DIR    = $(DESTDIR)$(PREFIX)/bin
 VST_DIR = ./vst
 
-BUILD_FLAGS  = -std=c++14 -fPIC -O2 -DLVRT -DXECLOSE -DEMBED -DEMBEDDRAG -DTRACKTIONWM -DVESTIGE -DDOUBLEP -DXECLOSE -DNEWTIME -DINOUTMEM -DCHUNKBUF -DNOFOCUS $(CXX_FLAGS)
-# add -DFOCUS to the above line for alternative keyboard focus operation, add -DEMBEDRESIZE to the above line for window resizing
-BUILD_FLAGS_WIN = -std=c++14 -m64 -O2 -DXECLOSE -DEMBED -DEMBEDDRAG -DWAVES2 -DTRACKTIONWM -DVESTIGE -DDOUBLEP -DXECLOSE -DWCLASS -DNEWTIME -DINOUTMEM -DCHUNKBUF -I/usr/include/wine-development/windows -I/usr/include/wine-development/wine/windows -I/usr/include/wine/wine/windows -I../ -DRELEASE=1  -D__forceinline=inline -DNOMINMAX=1 -DUNICODE_OFF -Dstricmp=strcasecmp -Dstrnicmp=strncasecmp -DSMTG_RENAME_ASSERT=1 -fpermissive
+BUILD_FLAGS  = -std=c++14 -fPIC -O2 -DLVRT -DEMBED -DEMBEDDRAG -DTRACKTIONWM -DVESTIGE -DDOUBLEP -DNEWTIME -DINOUTMEM -DCHUNKBUF -DXECLOSE -DNOFOCUS $(CXX_FLAGS)
+# add -DNOFOCUS to the above line for alternative keyboard/mouse focus operation, add -DEMBEDRESIZE to the above line for window resizing
+BUILD_FLAGS_WIN = -std=c++14 -m64 -O2 -DEMBED -DEMBEDDRAG -DWAVES2 -DTRACKTIONWM -DVESTIGE -DDOUBLEP -DNEWTIME -DINOUTMEM -DCHUNKBUF -DXECLOSE -I/usr/include/wine-development/windows -I/usr/include/wine-development/wine/windows -I/usr/include/wine/wine/windows -I../ -DRELEASE=1  -D__forceinline=inline -DNOMINMAX=1 -DUNICODE_OFF -Dstricmp=strcasecmp -Dstrnicmp=strncasecmp -DSMTG_RENAME_ASSERT=1 -fpermissive
 # add -DEMBEDRESIZE to the above line for window resizing
 
 #-DUNICODE_OFF
@@ -33,7 +33,6 @@ LINK_FLAGS   = $(LDFLAGS)
 
 LINK_PLUGIN = -shared -lpthread -ldl -lX11 -lrt $(LINK_FLAGS)
 LINK_WINE   = ../build/lib/Release/libbase.a ../build/lib/Release/libpluginterfaces.a ../build/lib/Release/libsdk.a -lole32 -L/opt/wine-stable/lib64/wine -L/opt/wine-devel/lib64/wine -L/opt/wine-staging/lib64/wine -L/usr/lib/x86_64-linux-gnu/wine-development -lpthread -lrt $(LINK_FLAGS)
-
 
 TARGETS     = do_script do_script2 linvst3.so lin-vst3-servertrack.exe
 

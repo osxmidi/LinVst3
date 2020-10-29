@@ -74,7 +74,7 @@ class Vst2EditorWrapper : public BaseEditorWrapper
 {
 public:
 //------------------------------------------------------------------------
-	Vst2EditorWrapper (IEditController* controller);
+	Vst2EditorWrapper (IEditController* controller, audioMasterCallback audioMaster);
 
 	//--- from BaseEditorWrapper ---------------------
 	void _close ();
@@ -90,6 +90,8 @@ public:
 
 	//--- IPlugFrame ----------------------------
 	tresult PLUGIN_API resizeView (IPlugView* view, ViewRect* newSize);
+	
+	audioMasterCallback audioMaster3;
 
 //------------------------------------------------------------------------
 protected:
@@ -111,14 +113,20 @@ bool areSizeEquals (const ViewRect &r1, const ViewRect& r2)
 //------------------------------------------------------------------------
 // Vst2EditorWrapper Implementation
 //------------------------------------------------------------------------
-Vst2EditorWrapper::Vst2EditorWrapper (IEditController* controller) : BaseEditorWrapper (controller)
+Vst2EditorWrapper::Vst2EditorWrapper (IEditController* controller, audioMasterCallback audioMaster) : BaseEditorWrapper (controller)
 {
+	audioMaster3 = audioMaster;
 }
 
 //------------------------------------------------------------------------
 tresult PLUGIN_API Vst2EditorWrapper::resizeView (IPlugView* view, ViewRect* newSize)
 {
-BaseEditorWrapper::resizeView (view, newSize);
+AEffect plugin;
+	
+    BaseEditorWrapper::resizeView (view, newSize);
+	
+	if (audioMaster3)
+	audioMaster3 (&plugin, audioMasterSizeWindow, newSize->getWidth (), newSize->getHeight (), 0, 0);    
 }
 
 //------------------------------------------------------------------------
@@ -252,7 +260,7 @@ Vst2Wrapper::~Vst2Wrapper ()
 }
 
 //------------------------------------------------------------------------
-bool Vst2Wrapper::init ()
+bool Vst2Wrapper::init (audioMasterCallback audioMaster)
 {
 //	if (strstr (mSubCategories, "Instrument"))
 //	synth = true;
@@ -266,7 +274,7 @@ bool Vst2Wrapper::init ()
 	{
 		if (BaseEditorWrapper::hasEditor (mController))
 		{
-		editor = new Vst2EditorWrapper (mController);		
+		editor = new Vst2EditorWrapper (mController, audioMaster);		
 		if(editor)
 		_setEditor (editor);
 		}
@@ -1058,7 +1066,7 @@ Vst2Wrapper* Vst2Wrapper::create (IPluginFactory* factory, const TUID vst3Compon
 		if(!wrapper)
 		return nullptr;
 		
-	    if (wrapper->init () == false)
+	    if (wrapper->init (audioMaster) == false)
 		{
 			wrapper->release ();
 			return nullptr;
