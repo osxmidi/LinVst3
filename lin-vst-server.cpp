@@ -2312,11 +2312,11 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
     int idx = 0;
     int ci = 0;
             
-    cout << "DSSI VST plugin server v" << RemotePluginVersion << endl;
-    cout << "Copyright (c) 2012-2013 Filipe Coelho" << endl;
-    cout << "Copyright (c) 2010-2011 Kristian Amlie" << endl;
-    cout << "Copyright (c) 2004-2006 Chris Cannam" << endl;
-    cout << "LinVst3 version 2.1.5" << endl;
+    cerr << "DSSI VST plugin server v" << RemotePluginVersion << endl;
+    cerr << "Copyright (c) 2012-2013 Filipe Coelho" << endl;
+    cerr << "Copyright (c) 2010-2011 Kristian Amlie" << endl;
+    cerr << "Copyright (c) 2004-2006 Chris Cannam" << endl;
+    cerr << "LinVst3 version 2.1.5" << endl;
     
     /*
 
@@ -2410,7 +2410,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
     
     libnamepath = libname;
 
-    cout << "Loading  " << libname << endl;
+    cerr << "Loading  " << libname << endl;
 
     HMODULE libHandle = ::LoadLibraryA(libname);
 
