@@ -2186,7 +2186,7 @@ int firstdone = 0;
     
     factory->getFactoryInfo (&factoryInfo);
     	
-	// cout << "  Factory Info:\n\tvendor = " << factoryInfo.vendor << "\n\turl = " << factoryInfo.url << "\n\temail = " << factoryInfo.email << "\n\n" << endl;
+	// cerr << "  Factory Info:\n\tvendor = " << factoryInfo.vendor << "\n\turl = " << factoryInfo.url << "\n\temail = " << factoryInfo.email << "\n\n" << endl;
 		
     int countclasses = factory->countClasses ();
    
@@ -2265,7 +2265,7 @@ int firstdone = 0;
     Steinberg::char8 cidString[50];
 	Steinberg::FUID (classInfo2.cid).toRegistryString (cidString);
 	Steinberg::String cidStr (cidString);
-	// cout << "  Class Info " << audioclass << ":\n\tname = " << classInfo2.name << "\n\tcategory = " << classInfo2.category << "\n\tcid = " << cidStr.text8 () << "\n\n" << endl;	 
+	// cerr << "  Class Info " << audioclass << ":\n\tname = " << classInfo2.name << "\n\tcategory = " << classInfo2.category << "\n\tcid = " << cidStr.text8 () << "\n\n" << endl;	 
 	
 	idval = mchr(cidStr[1], cidStr[10], cidStr[15], cidStr[20]);  
 	
