@@ -2490,23 +2490,6 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
     if(!remoteVSTServerInstance)
     {
     cerr << "ERROR: Remote VST startup failed" << endl;
-    remoteVSTServerInstance->writeOpcodering(&remoteVSTServerInstance->m_shmControl->ringBuffer, (RemotePluginOpcode)disconnectserver);
-    remoteVSTServerInstance->commitWrite(&remoteVSTServerInstance->m_shmControl->ringBuffer);
-    remoteVSTServerInstance->waitForServer();  
-    remoteVSTServerInstance->waitForClient2exit();
-    remoteVSTServerInstance->waitForClient3exit();
-    remoteVSTServerInstance->waitForClient4exit();
-    remoteVSTServerInstance->waitForClient5exit();
-    /*
-    TCHAR wbuf[1024];
-    wsprintf(wbuf, "Error getting instance %s", fileName.c_str());
-    UINT_PTR errtimer = SetTimer(NULL, 800, 10000, (TIMERPROC) TimerProc);
-    MessageBox(NULL, wbuf, "LinVst Error", MB_OK | MB_TOPMOST);
-    KillTimer(NULL, errtimer);    
-    */
-    usleep(5000000);     
-    if(remoteVSTServerInstance)
-    delete remoteVSTServerInstance;
     if(libHandle)
     {
     ExitModuleProc exitProc = (ExitModuleProc)::GetProcAddress ((HMODULE)libHandle, kExitModuleProcName);
@@ -2520,24 +2503,18 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
         
     if(remoteVSTServerInstance->starterror == 1)
     {
-    cerr << "ERROR: Remote VST startup failed and/or mismatched LinVst versions" << endl;
+    cerr << "ERROR: Remote VST start error" << endl;
+    if(remoteVSTServerInstance)
+    {	
     remoteVSTServerInstance->writeOpcodering(&remoteVSTServerInstance->m_shmControl->ringBuffer, (RemotePluginOpcode)disconnectserver);
     remoteVSTServerInstance->commitWrite(&remoteVSTServerInstance->m_shmControl->ringBuffer);
     remoteVSTServerInstance->waitForServer();  
     remoteVSTServerInstance->waitForClient2exit();
     remoteVSTServerInstance->waitForClient3exit();
     remoteVSTServerInstance->waitForClient4exit();
-    remoteVSTServerInstance->waitForClient5exit();
-    /*
-    TCHAR wbuf[1024];
-    wsprintf(wbuf, "Error getting instance %s", fileName.c_str());
-    UINT_PTR errtimer = SetTimer(NULL, 800, 10000, (TIMERPROC) TimerProc);
-    MessageBox(NULL, wbuf, "LinVst Error", MB_OK | MB_TOPMOST);
-    KillTimer(NULL, errtimer);    
-    */
-    usleep(5000000);     
-    if(remoteVSTServerInstance)
+    remoteVSTServerInstance->waitForClient5exit();	    
     delete remoteVSTServerInstance;
+    }	    
     if(libHandle)
     {
     ExitModuleProc exitProc = (ExitModuleProc)::GetProcAddress ((HMODULE)libHandle, kExitModuleProcName);
