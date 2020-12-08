@@ -2490,6 +2490,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline, int cmds
     if(!remoteVSTServerInstance)
     {
     cerr << "ERROR: Remote VST startup failed" << endl;
+    usleep(5000000);      
     if(libHandle)
     {
     ExitModuleProc exitProc = (ExitModuleProc)::GetProcAddress ((HMODULE)libHandle, kExitModuleProcName);
