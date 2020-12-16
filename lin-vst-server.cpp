@@ -2006,8 +2006,7 @@ VstIntPtr VSTCALLBACK hostCallback(AEffect *plugin, VstInt32 opcode, VstInt32 in
     }
     }
 #else		    
-        if (!strcmp((char*)ptr, "sendVstEvents")
-                    || !strcmp((char*)ptr, "sendVstMidiEvent")
+		if (!strcmp((char*)ptr, "sendVstEvents")
                     || !strcmp((char*)ptr, "sendVstMidiEvent")
                     || !strcmp((char*)ptr, "receiveVstEvents")
                     || !strcmp((char*)ptr, "receiveVstMidiEvents")
