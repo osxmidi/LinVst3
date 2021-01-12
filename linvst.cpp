@@ -392,6 +392,14 @@ Atom xembedatom = XInternAtom(display, "_XEMBED_INFO", False);
       case ConfigureNotify:
 //      if((e.xconfigure.event == parent) || (e.xconfigure.event == child) || ((e.xconfigure.event == pparent) && (parentok)))
 //      {
+		      
+#ifdef TRACKTIONWM  
+      if(plugin->waveformid > 0) 
+      {	      
+      if(e.xconfigure.event != child)
+      return;
+      }	
+#endif		      		      
 
       x = 0;
       y = 0;
