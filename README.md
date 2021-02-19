@@ -62,7 +62,7 @@ sudo apt-get install libfreetype6-dev libxcb-util0-dev libxcb-cursor-dev libxcb-
 
 For Manjaro/Arch: sudo pacman -Sy cmake freetype2 sqlite libxcb xcb-util gtkmm3 xcb-util-cursor
 
-Wine development files see https://github.com/osxmidi/LinVst/tree/master/Make-Guide
+For Wine development files see https://github.com/osxmidi/LinVst/tree/master/Make-Guide
 
 ------
 
