@@ -1,0 +1,33 @@
+sed -i 's@#define sprintf16 swprintf2@#define sprintf16 swprintf@g' ../base/source/fstring.cpp
+sed -i 's@sprintf16 ((wchar_t \*)@sprintf16 (@g' ../base/source/fstring.cpp
+sed -i 's@sprintf16 (@sprintf16 ((wchar_t \*)@g' ../base/source/fstring.cpp
+sed -i 's@strrchr16 ((wchar_t \*)@strrchr16 (@g' ../base/source/fstring.cpp
+sed -i 's@strrchr16 (@strrchr16 ((wchar_t \*)@g' ../base/source/fstring.cpp
+sed -i 's@#define stricmp16 wcsicmp@#include <stdio.h> \n #include <wctype.h> \n #include <wchar.h> \n #include <stdarg.h> \n int swprintf2 (wchar_t\*  wcs, const wchar_t\* format, ... )	\n 	{ \n va_list args; \n va_start (args, format); \n int ret = vswprintf(wcs, 2048, format, args); \n va_end (args); \n return ret;	\n } \n #define stricmp16 wcscasecmp@g' ../base/source/fstring.cpp
+sed -i 's@#define strnicmp16 wcsnicmp@#define strnicmp16 wcsncasecmp@g' ../base/source/fstring.cpp
+sed -i 's@#define sprintf16 swprintf@#define sprintf16 swprintf2@g' ../base/source/fstring.cpp
+sed -i 's@#define stricmp _stricmp@@g' ../base/source/fstring.cpp
+sed -i 's@#define strnicmp _strnicmp@@g' ../base/source/fstring.cpp
+sed -i 's@#define snprintf _snprintf@@g' ../base/source/fstring.cpp
+sed -i 's@#define vsnprintf _vsnprintf@@g' ../base/source/fstring.cpp
+sed -i 's@#define snwprintf _snwprintf@#define snwprintf swprintf@g' ../base/source/fstring.cpp
+sed -i 's@#define vsnwprintf _vsnwprintf@#define vsnwprintf vswprintf@g' ../base/source/fstring.cpp
+sed -i 's@return GetTickCount64 ();@struct timespec now; \n if (clock_gettime(CLOCK_MONOTONIC, \&now)) \n return 0; \n return now.tv_sec \* 1000.0 + now.tv_nsec / 1000000.0;@g' ../base/source/timer.cpp
+sed -i 's@#include <windows.h>@#include <windows.h> \n #include <ctime>@g' ../base/source/timer.cpp
+sed -i 's@#include <stdio.h>@#include <stdio.h> \n #include <uuid/uuid.h>@g' ../pluginterfaces/base/funknown.cpp
+sed -i '/GUID guid;/,/}/c\ \n' ../pluginterfaces/base/funknown.cpp
+sed -i 's@#include <stdio.h>@#include <stdio.h> \n #include <wchar.h>@g' ../pluginterfaces/base/ustring.cpp
+sed -i 's@tstrlen ((char16_t)@tstrlen (@g' ../public.sdk/source/vst/vstparameters.cpp
+sed -i 's@tstrlen((char16_t)@tstrlen(@g' ../public.sdk/source/vst/vstparameters.cpp
+sed -i 's@tstrlen (@tstrlen ((char16_t)@g' ../public.sdk/source/vst/vstparameters.cpp
+sed -i 's@tstrlen(@tstrlen((char16_t)@g' ../public.sdk/source/vst/vstparameters.cpp
+sed -i 's@#include <processthreadsapi.h>@// #include <processthreadsapi.h>@g' ../public.sdk/source/common/threadchecker_win32.cpp
+sed -i 's@include_directories(${ROOT} ${SDK_ROOT})@include_directories(${ROOT} ${SDK_ROOT} "/usr/include/wine-development/windows" "/usr/include/wine-development/wine/windows" "/usr/include/wine/wine/windows") \n add_definitions(-DRELEASE=1) \n add_definitions(-D_stricmp=strcasecmp) \n add_definitions(-D_strnicmp=strncasecmp) \n add_definitions(-Dstricmp=strcasecmp) \n add_definitions(-Dstrnicmp=strncasecmp) \n add_definitions(-D__forceinline=inline) \n add_definitions(-DWIN32_LEAN_AND_MEAN) \n add_definitions(-DUNICODE_OFF) \n add_definitions(-DNOMINMAX=1) \n add_definitions(-fpermissive) \n add_definitions(-m64)@g' ../CMakeLists.txt
+mkdir ../build
+cd ../build
+cmake .. -DCMAKE_CXX_COMPILER=/usr/bin/wineg++ -DCMAKE_CC_COMPILER=/usr/bin/winegcc -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_COMPILER_WORKS=1
+cd ./base
+make
+cd ../public.sdk
+make
+
