@@ -54,9 +54,19 @@ LinVst3 binaries are on the releases page (under Assets) https://github.com/osxm
 
 To Make
 
-sudo apt-get install cmake
+Steinberg sdk version script files needed by LinVst3 are in the vst3-sdks folder.
+Select the folder that matches the Steinberg sdk version you are using and copy the files to the LinVst3 main folder.
+
+The default LinVst3 script files are for the Steinberg vst-sdk_3.7.0_build-116_2020-07-31 sdk https://download.steinberg.net/sdk_downloads/vst-sdk_3.7.0_build-116_2020-07-31.zip
+
+For previous sdk versions
+
+vst-sdk_3.6.14_build-24_2019-11-29 https://download.steinberg.net/sdk_downloads/vst-sdk_3.6.14_build-24_2019-11-29.zip and the previous vstsdk3613_08_04_2019_build_81 versions https://download.steinberg.net/sdk_downloads/vstsdk3613_08_04_2019_build_81.zip
+
 
 Libraries that need to be pre installed, 
+
+sudo apt-get install cmake
 
 sudo apt-get install libfreetype6-dev libxcb-util0-dev libxcb-cursor-dev libxcb-keysyms1-dev libxcb-xkb-dev libxkbcommon-dev libxkbcommon-x11-dev libgtkmm-3.0-dev libsqlite3-dev
 
@@ -87,15 +97,6 @@ This LinVst3 source folder needs to be placed within the VST3 SDK main folder (t
 Then change into the LinVst3 folder and run make and then sudo make install
 
 Then use the batch name conversion utilities (in the convert/binaries folder) to name convert linvst3.so to the vst3 plugin names ie first select linvst3.so and then select the ~/.wine/drive_c/Program Files/Common Files/VST3 folder https://github.com/osxmidi/LinVst/wiki
-
-Currently builds ok with the vst-sdk_3.7.0_build-116_2020-07-31 sdk https://download.steinberg.net/sdk_downloads/vst-sdk_3.7.0_build-116_2020-07-31.zip
-
-For previous sdk versions
-
-vst-sdk_3.6.14_build-24_2019-11-29 https://download.steinberg.net/sdk_downloads/vst-sdk_3.6.14_build-24_2019-11-29.zip and the previous vstsdk3613_08_04_2019_build_81 versions https://download.steinberg.net/sdk_downloads/vstsdk3613_08_04_2019_build_81.zip
-
-copy lin-patchwin-build-24_2019-11-29 to lin-patchwin for the vst-sdk_3.6.14_build-24_2019-11-29 version
-copy lin-patchwin-2019_build_81 to lin-patchwin for the vstsdk3613_08_04_2019_build_81 version
 
 To make using the vst2sdk, remove the -DVESTIGE entries from the Makefile and place the vst2sdk pluginterfaces folder inside the main LinVst3 source folder.
 
