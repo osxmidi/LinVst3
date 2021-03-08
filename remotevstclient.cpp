@@ -17,400 +17,383 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
 
 #include "remotevstclient.h"
 
-#include <sys/un.h>
+#include <dirent.h>
+#include <errno.h>
+#include <fcntl.h>
+#include <pthread.h>
+#include <sys/poll.h>
 #include <sys/socket.h>
 #include <sys/stat.h>
-#include <sys/poll.h>
-#include <fcntl.h>
-#include <dirent.h>
 #include <sys/types.h>
+#include <sys/un.h>
 #include <sys/wait.h>
-#include <errno.h>
-#include <pthread.h>
 
 #include "paths.h"
 
 #include <dlfcn.h>
 
+#include <fstream>
 #include <iostream>
 #include <string>
-#include <fstream>
 
+#include <X11/Xatom.h>
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
-#include <X11/Xatom.h>
 
-void errwin(std::string dllname)
-{
-static Window window = 0;
-static Window ignored = 0;
-static Display* display = 0;
-static int screen = 0;
-static Atom winstate;
-static Atom winmodal;
-    
-std::string filename;
-std::string filename2;
+void errwin(std::string dllname) {
+  static Window window = 0;
+  static Window ignored = 0;
+  static Display *display = 0;
+  static int screen = 0;
+  static Atom winstate;
+  static Atom winmodal;
+
+  std::string filename;
+  std::string filename2;
 
   size_t found2 = dllname.find_last_of("/");
-  filename = dllname.substr(found2 + 1, strlen(dllname.c_str()) - (found2 +1));
+  filename = dllname.substr(found2 + 1, strlen(dllname.c_str()) - (found2 + 1));
   filename2 = "VST dll file not found or timeout:  " + filename;
-      
+
   XInitThreads();
-  display = XOpenDisplay(NULL);  
-  if (!display) 
-  return;  
+  display = XOpenDisplay(NULL);
+  if (!display)
+    return;
   screen = DefaultScreen(display);
-  window = XCreateSimpleWindow(display, RootWindow(display, screen), 10, 10, 480, 20, 0, BlackPixel(display, screen), WhitePixel(display, screen));
-  if (!window) 
-  return;
+  window = XCreateSimpleWindow(display, RootWindow(display, screen), 10, 10,
+                               480, 20, 0, BlackPixel(display, screen),
+                               WhitePixel(display, screen));
+  if (!window)
+    return;
   winstate = XInternAtom(display, "_NET_WM_STATE", True);
   winmodal = XInternAtom(display, "_NET_WM_STATE_ABOVE", True);
-  XChangeProperty(display, window, winstate, XA_ATOM, 32, PropModeReplace, (unsigned char*)&winmodal, 1);
-  XStoreName(display, window, filename2.c_str()); 
+  XChangeProperty(display, window, winstate, XA_ATOM, 32, PropModeReplace,
+                  (unsigned char *)&winmodal, 1);
+  XStoreName(display, window, filename2.c_str());
   XMapWindow(display, window);
-  XSync (display, false);
+  XSync(display, false);
   XFlush(display);
   sleep(10);
-  XSync (display, false);
+  XSync(display, false);
   XFlush(display);
   XDestroyWindow(display, window);
-  XCloseDisplay(display);  
+  XCloseDisplay(display);
+}
+
+const char *selfname() { int i = 5; }
+
+RemoteVSTClient::RemoteVSTClient(audioMasterCallback theMaster)
+    : RemotePluginClient(theMaster) {
+  pid_t child;
+  Dl_info info;
+  std::string dllName;
+  std::string LinVstName;
+  bool test;
+  size_t found2;
+  std::string filename;
+
+  int dlltype;
+  unsigned int offset;
+  char buffer[256];
+
+  char hit2[4096];
+
+  if (!dladdr((const char *)selfname, &info)) {
+    m_runok = 1;
+    cleanup();
+    return;
   }
 
-const char *selfname()
-{
-    int i = 5;
-}
+  if (!info.dli_fname) {
+    m_runok = 1;
+    cleanup();
+    return;
+  }
 
-RemoteVSTClient::RemoteVSTClient(audioMasterCallback theMaster) : RemotePluginClient(theMaster)
-{
-    pid_t       child;
-    Dl_info     info;
-    std::string dllName;
-    std::string LinVstName;
-    bool        test;
-    size_t found2;
-    std::string filename;
+  dllName = info.dli_fname;
 
-   int          dlltype;
-   unsigned int offset;
-   char         buffer[256];
+  found2 = dllName.find_last_of("/");
+  filename = dllName.substr(found2 + 1, strlen(dllName.c_str()) - (found2 + 1));
 
-    char        hit2[4096];
+  if (!strcmp(filename.c_str(), "linvst3.so")) {
+    m_runok = 2;
+    cleanup();
+    return;
+  }
 
-    if (!dladdr((const char*) selfname, &info))
-    {
-        m_runok = 1;
-        cleanup();
-        return;
+  if (realpath(dllName.c_str(), hit2) == 0) {
+    m_runok = 1;
+    cleanup();
+    return;
+  }
+
+  dllName = hit2;
+
+  size_t found3 = dllName.find("-part-");
+
+  if (found3 != std::string::npos) {
+    //    printf("partnamesofile %s\n", dllName.c_str());
+
+    size_t found4 = dllName.find_last_of("-");
+
+    if (found4 != std::string::npos) {
+      filename =
+          dllName.substr(found4 + 1, strlen(dllName.c_str()) - (found4 + 1));
+      filename.replace(filename.begin() + filename.find(".so"), filename.end(),
+                       "");
     }
 
-    if (!info.dli_fname)
-    {
-        m_runok = 1;
-        cleanup();
-        return;
-    }
+    dllName = dllName.substr(0, found3);
+    dllName = dllName + ".so";
 
-    dllName = info.dli_fname;
-    
-    found2 = dllName.find_last_of("/");
-    filename = dllName.substr(found2 + 1, strlen(dllName.c_str()) - (found2 +1));
-     
-    if(!strcmp(filename.c_str(),"linvst3.so"))
-    {
-        m_runok = 2;
-        cleanup();
-        return;          
-    }    
-             
-    if (realpath(dllName.c_str(), hit2) == 0)
-    {
-        m_runok = 1;
-        cleanup();
-        return;
-    }
-    
-        dllName = hit2;
-    
-        size_t found3 = dllName.find("-part-");
-        
-        if(found3 != std::string::npos)
-        {                
-    //    printf("partnamesofile %s\n", dllName.c_str()); 
-                
-        size_t found4 = dllName.find_last_of("-");
-        
-        if(found4 != std::string::npos)
-        {           
-        filename = dllName.substr(found4 + 1, strlen(dllName.c_str()) - (found4 +1));          
-        filename.replace(filename.begin() + filename.find(".so"), filename.end(), "");        
-        }
-        
-       dllName = dllName.substr(0, found3);
-       dllName = dllName + ".so";
-       
-// printf("partname %s\n", dllName.c_str()); 
+    // printf("partname %s\n", dllName.c_str());
 
-// printf("idxname %s\n", filename.c_str());               
-        }
-        else 
-        filename = "10000"; 
-        
-    dllName.replace(dllName.begin() + dllName.find(".so"), dllName.end(), ".vst3");
+    // printf("idxname %s\n", filename.c_str());
+  } else
+    filename = "10000";
+
+  dllName.replace(dllName.begin() + dllName.find(".so"), dllName.end(),
+                  ".vst3");
+  test = std::ifstream(dllName.c_str()).good();
+
+  if (!test) {
+    dllName = hit2;
+    dllName.replace(dllName.begin() + dllName.find(".so"), dllName.end(),
+                    ".Vst3");
     test = std::ifstream(dllName.c_str()).good();
 
-    if (!test)
-    {
-        dllName = hit2;
-        dllName.replace(dllName.begin() + dllName.find(".so"), dllName.end(), ".Vst3");
-        test = std::ifstream(dllName.c_str()).good();
-
-        if (!test)
-        {
-            dllName = hit2;
-            dllName.replace(dllName.begin() + dllName.find(".so"), dllName.end(), ".VST3");
-            test = std::ifstream(dllName.c_str()).good();
-        }
-
-        if (!test)
-        {
-             dllName = hit2;
-             dllName.replace(dllName.begin() + dllName.find(".so"), dllName.end(), ".dll");
-        //     errwin(dllName);
-             m_runok = 2;
-             cleanup();
-             return;
-        }
-    }
-    
-    std::ifstream mfile(dllName.c_str(), std::ifstream::binary);
-
-    if (!mfile)
-    {
-        m_runok = 1;
-        cleanup();
-        return;
+    if (!test) {
+      dllName = hit2;
+      dllName.replace(dllName.begin() + dllName.find(".so"), dllName.end(),
+                      ".VST3");
+      test = std::ifstream(dllName.c_str()).good();
     }
 
-    mfile.read(&buffer[0], 2);
-    short *ptr;
-    ptr = (short *) &buffer[0];
-
-    if (*ptr != 0x5a4d)
-    {
-        mfile.close();
-        m_runok = 1;
-        cleanup();
-        return;
+    if (!test) {
+      dllName = hit2;
+      dllName.replace(dllName.begin() + dllName.find(".so"), dllName.end(),
+                      ".dll");
+      //     errwin(dllName);
+      m_runok = 2;
+      cleanup();
+      return;
     }
+  }
 
-    mfile.seekg (60, mfile.beg);
-    mfile.read (&buffer[0], 4);
+  std::ifstream mfile(dllName.c_str(), std::ifstream::binary);
 
-    int *ptr2;
-    ptr2 = (int *) &buffer[0];
-    offset = *ptr2;
-    offset += 4;
+  if (!mfile) {
+    m_runok = 1;
+    cleanup();
+    return;
+  }
 
-    mfile.seekg (offset, mfile.beg);
-    mfile.read (&buffer[0], 2);
+  mfile.read(&buffer[0], 2);
+  short *ptr;
+  ptr = (short *)&buffer[0];
 
-    unsigned short *ptr3;
-    ptr3 = (unsigned short *) &buffer[0];
-
-    dlltype = 0;
-    if (*ptr3 == 0x8664)
-        dlltype = 1;
-    else if (*ptr3 == 0x014c)
-        dlltype = 2;
-    else if (*ptr3 == 0x0200)
-        dlltype = 3;
-
-    if (dlltype == 0 || dlltype == 2)
-    {
-        mfile.close();
-        m_runok = 1;
-        cleanup();
-        return;
-    }
-
+  if (*ptr != 0x5a4d) {
     mfile.close();
-        
+    m_runok = 1;
+    cleanup();
+    return;
+  }
+
+  mfile.seekg(60, mfile.beg);
+  mfile.read(&buffer[0], 4);
+
+  int *ptr2;
+  ptr2 = (int *)&buffer[0];
+  offset = *ptr2;
+  offset += 4;
+
+  mfile.seekg(offset, mfile.beg);
+  mfile.read(&buffer[0], 2);
+
+  unsigned short *ptr3;
+  ptr3 = (unsigned short *)&buffer[0];
+
+  dlltype = 0;
+  if (*ptr3 == 0x8664)
+    dlltype = 1;
+  else if (*ptr3 == 0x014c)
+    dlltype = 2;
+  else if (*ptr3 == 0x0200)
+    dlltype = 3;
+
+  if (dlltype == 0 || dlltype == 2) {
+    mfile.close();
+    m_runok = 1;
+    cleanup();
+    return;
+  }
+
+  mfile.close();
+
 #ifdef EMBED
-#ifdef TRACKTIONWM    
+#ifdef TRACKTIONWM
 #ifdef BITWIG
-    LinVstName = "/usr/bin/lin-vst3-servertrack-bw.exe";
-#else 
-    LinVstName = "/usr/bin/lin-vst3-servertrack.exe";
+  LinVstName = "/usr/bin/lin-vst3-servertrack-bw.exe";
+#else
+  LinVstName = "/usr/bin/lin-vst3-servertrack.exe";
 #endif
-    test = std::ifstream(LinVstName.c_str()).good();
-    if (!test)
-    {
+  test = std::ifstream(LinVstName.c_str()).good();
+  if (!test) {
     m_runok = 1;
     cleanup();
     return;
-    }
+  }
 
 #ifdef BITWIG
-    LinVstName = "/usr/bin/lin-vst3-servertrack-bw.exe.so";
-#else    
-    LinVstName = "/usr/bin/lin-vst3-servertrack.exe.so";
+  LinVstName = "/usr/bin/lin-vst3-servertrack-bw.exe.so";
+#else
+  LinVstName = "/usr/bin/lin-vst3-servertrack.exe.so";
 #endif
-    test = std::ifstream(LinVstName.c_str()).good();
-    if (!test)
-    {
+  test = std::ifstream(LinVstName.c_str()).good();
+  if (!test) {
     m_runok = 1;
     cleanup();
     return;
-    }
+  }
 #else
 #ifdef BITWIG
-    LinVstName = "/usr/bin/lin-vst3-server-bw.exe";
+  LinVstName = "/usr/bin/lin-vst3-server-bw.exe";
 #else
-    LinVstName = "/usr/bin/lin-vst3-server.exe";
+  LinVstName = "/usr/bin/lin-vst3-server.exe";
 #endif
-    test = std::ifstream(LinVstName.c_str()).good();
-    if (!test)
-    {
+  test = std::ifstream(LinVstName.c_str()).good();
+  if (!test) {
     m_runok = 1;
     cleanup();
     return;
-    }
+  }
 #ifdef BITWIG
-    LinVstName = "/usr/bin/lin-vst3-server-bw.exe.so";
-#else   
-    LinVstName = "/usr/bin/lin-vst3-server.exe.so";
+  LinVstName = "/usr/bin/lin-vst3-server-bw.exe.so";
+#else
+  LinVstName = "/usr/bin/lin-vst3-server.exe.so";
 #endif
-    test = std::ifstream(LinVstName.c_str()).good();
-    if (!test)
-    {
+  test = std::ifstream(LinVstName.c_str()).good();
+  if (!test) {
     m_runok = 1;
     cleanup();
     return;
-    }    
-#endif    
+  }
+#endif
 #else
-#ifdef TRACKTIONWM    
-    LinVstName = "/usr/bin/lin-vst3-servertrackst.exe";
-    test = std::ifstream(LinVstName.c_str()).good();
-    if (!test)
-    {
+#ifdef TRACKTIONWM
+  LinVstName = "/usr/bin/lin-vst3-servertrackst.exe";
+  test = std::ifstream(LinVstName.c_str()).good();
+  if (!test) {
     m_runok = 1;
     cleanup();
     return;
-    }
-    LinVstName = "/usr/bin/lin-vst3-servertrackst.exe.so";
-    test = std::ifstream(LinVstName.c_str()).good();
-    if (!test)
-    {
+  }
+  LinVstName = "/usr/bin/lin-vst3-servertrackst.exe.so";
+  test = std::ifstream(LinVstName.c_str()).good();
+  if (!test) {
     m_runok = 1;
     cleanup();
     return;
-    }
+  }
 #else
-    LinVstName = "/usr/bin/lin-vst3-serverst.exe";
-    test = std::ifstream(LinVstName.c_str()).good();
-    if (!test)
-    {
+  LinVstName = "/usr/bin/lin-vst3-serverst.exe";
+  test = std::ifstream(LinVstName.c_str()).good();
+  if (!test) {
     m_runok = 1;
     cleanup();
     return;
-    }
-    LinVstName = "/usr/bin/lin-vst3-serverst.exe.so";
-    test = std::ifstream(LinVstName.c_str()).good();
-    if (!test)
-    {
+  }
+  LinVstName = "/usr/bin/lin-vst3-serverst.exe.so";
+  test = std::ifstream(LinVstName.c_str()).good();
+  if (!test) {
     m_runok = 1;
     cleanup();
     return;
-    }    
-#endif    
+  }
+#endif
 #endif
 
-    hit2[0] = '\0';
+  hit2[0] = '\0';
 
-    std::string dllNamewin = dllName;
-    std::size_t idx = dllNamewin.find("drive_c");
+  std::string dllNamewin = dllName;
+  std::size_t idx = dllNamewin.find("drive_c");
 
-    if (idx != std::string::npos)
-    {
-        const char *hit = dllNamewin.c_str();
-        strcpy(hit2, hit);
-        hit2[idx - 1] = '\0';
-        setenv("WINEPREFIX", hit2, 1);
-    }
+  if (idx != std::string::npos) {
+    const char *hit = dllNamewin.c_str();
+    strcpy(hit2, hit);
+    hit2[idx - 1] = '\0';
+    setenv("WINEPREFIX", hit2, 1);
+  }
 
-    std::string arg = filename + "," + dllName + "," + getFileIdentifiers();
-    const char *argStr = arg.c_str();
+  std::string arg = filename + "," + dllName + "," + getFileIdentifiers();
+  const char *argStr = arg.c_str();
 
-    #ifdef LVRT
-    struct sched_param param;
-    param.sched_priority = 1;
+#ifdef LVRT
+  struct sched_param param;
+  param.sched_priority = 1;
 
-    int result = sched_setscheduler(0, SCHED_FIFO, &param);
+  int result = sched_setscheduler(0, SCHED_FIFO, &param);
 
-    if (result < 0)
-    {
-        perror("Failed to set realtime priority");
-    }
-    #endif
+  if (result < 0) {
+    perror("Failed to set realtime priority");
+  }
+#endif
 
-    if ((child = fork()) < 0)
-    {
-        m_runok = 1;
-        cleanup();
-        return;
-    }
-    else if (child == 0)
-    {
-// for (int fd=3; fd<256; fd++) (void) close(fd);
-/*
-int maxfd=sysconf(_SC_OPEN_MAX);
-for(int fd=3; fd<maxfd; fd++)
-    close(fd);        
-*/        
-    #ifdef EMBED
-    #ifdef TRACKTIONWM  
+  if ((child = fork()) < 0) {
+    m_runok = 1;
+    cleanup();
+    return;
+  } else if (child == 0) {
+    // for (int fd=3; fd<256; fd++) (void) close(fd);
+    /*
+    int maxfd=sysconf(_SC_OPEN_MAX);
+    for(int fd=3; fd<maxfd; fd++)
+        close(fd);
+    */
+#ifdef EMBED
+#ifdef TRACKTIONWM
 #ifdef BITWIG
-    if (execlp("/usr/bin/lin-vst3-servertrack-bw.exe", "/usr/bin/lin-vst3-servertrack-bw.exe", argStr, NULL))
-#else   
-    if (execlp("/usr/bin/lin-vst3-servertrack.exe", "/usr/bin/lin-vst3-servertrack.exe", argStr, NULL))
-#endif
-    #else
-#ifdef BITWIG
-    if (execlp("/usr/bin/lin-vst3-server-bw.exe", "/usr/bin/lin-vst3-server-bw.exe", argStr, NULL))   
+    if (execlp("/usr/bin/lin-vst3-servertrack-bw.exe",
+               "/usr/bin/lin-vst3-servertrack-bw.exe", argStr, NULL))
 #else
-    if (execlp("/usr/bin/lin-vst3-server.exe", "/usr/bin/lin-vst3-server.exe", argStr, NULL))    
+    if (execlp("/usr/bin/lin-vst3-servertrack.exe",
+               "/usr/bin/lin-vst3-servertrack.exe", argStr, NULL))
 #endif
-    #endif    
-    #else
-    #ifdef TRACKTIONWM       
-    if (execlp("/usr/bin/lin-vst3-servertrackst.exe", "/usr/bin/lin-vst3-servertrackst.exe", argStr, NULL))
-    #else
-    if (execlp("/usr/bin/lin-vst3-serverst.exe", "/usr/bin/lin-vst3-serverst.exe", argStr, NULL))    
-    #endif    
-    #endif
+#else
+#ifdef BITWIG
+    if (execlp("/usr/bin/lin-vst3-server-bw.exe",
+               "/usr/bin/lin-vst3-server-bw.exe", argStr, NULL))
+#else
+    if (execlp("/usr/bin/lin-vst3-server.exe", "/usr/bin/lin-vst3-server.exe",
+               argStr, NULL))
+#endif
+#endif
+#else
+#ifdef TRACKTIONWM
+    if (execlp("/usr/bin/lin-vst3-servertrackst.exe",
+               "/usr/bin/lin-vst3-servertrackst.exe", argStr, NULL))
+#else
+    if (execlp("/usr/bin/lin-vst3-serverst.exe",
+               "/usr/bin/lin-vst3-serverst.exe", argStr, NULL))
+#endif
+#endif
     {
-         m_runok = 1;
-         cleanup();
-         return;
+      m_runok = 1;
+      cleanup();
+      return;
     }
-    }
-    //  signal(SIGCHLD, SIG_IGN);
-    
-    syncStartup();
+  }
+  //  signal(SIGCHLD, SIG_IGN);
+
+  syncStartup();
 }
 
-RemoteVSTClient::~RemoteVSTClient()
-{
- //     wait(NULL);
+RemoteVSTClient::~RemoteVSTClient() {
+  //     wait(NULL);
 }
