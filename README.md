@@ -62,8 +62,8 @@ The default LinVst3 script files are for the Steinberg https://download.steinber
 For previous sdk versions
 
 vst-sdk_3.7.0_build-116_2020-07-31 sdk https://download.steinberg.net/sdk_downloads/vst-sdk_3.7.0_build-116_2020-07-31.zip
-vst-sdk_3.6.14_build-24_2019-11-29 https://download.steinberg.net/sdk_downloads/vst-sdk_3.6.14_build-24_2019-11-29.zip and the previous vstsdk3613_08_04_2019_build_81 versions https://download.steinberg.net/sdk_downloads/vstsdk3613_08_04_2019_build_81.zip
-
+vst-sdk_3.6.14_build-24_2019-11-29 https://download.steinberg.net/sdk_downloads/vst-sdk_3.6.14_build-24_2019-11-29.zip 
+vstsdk3613_08_04_2019_build_81 https://download.steinberg.net/sdk_downloads/vstsdk3613_08_04_2019_build_81.zip
 
 Libraries that need to be pre installed, 
 
