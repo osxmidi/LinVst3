@@ -1,3 +1,9 @@
+find ../ -type f -name "*.cpp" -exec sed -i 's@Windows.h@windows.h@g' {} +
+find ../ -type f -name "*.h" -exec sed -i 's@Windows.h@windows.h@g' {} +
+find ../ -type f -name "*.c" -exec sed -i 's@Windows.h@windows.h@g' {} +
+find ../ -type f -name "*.hpp" -exec sed -i 's@Windows.h@windows.h@g' {} +
+sed -i 's@__MINGW32__@__WINE__@g' ../public.sdk/source/common/systemclipboard_win32.cpp
+sed -i 's@#define SMTG_EXPORT_SYMBOL __declspec (dllexport)@#define SMTG_EXPORT_SYMBOL __attribute__ ((visibility ("default")))@g' ../pluginterfaces/base/fplatform.h
 sed -i 's@#define sprintf16 swprintf2@#define sprintf16 swprintf@g' ../base/source/fstring.cpp
 sed -i 's@sprintf16 ((wchar_t \*)@sprintf16 (@g' ../base/source/fstring.cpp
 sed -i 's@sprintf16 (@sprintf16 ((wchar_t \*)@g' ../base/source/fstring.cpp
