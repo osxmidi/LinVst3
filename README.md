@@ -57,10 +57,11 @@ To Make
 Steinberg sdk version script files needed by LinVst3 are in the vst3-sdks folder.
 Select the folder that matches the Steinberg sdk version you are using and copy the files to the LinVst3 main folder.
 
-The default LinVst3 script files are for the Steinberg vst-sdk_3.7.0_build-116_2020-07-31 sdk https://download.steinberg.net/sdk_downloads/vst-sdk_3.7.0_build-116_2020-07-31.zip
+The default LinVst3 script files are for the Steinberg https://download.steinberg.net/sdk_downloads/vst-sdk_3.7.1_build-50_2020-11-17.zip
 
 For previous sdk versions
 
+vst-sdk_3.7.0_build-116_2020-07-31 sdk https://download.steinberg.net/sdk_downloads/vst-sdk_3.7.0_build-116_2020-07-31.zip
 vst-sdk_3.6.14_build-24_2019-11-29 https://download.steinberg.net/sdk_downloads/vst-sdk_3.6.14_build-24_2019-11-29.zip and the previous vstsdk3613_08_04_2019_build_81 versions https://download.steinberg.net/sdk_downloads/vstsdk3613_08_04_2019_build_81.zip
 
 
