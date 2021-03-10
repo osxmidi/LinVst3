@@ -31,6 +31,8 @@ Some vst3 plugins rely on the d2d1 dll which is not totally implemented in curre
 
 If a plugin has trouble with it's display then disabling d2d1 in the winecfg Libraries tab can be tried.
 
+----Symlinks----
+
 A symlink can be used to access vst3 plugin folders from another more convenient folder.
 
 Hidden folders such as /home/your-user-name/.wine/drive_c/Program Files/Common Files/VST3 can be accessed by creating a symlink to it in a more convenient folder such as home/your-user-name/vst3 for instance.
