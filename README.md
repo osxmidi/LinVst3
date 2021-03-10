@@ -31,7 +31,21 @@ Some vst3 plugins rely on the d2d1 dll which is not totally implemented in curre
 
 If a plugin has trouble with it's display then disabling d2d1 in the winecfg Libraries tab can be tried.
 
-The Sforzando VST3 runs in a better way with d2d1 disabled for instance.
+A symlink can be used to access vst3 plugin folders from another more convenient folder.
+
+Hidden folders such as /home/your-user-name/.wine/drive_c/Program Files/Common Files/VST3 can be accessed by creating a symlink to it in a more convenient folder such as home/your-user-name/vst3 for instance.
+
+For example
+
+ln -s "/home/your-user-name/.wine/drive_c/Program Files/Common Files/VST3" /home/your-user-name/vst3/vst3plug.so
+
+creates a symbolic link named vst3plug.so in the /home/your-user-name/vst3 folder that points to the /home/your-user-name/.wine/drive_c/Program Files/Common Files/VST3 folder.
+
+The /home/your-user-name/.wine/drive_c/Program Files/Common Files/VST3 vst plugin folder needs to have the vst3 plugins previously setup by using linvst3convert.
+
+Then the Daw needs to have the /home/your-user-name/vst3 folder included in it's search path.
+
+When the Daw scans the /home/your-user-name/vst3 folder it should also automatically scan the /home/your-user-name/.wine/drive_c/Program Files/Common Files/VST3 folder that contains the vst3 plugins (that have been previously setup by using linvst3convert).
 
 -------
 
