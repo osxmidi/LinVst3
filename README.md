@@ -41,7 +41,7 @@ ln -s "/home/your-user-name/.wine/drive_c/Program Files/Common Files/VST3" /home
 
 creates a symbolic link named vst3plug.so in the /home/your-user-name/vst3 folder that points to the /home/your-user-name/.wine/drive_c/Program Files/Common Files/VST3 folder.
 
-The /home/your-user-name/.wine/drive_c/Program Files/Common Files/VST3 vst plugin folder needs to have the vst3 plugins previously setup by using linvst3convert.
+The /home/your-user-name/.wine/drive_c/Program Files/Common Files/VST3 vst3 plugin folder needs to have had the vst3 plugins previously setup by using linvst3convert.
 
 Then the Daw needs to have the /home/your-user-name/vst3 folder included in it's search path.
 
