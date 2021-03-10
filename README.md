@@ -37,7 +37,7 @@ Optional Symlinks
 
 A symlink can be used to access vst3 plugin folders from another more convenient folder.
 
-Hidden folders such as /home/your-user-name/.wine/drive_c/Program Files/Common Files/VST3 can be accessed by creating a symlink to it in a more convenient folder such as /home/your-user-name/vst3 for instance.
+Hidden folders such as /home/your-user-name/.wine/drive_c/Program Files/Common Files/VST3 can be accessed by the Daw by creating a symlink to them using a more convenient folder such as /home/your-user-name/vst3 for instance.
 
 For example
 
