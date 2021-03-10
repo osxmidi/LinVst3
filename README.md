@@ -37,13 +37,13 @@ Optional Symlinks
 
 A symlink can be used to access vst3 plugin folders from another more convenient folder.
 
-Hidden folders such as /home/your-user-name/.wine/drive_c/Program Files/Common Files/VST3 can be accessed by creating a symlink to it in a more convenient folder such as home/your-user-name/vst3 for instance.
+Hidden folders such as /home/your-user-name/.wine/drive_c/Program Files/Common Files/VST3 can be accessed by creating a symlink to it in a more convenient folder such as /home/your-user-name/vst3 for instance.
 
 For example
 
-ln -s "/home/your-user-name/.wine/drive_c/Program Files/Common Files/VST3" /home/your-user-name/vst3/vst3plug.so
+ln -s "/home/your-user-name/.wine/drive_c/Program Files/Common Files/VST3" /home/your-user-name/vst3/vst3plugins.so
 
-creates a symbolic link named vst3plug.so in the /home/your-user-name/vst3 folder that points to the /home/your-user-name/.wine/drive_c/Program Files/Common Files/VST3 folder.
+creates a symbolic link named vst3plugins.so in the /home/your-user-name/vst3 folder that points to the /home/your-user-name/.wine/drive_c/Program Files/Common Files/VST3 folder containing the vst3 plugins.
 
 The /home/your-user-name/.wine/drive_c/Program Files/Common Files/VST3 vst3 plugin folder needs to have had the vst3 plugins previously setup by using linvst3convert.
 
