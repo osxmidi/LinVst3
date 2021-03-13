@@ -837,7 +837,7 @@ ptr = (int *)m_shm;
 
     for (int i=0;i<40000;i++)
     {
-        if (*ptr == 215)
+        if (*ptr == 330)
          {
             startok = 1;
             break;
