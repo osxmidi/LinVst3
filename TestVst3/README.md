@@ -37,6 +37,8 @@ Click on (start) testvst3gui and then select a folder and then press the Start b
 To cancel the vst3 cycling before all vst3's are tested, open a Terminal and enter 
 kill -9 $(pgrep -f testvst3-batch)
 
+Starting testvst3gui using a Terminal will show what vst3 is currently loading, so a problematic vst can be identified.
+
 -------
 
 Command Line Batch Testing.
