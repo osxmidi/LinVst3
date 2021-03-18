@@ -20,7 +20,28 @@ If testvst3.exe.so is in any daw search path then it can cause problems if the d
 
 Batch Testing
 
-For testing multiple vst3 dll files at once, unzip the testvst3 folder, then (using the terminal) cd into the unzipped testvst3 folder.
+-------
+
+Gui Batch Testing.
+
+testvst3gui can be used to select a vst3 folder for testing.
+
+Unzip the testvst3 zip file, and then (using the terminal) cd into the unzipped testvst3 folder.
+
+then enter
+
+chmod +x testvst3-batch
+
+Click on (start) testvst3gui and then select a folder and then press the Start button and it will cycle through the vst3's in the folder.
+
+To cancel the vst3 cycling before all vst3's are tested, open a Terminal and enter 
+kill -9 $(pgrep -f testvst3-batch)
+
+-------
+
+Command Line Batch Testing.
+
+Unzip the testvst3 zip file, and then (using the terminal) cd into the unzipped testvst3 folder.
 
 then enter
 
@@ -45,6 +66,9 @@ Use testvst3.exe from a folder that is not in a daw search path.
 Use testvst3.exe from a folder that is not in a daw search path.
 
 If testvst3.exe.so is in any daw search path then it can cause problems if the daw tries to load it.
+
+To cancel the vst3 cycling before all vst3's are tested, open a Terminal and enter 
+kill -9 $(pgrep -f testvst3-batch)
 
 ------
 
