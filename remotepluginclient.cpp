@@ -136,26 +136,25 @@ void *RemotePluginClient::AMThread() {
         break;
 
       case audioMasterProcessEvents:
-        ptr2 = (int *)&m_shm2[FIXED_SHM_SIZE2SEND];
+        ptr2 = (int *)&m_shm3[VSTEVENTS_SEND_OFFSET];
         els = *ptr2;
         sizeidx = sizeof(int);
 
-        if (els > VSTSIZE)
-          els = VSTSIZE;
+      //  if (els > VSTSIZE)
+      //    els = VSTSIZE;
 
         evptr = &vstev[0];
         evptr->numEvents = els;
         evptr->reserved = 0;
 
         for (int i = 0; i < els; i++) {
-          VstEvent *bsize = (VstEvent *)&m_shm2[FIXED_SHM_SIZE2SEND + sizeidx];
+          VstEvent *bsize = (VstEvent *)&m_shm3[VSTEVENTS_SEND_OFFSET + sizeidx];
           size = bsize->byteSize + (2 * sizeof(VstInt32));
           evptr->events[i] = bsize;
           sizeidx += size;
         }
         retval = 0;
-        retval =
-            m_audioMaster(theEffect, audioMasterProcessEvents, 0, 0, evptr, 0);
+        retval = m_audioMaster(theEffect, audioMasterProcessEvents, 0, 0, evptr, 0);
         m_shmControlptrth->retint = retval;
         break;
 
@@ -676,7 +675,7 @@ void RemotePluginClient::syncStartup() {
   ptr = (int *)m_shm;
 
   for (int i = 0; i < 400000; i++) {
-    if (*ptr == 400) {
+    if (*ptr == 410) {
       startok = 1;
       break;
     }
@@ -844,8 +843,7 @@ int RemotePluginClient::sizeShm() {
   if (m_shm)
     return 0;
 
-  size_t sz = FIXED_SHM_SIZE + SHMVALX + FIXED_SHM_SIZE2 + SHMVALX +
-              FIXED_SHM_SIZE3 + SHMVALX + (sizeof(ShmControl) * 6) + 1024;
+  size_t sz = PROCESSSIZE + SHMVALX + VSTEVENTS_PROCESS + SHMVALX + CHUNKSIZEMAX + SHMVALX + VSTEVENTS_SEND + SHMVALX + (sizeof(ShmControl) * 6) + SHMVALX;
 
   ftruncate(m_shmFd, sz);
   m_shm = (char *)mmap(0, sz, PROT_READ | PROT_WRITE, MAP_SHARED | MAP_POPULATE,
@@ -865,10 +863,9 @@ int RemotePluginClient::sizeShm() {
       perror("mlock fail1");
   }
 
-  m_shm2 = &m_shm[FIXED_SHM_SIZE + SHMVALX];
-  m_shm3 = &m_shm[FIXED_SHM_SIZE + SHMVALX + FIXED_SHM_SIZE2 + SHMVALX];
-  m_shm4 = &m_shm[FIXED_SHM_SIZE + SHMVALX + FIXED_SHM_SIZE2 + SHMVALX +
-                  FIXED_SHM_SIZE3 + SHMVALX];
+  m_shm2 = &m_shm[PROCESSSIZE + SHMVALX];
+  m_shm3 = &m_shm[PROCESSSIZE + SHMVALX + VSTEVENTS_PROCESS + SHMVALX];
+  m_shm4 = &m_shm[PROCESSSIZE + SHMVALX + VSTEVENTS_PROCESS + SHMVALX + CHUNKSIZEMAX + SHMVALX + VSTEVENTS_SEND + SHMVALX];
 
   m_threadbreak = 0;
   m_threadbreakexit = 0;
@@ -1241,6 +1238,7 @@ bool RemotePluginClient::setPrecision(int value) {
 int RemotePluginClient::processVstEvents(VstEvents *evnts) {
   int ret;
   int eventnum;
+  int eventnum2;  
   int *ptr;
   int sizeidx = 0;
 
@@ -1255,10 +1253,11 @@ int RemotePluginClient::processVstEvents(VstEvents *evnts) {
 
   ptr = (int *)m_shm2;
   eventnum = evnts->numEvents;
+  eventnum2 = 0;  
   sizeidx = sizeof(int);
 
-  if (eventnum > VSTSIZE)
-    eventnum = VSTSIZE;
+ // if (eventnum > VSTSIZE)
+ //   eventnum = VSTSIZE;
 
   for (int i = 0; i < eventnum; i++) {
     VstEvent *pEvent = evnts->events[i];
@@ -1269,19 +1268,27 @@ int RemotePluginClient::processVstEvents(VstEvents *evnts) {
       unsigned int size = (2 * sizeof(VstInt32)) + evnts->events[i]->byteSize;
       memcpy(&m_shm2[sizeidx], evnts->events[i], size);
       sizeidx += size;
+      if((sizeidx) >= VSTEVENTS_PROCESS)
+      break;   
+      eventnum2++;   
     }
   }
 
-  *ptr = eventnum;
+  *ptr = eventnum2;
   ret = evnts->numEvents;
+ // ret = eventnum2;
 
 #ifdef OLDMIDI
+  if(eventnum2 > 0)
+  {
   ShmControl *m_shmControlptr2;
 
   m_shmControlptr2 = m_shmControl2;
 
   m_shmControlptr2->ropcode = RemotePluginProcessEvents;
   waitForServer2(m_shmControlptr2);
+  ret = m_shmControlptr2->retint;  
+  }
 #endif
 
   return ret;
