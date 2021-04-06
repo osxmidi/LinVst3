@@ -129,7 +129,7 @@
    return 1;
    }
 
-   fs = fts_open(folderpath, FTS_LOGICAL, 0);
+   fs = fts_open(folderpath, FTS_NOCHDIR, 0);
    if (!fs) 
    {
    return 1;
