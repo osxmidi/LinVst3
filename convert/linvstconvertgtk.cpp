@@ -102,7 +102,10 @@
     }
   
     if((found != std::string::npos) && (found2 != std::string::npos))
+    {
+    filename = filename + "-linvst3";    
     symlink(filename2.c_str(), filename.c_str());  
+    }
     } 
     }  
     }
