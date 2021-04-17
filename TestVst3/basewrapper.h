@@ -10,28 +10,29 @@
 // LICENSE
 // (c) 2018, Steinberg Media Technologies GmbH, All Rights Reserved
 //-----------------------------------------------------------------------------
-// Redistribution and use in source and binary forms, with or without modification,
-// are permitted provided that the following conditions are met:
-// 
-//   * Redistributions of source code must retain the above copyright notice, 
+// Redistribution and use in source and binary forms, with or without
+// modification, are permitted provided that the following conditions are met:
+//
+//   * Redistributions of source code must retain the above copyright notice,
 //     this list of conditions and the following disclaimer.
 //   * Redistributions in binary form must reproduce the above copyright notice,
-//     this list of conditions and the following disclaimer in the documentation 
+//     this list of conditions and the following disclaimer in the documentation
 //     and/or other materials provided with the distribution.
 //   * Neither the name of the Steinberg Media Technologies nor the names of its
-//     contributors may be used to endorse or promote products derived from this 
+//     contributors may be used to endorse or promote products derived from this
 //     software without specific prior written permission.
-// 
-// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
-// ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED 
-// WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. 
-// IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, 
-// INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, 
-// BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, 
-// DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF 
-// LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE 
-// OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE  OF THIS SOFTWARE, EVEN IF ADVISED
-// OF THE POSSIBILITY OF SUCH DAMAGE.
+//
+// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+// AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+// IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+// ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+// LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+// CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+// SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+// INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+// CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+// ARISING IN ANY WAY OUT OF THE USE  OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+// POSSIBILITY OF SUCH DAMAGE.
 //-----------------------------------------------------------------------------
 
 #pragma once
@@ -63,36 +64,35 @@ namespace Steinberg {
 namespace Vst {
 
 //------------------------------------------------------------------------
-class BaseEditorWrapper : public IPlugFrame, 
-                          public FObject
-{
+class BaseEditorWrapper : public IPlugFrame, public FObject {
 public:
-//------------------------------------------------------------------------
-	BaseEditorWrapper (IEditController* controller);
-	~BaseEditorWrapper ();
+  //------------------------------------------------------------------------
+  BaseEditorWrapper(IEditController *controller);
+  ~BaseEditorWrapper();
 
-	static bool hasEditor (IEditController* controller);
+  static bool hasEditor(IEditController *controller);
 
-	bool getRect (ViewRect& rect);
-	virtual bool _open (void* ptr);
-	virtual void _close ();
+  bool getRect(ViewRect &rect);
+  virtual bool _open(void *ptr);
+  virtual void _close();
 
-	bool _setKnobMode (Vst::KnobMode val);
+  bool _setKnobMode(Vst::KnobMode val);
 
-	// IPlugFrame
-	tresult PLUGIN_API resizeView (IPlugView* view, ViewRect* newSize) SMTG_OVERRIDE;
+  // IPlugFrame
+  tresult PLUGIN_API resizeView(IPlugView *view,
+                                ViewRect *newSize) SMTG_OVERRIDE;
 
-	// FUnknown
-	tresult PLUGIN_API queryInterface (const char* _iid, void** obj) SMTG_OVERRIDE;
-	REFCOUNT_METHODS (FObject);
-//------------------------------------------------------------------------
+  // FUnknown
+  tresult PLUGIN_API queryInterface(const char *_iid, void **obj) SMTG_OVERRIDE;
+  REFCOUNT_METHODS(FObject);
+  //------------------------------------------------------------------------
 protected:
-	void createView ();
+  void createView();
 
-	IPtr<IEditController> mController;
-	IPtr<IPlugView> mView;
+  IPtr<IEditController> mController;
+  IPtr<IPlugView> mView;
 
-	ViewRect mViewRect;
+  ViewRect mViewRect;
 };
 
 //------------------------------------------------------------------------
@@ -103,204 +103,206 @@ class BaseWrapper : public IHostApplication,
                     public IComponentHandler,
                     public IUnitHandler,
                     public ITimerCallback,
-                    public FObject
-{
+                    public FObject {
 public:
-	struct SVST3Config
-	{
-		IPluginFactory* factory = nullptr;
-		IAudioProcessor* processor = nullptr;
-		IEditController* controller = nullptr;
-		FUID vst3ComponentID; 
- IComponent* component = nullptr;
-	};
+  struct SVST3Config {
+    IPluginFactory *factory = nullptr;
+    IAudioProcessor *processor = nullptr;
+    IEditController *controller = nullptr;
+    FUID vst3ComponentID;
+    IComponent *component = nullptr;
+  };
 
-	BaseWrapper (SVST3Config& config);
-	virtual ~BaseWrapper ();
+  BaseWrapper(SVST3Config &config);
+  virtual ~BaseWrapper();
 
-	virtual bool init ();
+  virtual bool init();
 
-	virtual void _canDoubleReplacing (bool val) {}
-	virtual void _setInitialDelay (int32 delay) {}
-	virtual void _noTail (bool val) {}
+  virtual void _canDoubleReplacing(bool val) {}
+  virtual void _setInitialDelay(int32 delay) {}
+  virtual void _noTail(bool val) {}
 
-	virtual void _ioChanged () {}
-	virtual void _updateDisplay () {}
-	virtual void _setNumInputs (int32 inputs) { mNumInputs = inputs; }
-	virtual void _setNumOutputs (int32 outputs) { mNumOutputs = outputs; }
-	virtual bool _sizeWindow (int32 width, int32 height) = 0;
-	virtual int32 _getChunk (void** data, bool isPreset);
-	virtual int32 _setChunk (void* data, int32 byteSize, bool isPreset);
+  virtual void _ioChanged() {}
+  virtual void _updateDisplay() {}
+  virtual void _setNumInputs(int32 inputs) { mNumInputs = inputs; }
+  virtual void _setNumOutputs(int32 outputs) { mNumOutputs = outputs; }
+  virtual bool _sizeWindow(int32 width, int32 height) = 0;
+  virtual int32 _getChunk(void **data, bool isPreset);
+  virtual int32 _setChunk(void *data, int32 byteSize, bool isPreset);
 
-	virtual bool getEditorSize (int32& width, int32& height) const;
+  virtual bool getEditorSize(int32 &width, int32 &height) const;
 
-	bool isActive () const { return mActive; }
-	int32 getNumInputs () const { return mNumInputs; }
-	int32 getNumOutputs () const { return mNumOutputs; }
+  bool isActive() const { return mActive; }
+  int32 getNumInputs() const { return mNumInputs; }
+  int32 getNumOutputs() const { return mNumOutputs; }
 
-	BaseEditorWrapper* getEditor () const { return mEditor; }
+  BaseEditorWrapper *getEditor() const { return mEditor; }
 
-	//--- ---------------------------------------------------------------------
-	// VST 3 Interfaces  ------------------------------------------------------
-	// FUnknown
-	tresult PLUGIN_API queryInterface (const char* iid, void** obj) SMTG_OVERRIDE;
-	REFCOUNT_METHODS (FObject);
+  //--- ---------------------------------------------------------------------
+  // VST 3 Interfaces  ------------------------------------------------------
+  // FUnknown
+  tresult PLUGIN_API queryInterface(const char *iid, void **obj) SMTG_OVERRIDE;
+  REFCOUNT_METHODS(FObject);
 
-	// IHostApplication
-	tresult PLUGIN_API createInstance (TUID cid, TUID iid, void** obj) SMTG_OVERRIDE;
+  // IHostApplication
+  tresult PLUGIN_API createInstance(TUID cid, TUID iid,
+                                    void **obj) SMTG_OVERRIDE;
 
-	// IComponentHandler
-	tresult PLUGIN_API restartComponent (int32 flags) SMTG_OVERRIDE;
+  // IComponentHandler
+  tresult PLUGIN_API restartComponent(int32 flags) SMTG_OVERRIDE;
 
-	// IUnitHandler
-	tresult PLUGIN_API notifyUnitSelection (UnitID unitId) SMTG_OVERRIDE;
-	tresult PLUGIN_API notifyProgramListChange (ProgramListID listId,
-	                                            int32 programIndex) SMTG_OVERRIDE;
+  // IUnitHandler
+  tresult PLUGIN_API notifyUnitSelection(UnitID unitId) SMTG_OVERRIDE;
+  tresult PLUGIN_API notifyProgramListChange(ProgramListID listId,
+                                             int32 programIndex) SMTG_OVERRIDE;
 
-	// ITimer
-	void onTimer (Timer* timer) SMTG_OVERRIDE;
+  // ITimer
+  void onTimer(Timer *timer) SMTG_OVERRIDE;
 
-//-------------------------------------------------------------------------------------------------------
+  //-------------------------------------------------------------------------------------------------------
 protected:
-	virtual void setupParameters ();
-	virtual void setupProcessTimeInfo () = 0;
-	virtual void processOutputEvents () {}
-	virtual void processOutputParametersChanges () {}
+  virtual void setupParameters();
+  virtual void setupProcessTimeInfo() = 0;
+  virtual void processOutputEvents() {}
+  virtual void processOutputParametersChanges() {}
 
-	void _setSampleRate (float newSamplerate);
-	bool setupProcessing (int32 processModeOverwrite = -1);
-	void _processReplacing (float** inputs, float** outputs, int32 sampleFrames);
-	void _processDoubleReplacing (double** inputs, double** outputs, int32 sampleFrames);
+  void _setSampleRate(float newSamplerate);
+  bool setupProcessing(int32 processModeOverwrite = -1);
+  void _processReplacing(float **inputs, float **outputs, int32 sampleFrames);
+  void _processDoubleReplacing(double **inputs, double **outputs,
+                               int32 sampleFrames);
 
-	template <class T>
-	void setProcessingBuffers (T** inputs, T** outputs);
-	void doProcess (int32 sampleFrames);
+  template <class T> void setProcessingBuffers(T **inputs, T **outputs);
+  void doProcess(int32 sampleFrames);
 
-	void processMidiEvent (Event& toAdd, char* midiData, bool isLive = false, int32 noteLength = 0,
-	                       float noteOffVelocity = 1.f, float detune = 0.f);
+  void processMidiEvent(Event &toAdd, char *midiData, bool isLive = false,
+                        int32 noteLength = 0, float noteOffVelocity = 1.f,
+                        float detune = 0.f);
 
-	void setEventPPQPositions ();
+  void setEventPPQPositions();
 
-	void _setEditor (BaseEditorWrapper* editor);
+  void _setEditor(BaseEditorWrapper *editor);
 
-	bool _setBlockSize (int32 newBlockSize);
-	float _getParameter (int32 index) const;
+  bool _setBlockSize(int32 newBlockSize);
+  float _getParameter(int32 index) const;
 
-	void _suspend ();
-	void _resume ();
-	void _startProcess ();
-	void _stopProcess ();
-	bool _setBypass (bool onOff);
+  void _suspend();
+  void _resume();
+  void _startProcess();
+  void _stopProcess();
+  bool _setBypass(bool onOff);
 
-	virtual void setupBuses ();
-	void initMidiCtrlerAssignment ();
-	void getUnitPath (UnitID unitID, String& path) const;
+  virtual void setupBuses();
+  void initMidiCtrlerAssignment();
+  void getUnitPath(UnitID unitID, String &path) const;
 
-	int32 countMainBusChannels (BusDirection dir, uint64& mainBusBitset);
+  int32 countMainBusChannels(BusDirection dir, uint64 &mainBusBitset);
 
-	/**	Returns the last param change from guiTransfer queue. */
-	bool getLastParamChange (ParamID id, ParamValue& value);
+  /**	Returns the last param change from guiTransfer queue. */
+  bool getLastParamChange(ParamID id, ParamValue &value);
 
-	void addParameterChange (ParamID id, ParamValue value, int32 sampleOffset);
+  void addParameterChange(ParamID id, ParamValue value, int32 sampleOffset);
 
-	void setVendorName (char* name);
-	void setEffectName (char* name);
-	void setEffectVersion (char* version);
-	void setSubCategories (char* string);
+  void setVendorName(char *name);
+  void setEffectName(char *name);
+  void setEffectVersion(char *version);
+  void setSubCategories(char *string);
 
-	bool getProgramListAndUnit (int32 midiChannel, UnitID& unitId, ProgramListID& programListId);
-	bool getProgramListInfoByProgramListID (ProgramListID programListId, ProgramListInfo& info);
+  bool getProgramListAndUnit(int32 midiChannel, UnitID &unitId,
+                             ProgramListID &programListId);
+  bool getProgramListInfoByProgramListID(ProgramListID programListId,
+                                         ProgramListInfo &info);
 
-	static const int32 kMaxProgramChangeParameters = 16;
-	ParamID mProgramChangeParameterIDs[kMaxProgramChangeParameters]; // for each MIDI channel
-	int32 mProgramChangeParameterIdxs[kMaxProgramChangeParameters]; // for each MIDI channel
+  static const int32 kMaxProgramChangeParameters = 16;
+  ParamID
+      mProgramChangeParameterIDs[kMaxProgramChangeParameters]; // for each MIDI
+                                                               // channel
+  int32
+      mProgramChangeParameterIdxs[kMaxProgramChangeParameters]; // for each MIDI
+                                                                // channel
 
-	FUID mVst3EffectClassID;
+  FUID mVst3EffectClassID;
 
-	// vst3 data
-	IPtr<IAudioProcessor> mProcessor;
-	IPtr<IComponent> mComponent;
-	IPtr<IEditController> mController;
-	IPtr<IUnitInfo> mUnitInfo;
-	IPtr<IMidiMapping> mMidiMapping;
+  // vst3 data
+  IPtr<IAudioProcessor> mProcessor;
+  IPtr<IComponent> mComponent;
+  IPtr<IEditController> mController;
+  IPtr<IUnitInfo> mUnitInfo;
+  IPtr<IMidiMapping> mMidiMapping;
 
-	IPtr<BaseEditorWrapper> mEditor;
-	
-	IPtr<PlugInterfaceSupport> mPlugInterfaceSupport;
+  IPtr<BaseEditorWrapper> mEditor;
 
-	int32 mVst3SampleSize = kSample32;
-	int32 mVst3processMode = kRealtime;
+  IPtr<PlugInterfaceSupport> mPlugInterfaceSupport;
 
-	char mName[PClassInfo::kNameSize];
-	char mVendor[PFactoryInfo::kNameSize];
-	char mSubCategories[PClassInfo2::kSubCategoriesSize];
-	int32 mVersion = 0;
+  int32 mVst3SampleSize = kSample32;
+  int32 mVst3processMode = kRealtime;
 
-	struct ParamMapEntry
-	{
-		ParamID vst3ID;
-		int32 vst3Index;
-	};
+  char mName[PClassInfo::kNameSize];
+  char mVendor[PFactoryInfo::kNameSize];
+  char mSubCategories[PClassInfo2::kSubCategoriesSize];
+  int32 mVersion = 0;
 
-	std::vector<ParamMapEntry> mParameterMap;
-	std::map<ParamID, int32> mParamIndexMap;
-	ParamID mBypassParameterID = kNoParamId;
-	ParamID mProgramParameterID = kNoParamId;
-	int32 mProgramParameterIdx = -1;
+  struct ParamMapEntry {
+    ParamID vst3ID;
+    int32 vst3Index;
+  };
 
-	HostProcessData mProcessData;
-	ProcessContext mProcessContext;
-	ParameterChanges mInputChanges;
-	ParameterChanges mOutputChanges;
-	IPtr<EventList> mInputEvents;
-	IPtr<EventList> mOutputEvents;
+  std::vector<ParamMapEntry> mParameterMap;
+  std::map<ParamID, int32> mParamIndexMap;
+  ParamID mBypassParameterID = kNoParamId;
+  ParamID mProgramParameterID = kNoParamId;
+  int32 mProgramParameterIdx = -1;
 
-	uint64 mMainAudioInputBuses = 0;
-	uint64 mMainAudioOutputBuses = 0;
+  HostProcessData mProcessData;
+  ProcessContext mProcessContext;
+  ParameterChanges mInputChanges;
+  ParameterChanges mOutputChanges;
+  IPtr<EventList> mInputEvents;
+  IPtr<EventList> mOutputEvents;
 
-	ParameterChangeTransfer mInputTransfer;
-	ParameterChangeTransfer mOutputTransfer;
-	ParameterChangeTransfer mGuiTransfer;
+  uint64 mMainAudioInputBuses = 0;
+  uint64 mMainAudioOutputBuses = 0;
 
-	MemoryStream mChunk;
+  ParameterChangeTransfer mInputTransfer;
+  ParameterChangeTransfer mOutputTransfer;
+  ParameterChangeTransfer mGuiTransfer;
 
-	IPtr<Timer> mTimer;
-	IPtr<IPluginFactory> mFactory;
+  MemoryStream mChunk;
 
-	int32 mNumPrograms {0};
-	float mSampleRate {44100};
-	int32 mBlockSize {256};
-	int32 mNumParams {0};
-	int32 mCurProgram {-1};
-	int32 mNumInputs {0};
-	int32 mNumOutputs {0};
+  IPtr<Timer> mTimer;
+  IPtr<IPluginFactory> mFactory;
 
-	enum
-	{
-		kMaxMidiMappingBusses = 4
-	};
-	int32* mMidiCCMapping[kMaxMidiMappingBusses][16];
+  int32 mNumPrograms{0};
+  float mSampleRate{44100};
+  int32 mBlockSize{256};
+  int32 mNumParams{0};
+  int32 mCurProgram{-1};
+  int32 mNumInputs{0};
+  int32 mNumOutputs{0};
 
-	bool mComponentInitialized = false;
-	bool mControllerInitialized = false;
-	bool mComponentsConnected = false;
-	bool mUseExportedBypass = true;
+  enum { kMaxMidiMappingBusses = 4 };
+  int32 *mMidiCCMapping[kMaxMidiMappingBusses][16];
 
-	bool mActive = false;
-	bool mProcessing = false;
-	bool mHasEventInputBuses = false;
-	bool mHasEventOutputBuses = false;
+  bool mComponentInitialized = false;
+  bool mControllerInitialized = false;
+  bool mComponentsConnected = false;
+  bool mUseExportedBypass = true;
 
-	bool mUseIncIndex = true;
+  bool mActive = false;
+  bool mProcessing = false;
+  bool mHasEventInputBuses = false;
+  bool mHasEventOutputBuses = false;
+
+  bool mUseIncIndex = true;
 };
 
-const uint8 kNoteOff = 0x80; ///< note, off velocity
-const uint8 kNoteOn = 0x90; ///< note, on velocity
-const uint8 kPolyPressure = 0xA0; ///< note, pressure
-const uint8 kController = 0xB0; ///< controller, value
+const uint8 kNoteOff = 0x80;             ///< note, off velocity
+const uint8 kNoteOn = 0x90;              ///< note, on velocity
+const uint8 kPolyPressure = 0xA0;        ///< note, pressure
+const uint8 kController = 0xB0;          ///< controller, value
 const uint8 kProgramChangeStatus = 0xC0; ///< program change
-const uint8 kAfterTouchStatus = 0xD0; ///< channel pressure
-const uint8 kPitchBendStatus = 0xE0; ///< lsb, msb
+const uint8 kAfterTouchStatus = 0xD0;    ///< channel pressure
+const uint8 kPitchBendStatus = 0xE0;     ///< lsb, msb
 
 const float kMidiScaler = 1.f / 127.f;
 static const uint8 kChannelMask = 0x0F;
