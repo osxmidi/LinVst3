@@ -1434,7 +1434,7 @@ VstIntPtr VSTCALLBACK hostCallback(AEffect *plugin, VstInt32 opcode,
         for (int i = 0; i < eventnum; i++) {
           VstEvent *pEvent = evnts->events[i];
           if (pEvent->type == kVstSysExType)
-            eventnum--;
+          continue;
           else {
             unsigned int size =
                 (2 * sizeof(VstInt32)) + evnts->events[i]->byteSize;
