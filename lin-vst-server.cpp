@@ -304,7 +304,7 @@ DWORD WINAPI AudioThreadMain(LPVOID parameter) {
       }
   */
   while (!remoteVSTServerInstance->exiting) {
-    remoteVSTServerInstance->dispatchProcess(50);
+    remoteVSTServerInstance->dispatchProcess(5);
   }
   // param.sched_priority = 0;
   // (void)sched_setscheduler(0, SCHED_OTHER, &param);
@@ -326,7 +326,7 @@ DWORD WINAPI GetSetThreadMain(LPVOID parameter) {
       }
   */
   while (!remoteVSTServerInstance->exiting) {
-    remoteVSTServerInstance->dispatchGetSet(50);
+    remoteVSTServerInstance->dispatchGetSet(5);
   }
   // param.sched_priority = 0;
   // (void)sched_setscheduler(0, SCHED_OTHER, &param);
@@ -348,7 +348,7 @@ DWORD WINAPI ParThreadMain(LPVOID parameter) {
       }
   */
   while (!remoteVSTServerInstance->exiting) {
-    remoteVSTServerInstance->dispatchPar(50);
+    remoteVSTServerInstance->dispatchPar(5);
   }
   // param.sched_priority = 0;
   // (void)sched_setscheduler(0, SCHED_OTHER, &param);
@@ -370,7 +370,7 @@ DWORD WINAPI ControlThreadMain(LPVOID parameter) {
       }
   */
   while (!remoteVSTServerInstance->exiting) {
-    remoteVSTServerInstance->dispatchControl2(50);
+    remoteVSTServerInstance->dispatchControl2(5);
   }
   // param.sched_priority = 0;
   // (void)sched_setscheduler(0, SCHED_OTHER, &param);
@@ -2468,7 +2468,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline,
 
       if (remoteVSTServerInstance->exiting)
         break;
-      remoteVSTServerInstance->dispatchControl(50);
+      remoteVSTServerInstance->dispatchControl(5);
     } else {
       while (PeekMessage(&msg, 0, 0, 0, PM_REMOVE)) {
         if (remoteVSTServerInstance->exiting)
@@ -2490,7 +2490,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline,
 
       if (remoteVSTServerInstance->exiting)
         break;
-      remoteVSTServerInstance->dispatchControl(50);
+      remoteVSTServerInstance->dispatchControl(5);
     }
   }
 
