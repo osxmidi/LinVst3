@@ -116,7 +116,29 @@ public:
   }
   virtual int getinitialDelay() { return vst2wrap->initialdelay; }
   virtual int getUID() { return vst2uid; }
-  virtual int getParameterCount() { return vst2wrap->numparams; }
+  virtual int getParameterCount() { 
+#ifdef PCACHE
+      int val = vst2wrap->numparams;
+      
+      numpars = val;
+      
+      ParamState p;
+  
+      for (int i = 0; i < val; ++i)
+      {
+      if(i >= 10000)
+      break;
+      p.changed = 0;   
+      float value = getParameter(i);      
+      p.value = value;       
+      memcpy(&m_shm5[i * sizeof(ParamState)], &p, sizeof(ParamState));      
+      }   
+       
+      return val;                   
+#else        
+  return vst2wrap->numparams; 
+#endif    
+  }
   virtual std::string getParameterName(int);
   virtual std::string getParameterLabel(int);
   virtual std::string getParameterDisplay(int);
@@ -237,6 +259,10 @@ public:
   int getfin;
   int confin;  
   int hidegui;
+  
+#ifdef PCACHE
+  int numpars;
+#endif    
 
   std::string deviceName2;
 
@@ -395,6 +421,9 @@ hosttracktion(0),
       guiVisible(false), parfin(0), audfin(0), getfin(0), confin(0), guiupdate(0),
       guiupdatecount(0), guiresizewidth(500), guiresizeheight(200), melda(0),
       hWnd(0), vst2wrap(0), factory(0), mpluginptr(&mplugin), vst2uid(0),
+#ifdef PCACHE
+      numpars(0),
+#endif                  
       hidegui(0) {
 #ifdef EMBED
   /*
@@ -1157,6 +1186,21 @@ int RemoteVSTServer::processVstEvents() {
 }
 
 void RemoteVSTServer::getChunk(ShmControl *m_shmControlptr) {
+#ifdef PCACHE
+    ParamState *pstate = (ParamState*)remoteVSTServerInstance->m_shm5;
+       
+    if(numpars > 0)
+    {
+    for(int idx=0;idx<numpars;idx++)
+    {
+    sched_yield();
+    while(pstate[idx].changed == 1)
+    {
+     sched_yield();
+    } 
+    } 
+    }           
+#endif
 #ifdef CHUNKBUF
   int bnk_prg = m_shmControlptr->value;
   int sz = vst2wrap->getChunk((void **)&chunkptr, bnk_prg ? true : false);
@@ -1182,6 +1226,21 @@ void RemoteVSTServer::getChunk(ShmControl *m_shmControlptr) {
 }
 
 void RemoteVSTServer::setChunk(ShmControl *m_shmControlptr) {
+#ifdef PCACHE
+    ParamState *pstate = (ParamState*)remoteVSTServerInstance->m_shm5;
+       
+    if(numpars > 0)
+    {
+    for(int idx=0;idx<numpars;idx++)
+    {
+    sched_yield();
+    while(pstate[idx].changed == 1)
+    {
+     sched_yield();
+    } 
+    } 
+    }           
+#endif
 #ifdef CHUNKBUF
   int sz = m_shmControlptr->value;
   if (sz >= CHUNKSIZEMAX) {
@@ -1190,12 +1249,14 @@ void RemoteVSTServer::setChunk(ShmControl *m_shmControlptr) {
     int r = vst2wrap->setChunk(ptr, sz, bnk_prg ? true : false);
     free(chunkptr2);
     m_shmControlptr->retint = r;
+    getParameterCount();     
     return;
   } else {
     int bnk_prg = m_shmControlptr->value2;
     void *ptr = m_shm3;
     int r = vst2wrap->setChunk(ptr, sz, bnk_prg ? true : false);
     m_shmControlptr->retint = r;
+    getParameterCount();     
     return;
   }
 #else
@@ -1204,6 +1265,7 @@ void RemoteVSTServer::setChunk(ShmControl *m_shmControlptr) {
   void *ptr = m_shm3;
   int r = vst2wrap->setChunk(ptr, sz, bnk_prg ? true : false);
   m_shmControlptr->retint = r;
+  getParameterCount();   
   return;
 #endif
 }
@@ -2191,7 +2253,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline,
   cerr << "Copyright (c) 2012-2013 Filipe Coelho" << endl;
   cerr << "Copyright (c) 2010-2011 Kristian Amlie" << endl;
   cerr << "Copyright (c) 2004-2006 Chris Cannam" << endl;
-  cerr << "LinVst3 version 4.2" << endl;
+  cerr << "LinVst3 version 4.5" << endl;
 
   /*
 
