@@ -351,9 +351,46 @@ DWORD WINAPI GetSetThreadMain(LPVOID parameter) {
           perror("Failed to set realtime priority for audio thread");
       }
   */
+#ifdef PCACHE  
+  struct sched_param param;
+  param.sched_priority = 0;
+  int result = sched_setscheduler(0, SCHED_OTHER, &param);
+
+  if (result < 0)
+  {
+  perror("Failed to set realtime priority for audio thread");
+  }
+ 
+  struct ParamState {
+  float value;
+  int changed;
+  };
+   
+   ParamState *pstate = (ParamState*)remoteVSTServerInstance->m_shm5; 
+   
+   while (!remoteVSTServerInstance->exiting) {
+   sched_yield();
+     
+   if(remoteVSTServerInstance->numpars > 0)
+   {
+   for(int idx=0;idx<remoteVSTServerInstance->numpars;idx++)
+   {
+   if(pstate[idx].changed == 1)
+   {
+   remoteVSTServerInstance->setParameter(idx, pstate[idx].value);
+   pstate[idx].changed = 0; 
+   break;  
+   }    
+   sched_yield();
+   } 
+   }            
+  }  
+#else  
   while (!remoteVSTServerInstance->exiting) {
     remoteVSTServerInstance->dispatchGetSet(5);
   }
+#endif  
+
   // param.sched_priority = 0;
   // (void)sched_setscheduler(0, SCHED_OTHER, &param);
   remoteVSTServerInstance->getfin = 1;
