@@ -1187,11 +1187,10 @@ void RemoteVSTServer::openGUI() {
     return;
   }
   guiVisible = true;
+  vst2wrap->editor->open(hWnd);        
   ShowWindow(hWnd, SW_SHOWNORMAL);
   // ShowWindow(hWnd, SW_SHOW);
   UpdateWindow(hWnd);
-    
-  vst2wrap->editor->open(hWnd);    
 }
 #endif
 
