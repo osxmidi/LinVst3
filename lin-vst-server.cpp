@@ -1020,8 +1020,10 @@ void RemoteVSTServer::showGUI(ShmControl *m_shmControlptr) {
   rect = 0;
 
   vst2wrap->editor->getRect(&rect);
+    /*
   vst2wrap->editor->open(hWnd);
   vst2wrap->editor->getRect(&rect);
+  */
 
   if (!rect) {
     cerr << "dssi-vst-server: ERROR: Plugin failed to report window size\n"
@@ -1188,6 +1190,8 @@ void RemoteVSTServer::openGUI() {
   ShowWindow(hWnd, SW_SHOWNORMAL);
   // ShowWindow(hWnd, SW_SHOW);
   UpdateWindow(hWnd);
+    
+  vst2wrap->editor->open(hWnd);    
 }
 #endif
 
