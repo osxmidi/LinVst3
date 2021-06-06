@@ -23,9 +23,9 @@ PREFIX  = /usr
 BIN_DIR    = $(DESTDIR)$(PREFIX)/bin
 VST_DIR = ./vst
 
-BUILD_FLAGS  = -std=c++14 -fPIC -O2 -DLVRT -DEMBED -DEMBEDDRAG -DTRACKTIONWM -DVESTIGE -DNEWTIME -DINOUTMEM -DCHUNKBUF -DXECLOSE -DNOFOCUS -DEMBEDRESIZE -DPCACHE $(CXX_FLAGS)
+BUILD_FLAGS  = -std=c++14 -fPIC -O2 -DLVRT -DEMBED -DEMBEDDRAG -DTRACKTIONWM -DVESTIGE -DNEWTIME -DINOUTMEM -DCHUNKBUF -DXECLOSE -DNOFOCUS -DEMBEDRESIZE -DPCACHE -DXECLOSE $(CXX_FLAGS)
 # add -DNOFOCUS to the above line for alternative keyboard/mouse focus operation, add -DEMBEDRESIZE to the above line for window resizing
-BUILD_FLAGS_WIN = -std=c++14 -m64 -O2 -DEMBED -DEMBEDDRAG -DWAVES2 -DTRACKTIONWM -DVESTIGE -DNEWTIME -DINOUTMEM -DCHUNKBUF -DXECLOSE -DEMBEDRESIZE -DPCACHE -I/usr/include/wine-development/windows -I/usr/include/wine-development/wine/windows -I/usr/include/wine/wine/windows -I../ -DRELEASE=1  -D__forceinline=inline -DNOMINMAX=1 -DUNICODE_OFF -Dstricmp=strcasecmp -Dstrnicmp=strncasecmp -DSMTG_RENAME_ASSERT=1 -fpermissive
+BUILD_FLAGS_WIN = -std=c++14 -m64 -O2 -DEMBED -DEMBEDDRAG -DWAVES2 -DTRACKTIONWM -DVESTIGE -DNEWTIME -DINOUTMEM -DCHUNKBUF -DXECLOSE -DEMBEDRESIZE -DPCACHE -DXECLOSE -I/usr/include/wine-development/windows -I/usr/include/wine-development/wine/windows -I/usr/include/wine/wine/windows -I../ -DRELEASE=1  -D__forceinline=inline -DNOMINMAX=1 -DUNICODE_OFF -Dstricmp=strcasecmp -Dstrnicmp=strncasecmp -DSMTG_RENAME_ASSERT=1 -fpermissive
 # add -DEMBEDRESIZE to the above line for window resizing
 
 #-DUNICODE_OFF
