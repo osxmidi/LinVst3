@@ -2,6 +2,8 @@ Some distros such as Manjaro/Mint don't seem to currently setup audio for realti
 
 If they are not set then cpu spiking can occur with plugins.
 
+For Reaper, also set RT priority to 40 in Audio device settings if using Alsa.
+
 To set audio realtime priorities edit the below files.
 
 ```
