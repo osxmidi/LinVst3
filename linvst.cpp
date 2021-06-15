@@ -125,7 +125,7 @@ void eventloop(Display *display, Window parent, Window child, int width,
   plugin->eventstop = 1;
 
   if (parent && child) {
-    for (int loopidx = 0; (loopidx < 10) && XPending(display); loopidx++) {
+    for (int loopidx = 0; (loopidx < 100) && XPending(display); loopidx++) {
       XEvent e;
 
       XNextEvent(display, &e);
@@ -384,7 +384,7 @@ VstIntPtr dispatcher(AEffect *effect, VstInt32 opcode, VstInt32 index,
 
   case effEditIdle:
 #ifdef EMBED
-    if (plugin->eventrun == 1) {
+    if (plugin->eventrun > 0) {
 #ifdef EMBEDDRAG
       eventloop(plugin->display, plugin->pparent, plugin->parent, plugin->child,
                 plugin->width, plugin->height, plugin->parentok,
@@ -393,6 +393,11 @@ VstIntPtr dispatcher(AEffect *effect, VstInt32 opcode, VstInt32 index,
       eventloop(plugin->display, plugin->parent, plugin->child, plugin->width,
                 plugin->height, plugin->reaperid, plugin);
 #endif
+      if(plugin->eventrun == 1)
+      {
+      plugin->openGUI();
+      plugin->eventrun = 2;    
+      }
     }
 #endif
     break;
@@ -576,7 +581,7 @@ VstIntPtr dispatcher(AEffect *effect, VstInt32 opcode, VstInt32 index,
     plugin->display = XOpenDisplay(0);
 
     if (plugin->display && plugin->handle && !plugin->winm->winerror) {
-      plugin->eventrun = 1;
+      // plugin->eventrun = 1;
       // XLockDisplay(plugin->display);
       plugin->editopen = 1;
 
@@ -661,9 +666,10 @@ VstIntPtr dispatcher(AEffect *effect, VstInt32 opcode, VstInt32 index,
       XMapWindow(plugin->display, plugin->child);
       XSync(plugin->display, false);
 
-      plugin->openGUI();
+      // plugin->openGUI();
       plugin->displayerr = 0;
       // XUnlockDisplay(plugin->display);
+      plugin->eventrun = 1;
     } else {
       plugin->displayerr = 1;
       plugin->editopen = 0;
