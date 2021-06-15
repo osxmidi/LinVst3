@@ -203,13 +203,15 @@ void eventloop(Display *display, Window parent, Window child, int width,
         //      child) || ((e.xconfigure.event == pparent) && (parentok)))
         //      {
 
+/*
 #ifdef TRACKTIONWM  
    	   if(plugin->waveformid > 0) 
    	   {	      
        if(e.xconfigure.event != child)
-       return;
+       break;
        }	
 #endif		      
+*/
 
         XTranslateCoordinates(display, parent, XDefaultRootWindow(display), 0,
                               0, &x, &y, &ignored);
