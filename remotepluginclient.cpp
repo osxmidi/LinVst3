@@ -1505,8 +1505,8 @@ void RemotePluginClient::effVoidOp(int opcode) {
     #endif
     */
     m_finishaudio = 1;
-    m_shmControlptr->ropcode = RemotePluginDoVoid;
-    m_shmControlptr->opcode = opcode;
+    m_shmControl3->ropcode = RemotePluginDoVoid;
+    m_shmControl3->opcode = opcode;
   } else if (opcode == effClose) {
     waitForClientexit();
     m_threadbreak = 1;
@@ -1534,10 +1534,10 @@ void RemotePluginClient::effVoidOp(int opcode) {
     #endif
     */
     m_finishaudio = 1;
-    m_shmControlptr->ropcode = RemotePluginDoVoid;
-    m_shmControlptr->opcode = opcode;
+    m_shmControl3->ropcode = RemotePluginDoVoid;
+    m_shmControl3->opcode = opcode;
 
-    waitForServer(m_shmControlptr);
+    waitForServer(m_shmControl3);
 
     waitForServer2exit();
     waitForServer3exit();
