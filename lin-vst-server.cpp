@@ -2372,6 +2372,8 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline,
   size_t found2 = fileName.find_last_of("/");
   fileName = fileName.substr(found2 + 1, strlen(libname) - (found2 + 1));
   // SetCurrentDirectory(pathName.c_str());
+    
+  libnamepath = libname;    
 
   remoteVSTServerInstance = 0;
 
