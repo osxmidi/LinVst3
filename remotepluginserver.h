@@ -13,6 +13,10 @@
 #define WIN32_LEAN_AND_MEAN
 
 #include <windows.h>
+#ifdef DRAGWIN 
+#include <objidl.h>
+#include <shellapi.h>
+#endif
 #undef min
 #undef max
 
