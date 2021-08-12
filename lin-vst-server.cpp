@@ -1657,10 +1657,7 @@ int cfdrop;
   hr = trackerInfo->dataObject->GetData(&fmt, &stgMedium);
        
   if(hr == S_OK)
-  {
-  if(stgMedium.pUnkForRelease != NULL) 
-  continue;
-  
+  {  
   remoteVSTServerInstance->dragfilelist.clear();
   memset(hit2, 0, 4096);
     
@@ -1744,13 +1741,11 @@ int cfdrop;
   stgMedium.pUnkForRelease->Release();
   else
   ::ReleaseStgMedium(&stgMedium);
-   
+  } 	  
   }
-  
-   ienum->Release();      
-  }
-  }
-  
+  }  
+  if (ienum)   
+  ienum->Release(); 
   if(cfdrop != 0)
   remoteVSTServerInstance->dodragwin = 1;
   }       
