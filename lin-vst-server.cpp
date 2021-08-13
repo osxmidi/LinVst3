@@ -3187,7 +3187,9 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline,
    XInitThreads();
   
    remoteVSTServerInstance->display = XOpenDisplay(NULL);
-   
+	
+   if(remoteVSTServerInstance->display)
+   {   
    remoteVSTServerInstance->XdndSelection = XInternAtom(remoteVSTServerInstance->display, "XdndSelection", False);
    remoteVSTServerInstance->XdndAware = XInternAtom(remoteVSTServerInstance->display, "XdndAware", False);
    remoteVSTServerInstance->XdndProxy = XInternAtom(remoteVSTServerInstance->display, "XdndProxy", False);
@@ -3204,6 +3206,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline,
    
    remoteVSTServerInstance->hCurs1 = LoadCursor(NULL, IDC_SIZEALL); 
    remoteVSTServerInstance->hCurs2 = LoadCursor(NULL, IDC_NO); 
+   }
 #endif     
 
   MSG msg;
