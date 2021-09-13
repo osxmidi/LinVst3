@@ -12,7 +12,7 @@ sudo edit /etc/security/limits.conf
 
 add
 
-@audio - rtprio 99
+@audio - rtprio 95
 
 ```
 
