@@ -257,7 +257,7 @@ public:
   };
   
   struct winmessage {
-    intptr_t handle;
+    int handle;
     int width;
     int height;
     int winerror;
