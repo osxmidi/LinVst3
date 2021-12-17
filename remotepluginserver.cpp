@@ -230,7 +230,7 @@ int RemotePluginServer::sizeShm() {
 
   ptr = (int *)m_shm;
 
-  *ptr = 452;
+  *ptr = 470;
 
   for (int i = 0; i < 400000; i++) {
     if ((*ptr == 2) || (*ptr == 3)) {
@@ -663,6 +663,7 @@ void RemotePluginServer::dispatchControlEvents(ShmControl *m_shmControlptr) {
 
   switch (opcode) {
   case RemotePluginShowGUI:
+    memcpy(winm, m_shmControl3->wret, sizeof(winmessage));
     showGUI(m_shmControl3);
     break;
 
