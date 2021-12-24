@@ -2097,6 +2097,9 @@ ULONG numfmt;
 int cfdrop;
 DWORD processID;
 DWORD retprocID;
+	
+  if(remoteVSTServerInstance->guiVisible == false)
+  return;	
 
   retprocID = GetWindowThreadProcessId(hWnd, &processID);
     
