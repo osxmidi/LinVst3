@@ -519,7 +519,7 @@ XEvent xdndselect;
   {  
   usleep(1000);
   
-  if(IsWindow(FindWindow(NULL , TEXT("TrackerWindow"))))
+  if(FindWindow(NULL , TEXT("TrackerWindow")))
   remoteVSTServerInstance->windowok = 1;
   else
   remoteVSTServerInstance->windowok = 0;
@@ -536,7 +536,6 @@ XEvent xdndselect;
   {
   if(remoteVSTServerInstance->windowok == 0)
   {
-  remoteVSTServerInstance->dodragwin = 0;
   continue;
   }
   }
@@ -687,6 +686,18 @@ XEvent xdndselect;
   {
   XFlush(remoteVSTServerInstance->display); 
   remoteVSTServerInstance->dodragwin = 0;
+  remoteVSTServerInstance->pwindow = 0;          		
+  remoteVSTServerInstance->window = 0;		
+  remoteVSTServerInstance->xdndversion = -1;				
+  remoteVSTServerInstance->data = 0;
+  remoteVSTServerInstance->data2 = 0;			
+  remoteVSTServerInstance->prevx = -1;
+  remoteVSTServerInstance->prevy = -1;
+  remoteVSTServerInstance->dndfinish = 0;
+  remoteVSTServerInstance->dndaccept = 0;
+  remoteVSTServerInstance->dropdone = 0;
+  remoteVSTServerInstance->proxyptr = 0;
+  remoteVSTServerInstance->winehwnd = 0;  
   }
   else
   {
@@ -754,7 +765,19 @@ XEvent xdndselect;
   XSendEvent(remoteVSTServerInstance->display, remoteVSTServerInstance->pwindow, False, NoEventMask, (XEvent*)&xdndclient);
   XFlush(remoteVSTServerInstance->display); 
 				
-  remoteVSTServerInstance->dodragwin = 0;                   
+  remoteVSTServerInstance->dodragwin = 0;   
+  remoteVSTServerInstance->pwindow = 0;          		
+  remoteVSTServerInstance->window = 0;		
+  remoteVSTServerInstance->xdndversion = -1;				
+  remoteVSTServerInstance->data = 0;
+  remoteVSTServerInstance->data2 = 0;			
+  remoteVSTServerInstance->prevx = -1;
+  remoteVSTServerInstance->prevy = -1;
+  remoteVSTServerInstance->dndfinish = 0;
+  remoteVSTServerInstance->dndaccept = 0;
+  remoteVSTServerInstance->dropdone = 0;
+  remoteVSTServerInstance->proxyptr = 0;
+  remoteVSTServerInstance->winehwnd = 0;                  
   }     
   }
   }
@@ -779,13 +802,10 @@ XEvent xdndselect;
   else
   XSendEvent(remoteVSTServerInstance->display, remoteVSTServerInstance->pwindow, False, NoEventMask, (XEvent*)&xdndclient);
   XFlush(remoteVSTServerInstance->display); 
-
-  remoteVSTServerInstance->dodragwin = 0;
   }
   }   
   }
-  }
-  
+  } 
    usleep(1000);
   }
  
@@ -855,8 +875,8 @@ hosttracktion(0),
       guiupdatecount(0), guiresizewidth(500), guiresizeheight(200), melda(0),
       hWnd(0), display(0), child(0), parent(0), pparent(0), parentok(0), reparentdone(0), vst2wrap(0), factory(0), mpluginptr(&mplugin), vst2uid(0),
 #ifdef DRAGWIN
-dodragwin(0), drag_win(0), pwindow(0), data(0), data2(0), proxyptr(0), prevx(-1), prevy(-1), winehwnd(0),
-#endif      
+dodragwin(0), drag_win(0), pwindow(0), window(0), xdndversion(-1), data(0), data2(0), prevx(-1), prevy(-1), dndfinish(0), dndaccept(0), dropdone(0),  proxyptr(0), winehwnd(0),
+#endif
 #ifdef PCACHE
       numpars(0),
 #endif                  
@@ -1523,7 +1543,7 @@ void RemoteVSTServer::eventloop()
         //     if(mapped2)
         //    {
         if (e.xcrossing.focus == False) {   
-        #ifdef DRAGWIN      
+#ifdef DRAGWIN      
         if(drag_win && display)   
         {  
         XSetSelectionOwner(display, XdndSelection, 0, CurrentTime); 
@@ -2107,38 +2127,22 @@ DWORD retprocID;
   return;
     
   if(processID != GetCurrentProcessId())
-  return;
+  return;	
   
   if(!remoteVSTServerInstance->drag_win || !remoteVSTServerInstance->display)
-  return;  		
+  return;
 
   if(remoteVSTServerInstance->dodragwin == 1)
   return;
 
   if(remoteVSTServerInstance->windowok == 1)
   return;
-
-  remoteVSTServerInstance->dodragwin = 0;
-  remoteVSTServerInstance->pwindow = 0;          		
-  remoteVSTServerInstance->window = 0;		
-  remoteVSTServerInstance->xdndversion = -1;				
-  remoteVSTServerInstance->data = 0;
-  remoteVSTServerInstance->data2 = 0;			
-  remoteVSTServerInstance->prevx = -1;
-  remoteVSTServerInstance->prevy = -1;
-  remoteVSTServerInstance->windowok = 0;
-  remoteVSTServerInstance->dndfinish = 0;
-  remoteVSTServerInstance->dndaccept = 0;
-  remoteVSTServerInstance->dropdone = 0;
-  remoteVSTServerInstance->proxyptr = 0;
-  remoteVSTServerInstance->winehwnd = 0;
   
-  cfdrop = 0;
-
   if(event == EVENT_OBJECT_CREATE && idObject == OBJID_WINDOW) 
   {
-  if(!IsWindow(FindWindow(NULL , TEXT("TrackerWindow"))))
+  if(!FindWindow(NULL , TEXT("TrackerWindow")))
   return;
+  cfdrop = 0;
   TrackerWindowInfo *trackerInfo = (TrackerWindowInfo*)GetWindowLongPtrA(hWnd, 0);
   if(trackerInfo)
   {
@@ -2247,7 +2251,9 @@ DWORD retprocID;
   if (ienum)   
   ienum->Release(); 
   if(cfdrop != 0)
+  {
   remoteVSTServerInstance->dodragwin = 1;
+  }
   }       
   }
   }
@@ -3385,6 +3391,8 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline,
   int offset = 0;
   int idx = 0;
   int ci = 0;
+  int *ptr;
+    
   HMODULE libHandle = 0;
 
   cerr << "DSSI VST plugin server v" << RemotePluginVersion << endl;
@@ -3495,78 +3503,42 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline,
   if (remoteVSTServerInstance->starterror == 1) {
     cerr << "ERROR: Remote VST startup error" << endl;
     if (remoteVSTServerInstance) {
+      if(remoteVSTServerInstance->m_shm)
+      {
+      ptr = (int *)remoteVSTServerInstance->m_shm;  
+      *ptr = 2001;
+      }
       remoteVSTServerInstance->finisherror();
       delete remoteVSTServerInstance;
     }
     exit(0);
   }
+  
+  ptr = (int *)remoteVSTServerInstance->m_shm;   
 
   remoteVSTServerInstance->ThreadHandle[0] = 0;
   remoteVSTServerInstance->ThreadHandle[1] = 0;
   remoteVSTServerInstance->ThreadHandle[2] = 0;
   remoteVSTServerInstance->ThreadHandle[3] = 0;  
-
-  DWORD threadIdp = 0;
-  remoteVSTServerInstance->ThreadHandle[0] =
-      CreateThread(0, 0, AudioThreadMain, 0, CREATE_SUSPENDED, &threadIdp);
-  if (!remoteVSTServerInstance->ThreadHandle[0]) {
-    cerr << "Failed to create audio thread!" << endl;
-    remoteVSTServerInstance->finisherror();
-    delete remoteVSTServerInstance;
-    exit(0);
-  }
-
-#ifdef DRAGWIN 
-  DWORD threadIdp2 = 0;
-  remoteVSTServerInstance->ThreadHandle[1] =
-      CreateThread(0, 0, GetSetThreadMain, 0, CREATE_SUSPENDED, &threadIdp2);
-  if (!remoteVSTServerInstance->ThreadHandle[1]) {
-    cerr << "Failed to create getset thread!" << endl;
-    remoteVSTServerInstance->finisherror();
-    delete remoteVSTServerInstance;
-    exit(0);
-  }
-#endif
-
-#ifndef PCACHE
-  DWORD threadIdp3 = 0;
-  remoteVSTServerInstance->ThreadHandle[2] =
-      CreateThread(0, 0, ParThreadMain, 0, CREATE_SUSPENDED, &threadIdp3);
-  if (!remoteVSTServerInstance->ThreadHandle[2]) {
-    cerr << "Failed to create par thread!" << endl;
-    remoteVSTServerInstance->finisherror();
-    delete remoteVSTServerInstance;
-    exit(0);
-  }
-#endif
   
-  DWORD threadIdp4 = 0;
-  remoteVSTServerInstance->ThreadHandle[3] =
-      CreateThread(0, 0, ControlThreadMain, 0, CREATE_SUSPENDED, &threadIdp4);
-  if (!remoteVSTServerInstance->ThreadHandle[3]) {
-    cerr << "Failed to create par thread!" << endl;
-    remoteVSTServerInstance->finisherror();
-    delete remoteVSTServerInstance;
-    exit(0);
-  }    
-
   cerr << "Loading  " << libname << endl;
 
   libHandle = ::LoadLibraryA(libname);
   if (!libHandle) {
     cerr << "dssi-vst-server: ERROR: Couldn't load VST DLL \"" << libname
          << "\"" << endl;
+    *ptr = 2001;     
     remoteVSTServerInstance->finisherror();
     delete remoteVSTServerInstance;
     exit(0);
   }
-
+  
   InitModuleProc initProc =
       (InitModuleProc)::GetProcAddress((HMODULE)libHandle, kInitModuleProcName);
   if (initProc) {
     if (initProc() == false) {
       cerr << "initprocerr" << endl;
-
+      *ptr = 2001;  
       remoteVSTServerInstance->finisherror();
       delete remoteVSTServerInstance;
 
@@ -3580,10 +3552,43 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline,
       exit(0);
       // return 1;
     }
-  }
+  }  
+  
+  DWORD threadIdp = 0;
+  remoteVSTServerInstance->ThreadHandle[0] =
+      CreateThread(0, 0, AudioThreadMain, 0, CREATE_SUSPENDED, &threadIdp);
 
-  int *ptr;
-  ptr = (int *)remoteVSTServerInstance->m_shm;
+#ifdef DRAGWIN 
+  DWORD threadIdp2 = 0;
+  remoteVSTServerInstance->ThreadHandle[1] =
+      CreateThread(0, 0, GetSetThreadMain, 0, CREATE_SUSPENDED, &threadIdp2);
+#endif
+
+#ifndef PCACHE
+  DWORD threadIdp3 = 0;
+  remoteVSTServerInstance->ThreadHandle[2] =
+      CreateThread(0, 0, ParThreadMain, 0, CREATE_SUSPENDED, &threadIdp3);
+#endif
+  
+  DWORD threadIdp4 = 0;
+  remoteVSTServerInstance->ThreadHandle[3] =
+      CreateThread(0, 0, ControlThreadMain, 0, CREATE_SUSPENDED, &threadIdp4);
+      
+  if (!remoteVSTServerInstance->ThreadHandle[0]
+#ifdef DRAGWIN 
+ || !remoteVSTServerInstance->ThreadHandle[1]
+#endif
+#ifndef PCACHE
+     || !remoteVSTServerInstance->ThreadHandle[2] 
+#endif
+    || !remoteVSTServerInstance->ThreadHandle[3]) {
+    cerr << "Failed to create par thread!" << endl;
+    *ptr = 2001;
+    remoteVSTServerInstance->finisherror();
+    delete remoteVSTServerInstance;
+    exit(0);
+  }  
+  
   *ptr = 2000;
 
   int startok;
@@ -3714,7 +3719,7 @@ else
   }
   remoteVSTServerInstance->g_hook = SetWinEventHook(EVENT_OBJECT_CREATE, EVENT_OBJECT_CREATE, NULL, SysDragImage, 0, 0, WINEVENT_OUTOFCONTEXT | WINEVENT_SKIPOWNPROCESS);  
   }
-#endif       
+#endif     
 
   MSG msg;
   int tcount = 0;
@@ -3829,12 +3834,10 @@ remoteVSTServerInstance->confin)
   XDestroyWindow(remoteVSTServerInstance->display, remoteVSTServerInstance->drag_win);
   remoteVSTServerInstance->drag_win = 0;  
   }
-#endif          
+#endif      
     
-#ifdef DRAGWIN  
   if(remoteVSTServerInstance->display)  
     XCloseDisplay(remoteVSTServerInstance->display);
-#endif    
 
   if (remoteVSTServerInstance)
     delete remoteVSTServerInstance;
