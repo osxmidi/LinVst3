@@ -72,6 +72,8 @@ LinVst3 binaries are on the releases page (under Assets) https://github.com/osxm
 
 To Make
 
+See https://github.com/osxmidi/LinVst/tree/master/Make-Guide for setup info and make options
+
 Steinberg sdk version script files needed by LinVst3 are in the vst3-sdks folder.
 Select the folder that matches the Steinberg sdk version you are using and copy the files to the LinVst3 main folder.
 
@@ -90,8 +92,6 @@ sudo apt-get install cmake
 sudo apt-get install libfreetype6-dev libxcb-util0-dev libxcb-cursor-dev libxcb-keysyms1-dev libxcb-xkb-dev libxkbcommon-dev libxkbcommon-x11-dev libgtkmm-3.0-dev libsqlite3-dev
 
 For Manjaro/Arch: sudo pacman -Sy cmake freetype2 sqlite libxcb xcb-util gtkmm3 xcb-util-cursor libx11 pkgconfig xkbcommon-x11 xcb-util-keysyms
-
-For Wine development files see https://github.com/osxmidi/LinVst/tree/master/Make-Guide
 
 ------
 
