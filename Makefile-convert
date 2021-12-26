@@ -23,7 +23,7 @@ SRC_DIR=convert
 
 vpath linvstconvertgtk.cpp $(SRC_DIR)
 
-TARGETS     = linvstconvert
+TARGETS     = linvst3convert
 
 # --------------------------------------------------------------
 
