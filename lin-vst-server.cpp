@@ -108,8 +108,12 @@ public:
   virtual int getInputCount() { return vst2wrap->numinputs; }
   virtual int getOutputCount() { return vst2wrap->numoutputs; }
   virtual int getFlags() {
+    mpluginptr->flags &= ~effFlagsIsSynth; 
     if (vst2wrap->synth == true)
-      mpluginptr->flags |= effFlagsIsSynth;
+    {
+    mpluginptr->flags |= effFlagsIsSynth;
+    categnum = 2;  
+    }  
 #ifdef DOUBLEP
     if (vst2wrap->doublereplacing == true)
       mpluginptr->flags |= effFlagsCanDoubleReplacing;
@@ -346,6 +350,7 @@ public:
   int getfin;
   int confin;  
   int hidegui;
+  int categnum; 	
   
 #ifdef PCACHE
   int numpars;
@@ -873,7 +878,7 @@ hosttracktion(0),
       haveGui(true), exiting(false), effectrun(false), inProcessThread(false),
       guiVisible(false), parfin(0), audfin(0), getfin(0), confin(0), guiupdate(0),
       guiupdatecount(0), guiresizewidth(500), guiresizeheight(200), melda(0),
-      hWnd(0), display(0), child(0), parent(0), pparent(0), parentok(0), reparentdone(0), vst2wrap(0), factory(0), mpluginptr(&mplugin), vst2uid(0),
+      hWnd(0), display(0), child(0), parent(0), pparent(0), parentok(0), reparentdone(0), vst2wrap(0), factory(0), mpluginptr(&mplugin), vst2uid(0), categnum(1),
 #ifdef DRAGWIN
 dodragwin(0), drag_win(0), pwindow(0), window(0), xdndversion(-1), data(0), data2(0), prevx(-1), prevy(-1), dndfinish(0), dndaccept(0), dropdone(0),  proxyptr(0), winehwnd(0),
 #endif
