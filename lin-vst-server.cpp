@@ -349,8 +349,7 @@ public:
   int audfin;
   int getfin;
   int confin;  
-  int hidegui;
-  int categnum; 	
+  int hidegui;	
   
 #ifdef PCACHE
   int numpars;
@@ -360,6 +359,7 @@ public:
 
   Steinberg::Vst::Vst2Wrapper *vst2wrap;
   int vst2uid;
+  int categnum; 
   Steinberg::IPluginFactory *factory;
 
 private:
@@ -1258,10 +1258,11 @@ int RemoteVSTServer::getEffInt(int opcode, int value) {
   int retval;
 
   if (opcode == effGetPlugCategory) {
-    if (vst2wrap->synth == true)
-      return 2;
-    else
-      return 1;
+  //  if (vst2wrap->synth == true)
+   //   return 2;
+   // else
+   //   return 1;
+   return categnum;
   }
 
   if (opcode == effMainsChanged) {
