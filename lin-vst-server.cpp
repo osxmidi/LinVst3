@@ -2784,34 +2784,21 @@ VstIntPtr VSTCALLBACK hostCallback(AEffect *plugin, VstInt32 opcode,
 
           remoteVSTServerInstance->guiresizewidth = index;
           remoteVSTServerInstance->guiresizeheight = value;
+          
+          remoteVSTServerInstance->width = index;
+          remoteVSTServerInstance->height = value;
+          
+          XResizeWindow(remoteVSTServerInstance->display, remoteVSTServerInstance->child, remoteVSTServerInstance->guiresizewidth, remoteVSTServerInstance->guiresizeheight);          
 
-          // ShowWindow(remoteVSTServerInstance->hWnd, SW_HIDE);
-          // SetWindowPos(remoteVSTServerInstance->hWnd, HWND_TOP, 0, 0,
-          // remoteVSTServerInstance->guiresizewidth,
-          // remoteVSTServerInstance->guiresizeheight, 0);
-
-/*
-#ifdef TRACKTIONWM
-          if (remoteVSTServerInstance->hosttracktion == 1)
-            SetWindowPos(remoteVSTServerInstance->hWnd, HWND_TOP,
-                         GetSystemMetrics(SM_XVIRTUALSCREEN) +
-                             remoteVSTServerInstance->offset.x,
-                         GetSystemMetrics(SM_YVIRTUALSCREEN) +
-                             remoteVSTServerInstance->offset.y,
-                         index, value, 0);
-#endif
-*/
-
-          remoteVSTServerInstance->m_shmControlptr->ropcode =
-              (RemotePluginOpcode)opcode;
-          remoteVSTServerInstance->m_shmControlptr->value = index;
-          remoteVSTServerInstance->m_shmControlptr->value2 = value;
-          remoteVSTServerInstance->waitForServer(
-              remoteVSTServerInstance->m_shmControlptr);
+          remoteVSTServerInstance->m_shmControlptr->ropcode = (RemotePluginOpcode)opcode;
+          remoteVSTServerInstance->m_shmControlptr->value = remoteVSTServerInstance->guiresizewidth;
+          remoteVSTServerInstance->m_shmControlptr->value2 = remoteVSTServerInstance->guiresizeheight;
+          remoteVSTServerInstance->waitForServer(remoteVSTServerInstance->m_shmControlptr);
           retval = 0;
           retval = remoteVSTServerInstance->m_shmControlptr->retint;
           rv = retval;
-          //   remoteVSTServerInstance->guiupdate = 1;
+          
+       //    remoteVSTServerInstance->guiupdate = 1;
         }
       }
 #else
