@@ -1465,7 +1465,7 @@ void RemoteVSTServer::eventloop()
      switch (e.type) {
      
      case ReparentNotify:
-     if((e.xreparent.event == parent) && (reparentdone == 0))
+     if((e.xreparent.event == parent) && (reparentdone == 0) && (guiVisible == false))
      {
     
  //     if(parentok == 0)
@@ -3189,6 +3189,7 @@ VOID CALLBACK TimerProc(HWND hWnd, UINT message, UINT idTimer, DWORD dwTime) {
 void RemoteVSTServer::guiUpdate() {
 #ifdef EMBED
 #ifdef EMBEDRESIZE
+	/*
   remoteVSTServerInstance->guiupdatecount += 1;
 
   if (remoteVSTServerInstance->guiupdatecount == 2) {
@@ -3197,6 +3198,9 @@ void RemoteVSTServer::guiUpdate() {
     remoteVSTServerInstance->guiupdate = 0;
     remoteVSTServerInstance->guiupdatecount = 0;
   }
+  */
+
+	//   remoteVSTServerInstance->guiupdatecount = 0;	
 #endif
 #endif
 #ifndef EMBED
