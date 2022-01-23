@@ -320,6 +320,7 @@ public:
   UINT_PTR timerval;  
 #ifdef EMBED
   HANDLE handlewin;
+  int reaptimecount;  
 #endif
   int guiupdate;
   int guiupdatecount;
@@ -883,9 +884,9 @@ hosttracktion(0),
 dodragwin(0), drag_win(0), pwindow(0), window(0), xdndversion(-1), data(0), data2(0), prevx(-1), prevy(-1), dndfinish(0), dndaccept(0), dropdone(0),  proxyptr(0), winehwnd(0),
 #endif
 #ifdef PCACHE
-      numpars(0),
+      numpars(0), 
 #endif                  
-      hidegui(0) {
+      hidegui(0), reaptimecount(0) {
 #ifdef EMBED
   /*
   winm = new winmessage;
@@ -1839,6 +1840,8 @@ void RemoteVSTServer::showGUI(ShmControl *m_shmControlptr) {
   // SetWindowPos(hWnd, HWND_TOP, 0, 0, rect->right - rect->left, rect->bottom -
   // rect->top, 0);
 #endif
+
+  reaptimecount = 0;
 
   handlewin = 0;
 
@@ -3196,32 +3199,64 @@ VOID CALLBACK TimerProc(HWND hWnd, UINT message, UINT idTimer, DWORD dwTime) {
 
 void RemoteVSTServer::guiUpdate() {
 #ifdef EMBED
-#ifdef EMBEDRESIZE
-	/*
-  remoteVSTServerInstance->guiupdatecount += 1;
+  //   if((hostreaper == 1) && (pparent == 0))
+  //   {
+    
+ //     if(parentok == 0)
+  //    {
+      root = 0;
+      children = 0;
+      numchildren = 0;
 
-  if (remoteVSTServerInstance->guiupdatecount == 2) {
-    ShowWindow(remoteVSTServerInstance->hWnd, SW_SHOWNORMAL);
-    UpdateWindow(remoteVSTServerInstance->hWnd);
-    remoteVSTServerInstance->guiupdate = 0;
-    remoteVSTServerInstance->guiupdatecount = 0;
-  }
-  */
+      pparent = 0;
+ 
+      windowreturn = parent;
 
-	//   remoteVSTServerInstance->guiupdatecount = 0;	
+      while(XQueryTree(display, windowreturn, &root, &windowreturn, &children, &numchildren))
+      {
+      if(windowreturn == root)
+      break;
+      pparent = windowreturn;
+      }
+      
+#ifdef EMBEDDRAG  
+      if (x11_win) {          
+      dragwinok = 0;
+
+      if(hostreaper == 1)
+      {
+      if (XQueryTree(display, parent, &root, &dragwin, &children, &numchildren) != 0) {
+      if (children)
+      XFree(children);
+      if ((dragwin != root) && (dragwin != 0))
+      dragwinok = 1;
+      }                    
+      if(dragwinok)
+      {
+      XChangeProperty(display, dragwin, XdndProxy, XA_WINDOW, 32, PropModeReplace, (unsigned char *)&x11_win, 1);
+      XChangeProperty(display, x11_win, XdndProxy, XA_WINDOW, 32, PropModeReplace, (unsigned char *)&x11_win, 1);       
+      }
+      }
+      else
+      {      
+      XChangeProperty(display, parent, XdndProxy, XA_WINDOW, 32, PropModeReplace, (unsigned char *)&x11_win, 1);
+      XChangeProperty(display, x11_win, XdndProxy, XA_WINDOW, 32, PropModeReplace, (unsigned char *)&x11_win, 1);
+      }  
+      }   
 #endif
+      
+#ifdef FOCUS
+      if((pparent != 0) && (pparent != parent))
+      XSelectInput(display, pparent, StructureNotifyMask | SubstructureNotifyMask);
+#else
+      if((pparent != 0) && (pparent != parent))
+      XSelectInput(display, pparent, StructureNotifyMask | SubstructureNotifyMask);
 #endif
-#ifndef EMBED
-  //      SetWindowPos(remoteVSTServerInstance->hWnd, 0, 0, 0,
-  //      remoteVSTServerInstance->guiresizewidth + 6,
-  //      remoteVSTServerInstance->guiresizeheight + 25, SWP_NOMOVE |
-  //      SWP_HIDEWINDOW);
-  SetWindowPos(remoteVSTServerInstance->hWnd, 0, 0, 0,
-               remoteVSTServerInstance->guiresizewidth + 6,
-               remoteVSTServerInstance->guiresizeheight + 25, SWP_NOMOVE);
-  ShowWindow(remoteVSTServerInstance->hWnd, SW_SHOWNORMAL);
-  UpdateWindow(remoteVSTServerInstance->hWnd);
-  remoteVSTServerInstance->guiupdate = 0;
+      
+      XSync(display, false);
+  //    }
+   reaptimecount += 1;
+    //  }
 #endif
 }
 
@@ -3735,6 +3770,12 @@ else
            (loopidx < 10) && PeekMessage(&msg, 0, 0, 0, PM_REMOVE); loopidx++) {
         if (remoteVSTServerInstance->exiting)
           break;
+          
+        if((msg.message == WM_TIMER) && (msg.wParam == 678))
+        {
+        if((remoteVSTServerInstance->guiVisible == true) && (remoteVSTServerInstance->hostreaper == 1) && (remoteVSTServerInstance->pparent == 0) && (remoteVSTServerInstance->reaptimecount < 100))
+        remoteVSTServerInstance->guiUpdate();
+        }          
 
         if (msg.message == 15 && !remoteVSTServerInstance->guiVisible)
           break;
@@ -3757,6 +3798,12 @@ else
       while (PeekMessage(&msg, 0, 0, 0, PM_REMOVE)) {
         if (remoteVSTServerInstance->exiting)
           break;
+          
+        if((msg.message == WM_TIMER) && (msg.wParam == 678))
+        {
+        if((remoteVSTServerInstance->guiVisible == true) && (remoteVSTServerInstance->hostreaper == 1) && (remoteVSTServerInstance->pparent == 0) && (remoteVSTServerInstance->reaptimecount < 100))
+        remoteVSTServerInstance->guiUpdate();
+        }          
 
         if (msg.message == 15 && !remoteVSTServerInstance->guiVisible)
           break;
