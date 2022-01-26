@@ -1,5 +1,0 @@
-LinVst3 may have some problems with some plugins and Bitwig.
-
-If LinVst3 has trouble with Bitwig use the Makefiles with Bitwig in their name, Makefile-Bitwig.
-
-Choose (check) the plugins to be run Individually in the Bitwig Settings-Plug-ins panel.
