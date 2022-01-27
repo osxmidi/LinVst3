@@ -342,4 +342,13 @@ public:
   short right;
 };
 
+#ifdef MIDIEFF
+class VstSpeakerArrangement {
+public:
+    int val;
+    int val2;
+    char data[8][112];
+};
+#endif
+
 #endif
