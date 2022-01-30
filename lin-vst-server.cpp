@@ -1957,12 +1957,12 @@ void RemoteVSTServer::showGUI(ShmControl *m_shmControlptr) {
 
       XReparentWindow(display, child, parent, 0, 0);
       
-      for (int i = 0; i < 20000; i++) {
+      for (int i = 0; i < 200000; i++) {
       eventloop();
       if(reparentdone == 1) {     
       break;
       }
-      usleep(1000);
+      usleep(100);
       }
       
       if (reparentdone == 0) {
