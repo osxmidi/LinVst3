@@ -34,6 +34,9 @@ add
 @audio - memlock unlimited
 #@audio - nice -19
 
+```
+
+```
 
 Also, installing the rtirq-init (rtirq for Manjaro) and irqbalance packages might be useful.
 
