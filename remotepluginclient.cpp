@@ -1967,11 +1967,9 @@ bool RemotePluginClient::fwait2(ShmControl *m_shmControlptr,
     if ((*futexp != 0) &&
         (std::atomic_compare_exchange_strong(futexp, &value, value - 1) > 0))
       break;
-    // std::atomic_fetch_add_explicit((std::atomic_int
-    // *)&m_shmControlptr->nwaitersclient, 1, std::memory_order_seq_cst);
+     std::atomic_fetch_add_explicit((std::atomic_int *)&m_shmControlptr->nwaitersclient, 1, std::memory_order_seq_cst);
     retval = syscall(SYS_futex, futexp, FUTEX_WAIT, 0, &timeval, NULL, 0);
-    // std::atomic_fetch_sub_explicit((std::atomic_int
-    // *)&m_shmControlptr->nwaitersclient, 1, std::memory_order_seq_cst);
+     std::atomic_fetch_sub_explicit((std::atomic_int *)&m_shmControlptr->nwaitersclient, 1, std::memory_order_seq_cst);
     if (retval == -1 && errno != EAGAIN)
       return true;
   }
@@ -1983,9 +1981,8 @@ bool RemotePluginClient::fpost2(ShmControl *m_shmControlptr,
   int retval;
   int nval =
       std::atomic_fetch_add_explicit(futexp, 1, std::memory_order_seq_cst);
-  // int value = atomic_load_explicit((std::atomic_int
-  // *)&m_shmControlptr->nwaitersserver, std::memory_order_seq_cst); if(value >
-  // 0)
+   int value = atomic_load_explicit((std::atomic_int *)&m_shmControlptr->nwaitersserver, std::memory_order_seq_cst); 
+   if(value > 0)
   //{
   retval = syscall(SYS_futex, futexp, FUTEX_WAKE, 1, NULL, NULL, 0);
   //}
