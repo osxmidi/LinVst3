@@ -13,6 +13,7 @@ sudo edit /etc/security/limits.conf
 add
 
 @audio - rtprio 95
+@audio - memlock unlimited
 
 ```
 
