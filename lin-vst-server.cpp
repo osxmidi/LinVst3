@@ -1040,7 +1040,7 @@ void RemoteVSTServer::process(float **inputs, float **outputs,
   struct ParamState {
   float value;
   float valueupdate;
-  int changed;
+  char changed;
   };
 */
    
