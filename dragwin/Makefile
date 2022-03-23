@@ -32,9 +32,11 @@ BUILD_FLAGS_WIN = -std=c++14 -m64 -O2 -DEMBED -DEMBEDDRAG -DWAVES2 -DTRACKTIONWM
 LINK_FLAGS   = $(LDFLAGS)
 
 LINK_PLUGIN = -shared -lpthread -ldl -lX11 -lrt $(LINK_FLAGS)
-LINK_WINE   = ../build/lib/Release/libbase.a ../build/lib/Release/libpluginterfaces.a ../build/lib/Release/libsdk.a -L/opt/wine-stable/lib64/wine -L/opt/wine-devel/lib64/wine -L/opt/wine-staging/lib64/wine -L/usr/lib/x86_64-linux-gnu/wine-development -lpthread -lX11 -lrt -lshell32 -lole32 $(LINK_FLAGS)
+LINK_WINE   = ../build/lib/Release/libbase.a ../build/lib/Release/libpluginterfaces.a ../build/lib/Release/libsdk.a -L/opt/wine-stable/lib64/wine -L/opt/wine-devel/lib64/wine -L/opt/wine-staging/lib64/wine -L/opt/wine-stable/lib64/wine/x86_64-unix -L/opt/wine-devel/lib64/wine/x86_64-unix -L/opt/wine-staging/lib64/wine/x86_64-unix -L/usr/lib/x86_64-linux-gnu/wine-development -lpthread -lX11 -lrt -lshell32 -lole32 $(LINK_FLAGS)
 
 TARGETS     = do_script do_script2 linvst3.so lin-vst3-servertrack.exe
+
+PATH := $(PATH):/opt/wine-stable/bin:/opt/wine-devel/bin:/opt/wine-staging/bin
 
 # --------------------------------------------------------------
 
