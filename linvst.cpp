@@ -81,9 +81,11 @@ VstIntPtr dispatcher(AEffect *effect, VstInt32 opcode, VstInt32 index,
 
   switch (opcode) {
   case effEditGetRect:
-    *((struct ERect **)ptr) = plugin->rp;
     if (plugin->editopen == 1)
+    {
+    *((struct ERect **)ptr) = plugin->rp;
     v = 1;
+    }
     else
     v = 0;
     break;

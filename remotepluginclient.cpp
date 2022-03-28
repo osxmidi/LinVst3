@@ -114,7 +114,7 @@ void *RemotePluginClient::AMThread() {
         optval = m_shmControlptrth->floatvalue;
         retval = 0;
 #ifdef PCACHE
-        ParamState* pstate = (ParamState*)m_shm5;        
+        ParamState* pstate = (ParamState*)m_shm6;        
         pstate[idx].value = optval;            
 #endif                
         retval =
@@ -145,7 +145,7 @@ void *RemotePluginClient::AMThread() {
         break;
 
       case audioMasterProcessEvents:
-        ptr2 = (int *)&m_shm3[VSTEVENTS_SEND_OFFSET];
+        ptr2 = (int *)m_shm4;
         els = *ptr2;
         sizeidx = sizeof(int);
 
@@ -157,7 +157,7 @@ void *RemotePluginClient::AMThread() {
         evptr->reserved = 0;
 
         for (int i = 0; i < els; i++) {
-          VstEvent *bsize = (VstEvent *)&m_shm3[VSTEVENTS_SEND_OFFSET + sizeidx];
+          VstEvent *bsize = (VstEvent *)&m_shm4[sizeidx];
           size = bsize->byteSize + (2 * sizeof(VstInt32));
           evptr->events[i] = bsize;
           sizeidx += size;
@@ -597,7 +597,7 @@ m_threadbreakexitembed(0),
 */
 #endif
       m_threadinit(0), m_threadbreak(0), m_threadbreakexit(0), editopen(0),
-      m_shmFileName(0), m_shm(0), m_shmSize(0), m_shm2(0), m_shm3(0), m_shm4(0),
+      m_shmFileName(0), m_shm(0), m_shmSize(0), m_shm2(0), m_shm3(0), m_shm4(0), m_shm5(0),
       m_shmControlFd(-1), m_shmControl(0), m_shmControlFileName(0),
       m_shmControl2(0), m_shmControl3(0), m_shmControl4(0), m_shmControl5(0), m_shmControl6(0),
       m_bufferSize(-1), m_numInputs(-1), m_numOutputs(-1), m_updateio(0),
@@ -622,7 +622,7 @@ m_threadbreakexitembed(0),
       eventrun(0), eventstop(0),
 #endif
 #ifdef PCACHE
-     m_shm5(0),
+     m_shm6(0),
 #endif    
       theEffect(0) {
   char tmpFileBase[60];
@@ -641,19 +641,6 @@ m_threadbreakexitembed(0),
     cleanup();
     throw((std::string) "Failed to mmap shared memory file");
   }
-
-  m_shmControl = (ShmControl *)m_shm4;
-  memset(m_shmControl, 0, sizeof(ShmControl));
-  m_shmControl2 = (ShmControl *)&m_shm4[sizeof(ShmControl)];
-  memset(m_shmControl2, 0, sizeof(ShmControl));
-  m_shmControl3 = (ShmControl *)&m_shm4[(sizeof(ShmControl) * 2)];
-  memset(m_shmControl3, 0, sizeof(ShmControl));
-  m_shmControl4 = (ShmControl *)&m_shm4[(sizeof(ShmControl) * 3)];
-  memset(m_shmControl4, 0, sizeof(ShmControl));
-  m_shmControl5 = (ShmControl *)&m_shm4[(sizeof(ShmControl) * 4)];
-  memset(m_shmControl5, 0, sizeof(ShmControl));
-  m_shmControl6 = (ShmControl *)&m_shm4[(sizeof(ShmControl) * 5)];
-  memset(m_shmControl6, 0, sizeof(ShmControl));  
 }
 
 RemotePluginClient::~RemotePluginClient() {
@@ -696,7 +683,7 @@ void RemotePluginClient::syncStartup() {
   ptr = (int *)m_shm;
 
   for (int i = 0; i < 400000; i++) {
-    if (*ptr == 472) {
+    if (*ptr == 475) {
       startok = 1;
       break;
     }
@@ -875,11 +862,70 @@ int RemotePluginClient::sizeShm() {
   if (m_shm)
     return 0;
 
+int pagesize = sysconf(_SC_PAGESIZE);
+int chunksize;
+int chunks;
+int chunkrem;
+
+    chunksize = PROCESSSIZE;
+    chunks = chunksize / pagesize;
+    chunkrem = chunksize % pagesize;
+
+    if(chunkrem > 0)
+    chunks += 1;
+
+    int processsize = chunks * pagesize;
+
+    chunksize = VSTEVENTS_PROCESS;
+    chunks = chunksize / pagesize;
+    chunkrem = chunksize % pagesize;
+
+    if(chunkrem > 0)
+    chunks += 1;
+
+    int vsteventsprocess = chunks * pagesize;
+
+    chunksize = CHUNKSIZEMAX;
+    chunks = chunksize / pagesize;
+    chunkrem = chunksize % pagesize;
+
+    if(chunkrem > 0)
+    chunks += 1;
+
+    int chunksizemax = chunks * pagesize;
+
+    chunksize = VSTEVENTS_SEND;
+    chunks = chunksize / pagesize;
+    chunkrem = chunksize % pagesize;
+
+    if(chunkrem > 0)
+    chunks += 1;
+
+    int vsteventssend = chunks * pagesize;
+
+    chunksize = sizeof(ShmControl);
+    chunks = chunksize / pagesize;
+    chunkrem = chunksize % pagesize;
+
+    if(chunkrem > 0)
+    chunks += 1;
+
+    int chunksizecontrol = chunks * pagesize;
+
 #ifdef PCACHE
-  size_t sz = PROCESSSIZE + SHMVALX + VSTEVENTS_PROCESS + SHMVALX + CHUNKSIZEMAX + SHMVALX + VSTEVENTS_SEND + SHMVALX + (sizeof(ShmControl) * 6) + SHMVALX + PARCACHE  + SHMVALX;
+    chunksize = PARCACHE;
+    chunks = chunksize / pagesize;
+    chunkrem = chunksize % pagesize;
+
+    if(chunkrem > 0)
+    chunks += 1;
+
+    int parcachesize = chunks * pagesize;
+
+  size_t sz = processsize + vsteventsprocess + chunksizemax + vsteventssend + (chunksizecontrol * 6) + parcachesize;
 #else
-  size_t sz = PROCESSSIZE + SHMVALX + VSTEVENTS_PROCESS + SHMVALX + CHUNKSIZEMAX + SHMVALX + VSTEVENTS_SEND + SHMVALX + (sizeof(ShmControl) * 6) + SHMVALX;
-#endif
+  size_t sz = processsize + vsteventsprocess + chunksizemax + vsteventssend + (chunksizecontrol * 6);
+#endif  
 
   ftruncate(m_shmFd, sz);
   m_shm = (char *)mmap(0, sz, PROT_READ | PROT_WRITE, MAP_SHARED | MAP_POPULATE,
@@ -899,13 +945,27 @@ int RemotePluginClient::sizeShm() {
       perror("mlock fail1");
   }
 
-  m_shm2 = &m_shm[PROCESSSIZE + SHMVALX];
-  m_shm3 = &m_shm[PROCESSSIZE + SHMVALX + VSTEVENTS_PROCESS + SHMVALX];
-  m_shm4 = &m_shm[PROCESSSIZE + SHMVALX + VSTEVENTS_PROCESS + SHMVALX + CHUNKSIZEMAX + SHMVALX + VSTEVENTS_SEND + SHMVALX];
+  m_shm2 = &m_shm[processsize];
+  m_shm3 = &m_shm[processsize + vsteventsprocess];
+  m_shm4 = &m_shm[processsize + vsteventsprocess + chunksizemax];
+  m_shm5 = &m_shm[processsize + vsteventsprocess + chunksizemax + vsteventssend];
 
 #ifdef PCACHE
-  m_shm5 = &m_shm[PROCESSSIZE + SHMVALX + VSTEVENTS_PROCESS + SHMVALX + CHUNKSIZEMAX + SHMVALX + VSTEVENTS_SEND + SHMVALX + (sizeof(ShmControl) * 6) + SHMVALX];
+  m_shm6 = &m_shm[processsize + vsteventsprocess + chunksizemax + vsteventssend + (chunksizecontrol * 6)];
 #endif  
+
+  m_shmControl = (ShmControl *)m_shm5;
+//  memset(m_shmControl, 0, sizeof(ShmControl));
+  m_shmControl2 = (ShmControl *)&m_shm5[chunksizecontrol];
+//  memset(m_shmControl2, 0, sizeof(ShmControl));
+  m_shmControl3 = (ShmControl *)&m_shm5[chunksizecontrol * 2];
+//  memset(m_shmControl3, 0, sizeof(ShmControl));
+  m_shmControl4 = (ShmControl *)&m_shm5[chunksizecontrol * 3];
+//  memset(m_shmControl4, 0, sizeof(ShmControl));
+  m_shmControl5 = (ShmControl *)&m_shm5[chunksizecontrol * 4];
+//  memset(m_shmControl5, 0, sizeof(ShmControl));
+  m_shmControl6 = (ShmControl *)&m_shm5[chunksizecontrol * 5];
+//  memset(m_shmControl6, 0, sizeof(ShmControl));  
 
   m_threadbreak = 0;
   m_threadbreakexit = 0;
@@ -1050,7 +1110,7 @@ void RemotePluginClient::setParameter(int p, float v) {
   }
   
 #ifdef PCACHE
-  ParamState* pstate = (ParamState*)m_shm5; 
+  ParamState* pstate = (ParamState*)m_shm6; 
 
   if(p < 10000)
   { 
@@ -1081,7 +1141,7 @@ float RemotePluginClient::getParameter(int p) {
 #ifdef PCACHE
   if(p < 10000)
   {    
-  ParamState* pstate = (ParamState*)m_shm5;        
+  ParamState* pstate = (ParamState*)m_shm6;        
   return pstate[p].value;
   }
 #else
