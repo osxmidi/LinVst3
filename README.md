@@ -60,7 +60,7 @@ For Waveform, disable sandbox option for plugins.
 **Bitwig**
 
 For Bitwig, in Settings->Plug-ins choose "Individually" plugin setting and check all of the LinVst plugins.
-For Bitwig 2.4.3, In Settings->Plug-ins choose Independent plug-in host process for "Each plug-in" setting and check all of the LinVst plugins.
+For Bitwig 2.4.3, In Settings->Plug-ins choose Independent plug-in host process for "Each plug-in" setting and check all of the LinVst3 plugins.
 
 **Renoise**
 
