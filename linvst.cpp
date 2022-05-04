@@ -349,12 +349,6 @@ VstIntPtr dispatcher(AEffect *effect, VstInt32 opcode, VstInt32 index,
 
     plugin->effVoidOp(effClose);
 
-//#ifndef BITWIG
-//    wait(NULL);
-    int wstatus;
-    waitpid(-1, &wstatus, WUNTRACED);
-//#endif
-
     delete plugin;
     break;
 
