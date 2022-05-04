@@ -395,5 +395,11 @@ RemoteVSTClient::RemoteVSTClient(audioMasterCallback theMaster)
 }
 
 RemoteVSTClient::~RemoteVSTClient() {
-  //     wait(NULL);
+int pidval, wstatus;
+      for (int i = 0; i < 50000; i++) {
+      pidval = waitpid(-1, &wstatus, WNOHANG|WUNTRACED);
+      if (pidval <= 0)
+      break;
+      usleep(100);
+      }
 }
