@@ -53,6 +53,15 @@ When the Daw scans the /home/your-user-name/vst3 folder it should also automatic
 
 -------
 
+**Hyperthreading**
+
+For Reaper, in Options/Preferences/Buffering uncheck Auto-detect the number of needed audio processing threads and set 
+Audio reading/processing threads to the amount of physical cores of the cpu (not virtual cores such as hyperthreading cores).
+
+This can help with stutters and rough audio response.
+
+Other Daws might have similar settings.
+
 **Waveform**
 
 For Waveform, disable sandbox option for plugins.
