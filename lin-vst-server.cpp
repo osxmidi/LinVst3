@@ -506,6 +506,7 @@ int x, y;
 XEvent e;
 XClientMessageEvent xdndclient;
 XEvent xdndselect;  
+char mret;		
    
   /*
       struct sched_param param;
@@ -528,15 +529,16 @@ XEvent xdndselect;
   if(remoteVSTServerInstance->dodragwin == 1)
   {  
   usleep(1000);
-  
-  if(FindWindow(NULL , TEXT("TrackerWindow")))
-  remoteVSTServerInstance->windowok = 1;
-  else
-  remoteVSTServerInstance->windowok = 0;
-  
+    
    //     GetCursorPos(&point); 
   XQueryPointer(remoteVSTServerInstance->display, DefaultRootWindow(remoteVSTServerInstance->display), &groot, &gchild, &x, &y, &gchildx, &gchildx, &gmask);
   XFlush(remoteVSTServerInstance->display);
+	  
+  mret = gmask & (1<<8) ? 1 : 0;
+  if(mret == 1)
+  remoteVSTServerInstance->windowok = 1;
+  else
+  remoteVSTServerInstance->windowok = 0;		  
   
   point.x = x; 
   point.y = y;
@@ -2165,8 +2167,8 @@ DWORD retprocID;
   
   if(event == EVENT_OBJECT_CREATE && idObject == OBJID_WINDOW) 
   {
-  if(!FindWindow(NULL , TEXT("TrackerWindow")))
-  return;
+  if(FindWindow(NULL , TEXT("TrackerWindow")) == hWnd)
+  {
   cfdrop = 0;
   TrackerWindowInfo *trackerInfo = (TrackerWindowInfo*)GetWindowLongPtrA(hWnd, 0);
   if(trackerInfo)
@@ -2280,6 +2282,7 @@ DWORD retprocID;
   remoteVSTServerInstance->dodragwin = 1;
   }
   }       
+  }
   }
   }
 }
