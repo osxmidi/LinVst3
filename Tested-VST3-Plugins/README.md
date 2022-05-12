@@ -1,7 +1,7 @@
 ## Tested Vst3's
 
-LinVst tested with Waveform, Ardour, Reaper, Renoise, Bitwig Studio (For Bitwig 2.5 and later, In Settings->Plug-ins choose "Individually" plugin setting and check all of the LinVst plugins.
-For Bitwig 2.4.3, In Settings->Plug-ins choose Independent plug-in host process for "Each plug-in" setting and check all of the LinVst plugins).
+LinVst3 tested with Waveform, Ardour, Reaper, Renoise, Bitwig Studio (For Bitwig 2.5 and later, In Settings->Plug-ins choose "Individually" plugin setting and check all of the LinVst3 plugins.
+For Bitwig 2.4.3, In Settings->Plug-ins choose Independent plug-in host process for "Each plug-in" setting and check all of the LinVst3 plugins).
 
 If a plugin needs a dll override it can be found by running TestVst from the terminal and looking for any unimplemented function in xxxx.dll errors in the output (the xxxx.dll is the dll that needs to be replaced with a dll override).
 
