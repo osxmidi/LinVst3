@@ -2,7 +2,7 @@
 
 **Audio/Midi clips**
 LinVst has a Drag-and-Drop version (see the dragwin folder for the Makefile).
-The Audacity Windows version can be used to drag audio/midi clips from the vst window to Audacity (after maybe previewing/arranging them in the vst such as MT-PowerDrumKit and EZdrummer) and then there is the option of editing them in Audacity before saving and dragging them to the Linux Daw.
+The Audacity Windows version can be used to drag audio/midi clips from the vst window to Audacity (after maybe previewing/arranging them in the vst such as EZdrummer) and then there is the option of editing them in Audacity before saving and dragging them to the Linux Daw.
 Drag the clip from the plugin window to Audacity, then select the track in Audacity and export it, then drag it to the Daw.
 
 ---------
