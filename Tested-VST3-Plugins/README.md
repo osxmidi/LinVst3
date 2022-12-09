@@ -25,6 +25,8 @@ Melda MXXX Multi Effects** (turn GPU acceleration off)
 
 **Mercuriall Spark Amp Sim**
 
+**Amped Roots**
+
 -------
 
 **Hyperthreading**
