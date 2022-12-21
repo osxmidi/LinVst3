@@ -10,9 +10,9 @@ Unlike Vst2, saved projects using wrapped Vst3 plugins are not compatible/transf
 
 LinVst3 binaries are on the releases page (under Assets) https://github.com/osxmidi/LinVst3/releases
 
-See LinVst3-X (https://github.com/osxmidi/LinVst3-X) for running vst plugins in a single Wine process so that plugins can communicate with each other or plugins that can use shared samples between instances will be able to communicate with their other instances.
+See https://github.com/osxmidi/LinVst3/tree/master/Tested-VST3-Plugins for some common Vst3 tested plugin details.
 
-Same usage applies as per LinVst except that it's linvst3.so instead of linvst.so and the vst dll filename extensions are .vst3 instead of .dll https://github.com/osxmidi/LinVst/wiki https://github.com/osxmidi/LinVst/blob/master/README.md https://github.com/osxmidi/LinVst/tree/master/Detailed-Guide
+The same usage applies as per LinVst except that it's linvst3.so instead of linvst.so and the vst dll filename extensions are .vst3 instead of .dll https://github.com/osxmidi/LinVst/wiki https://github.com/osxmidi/LinVst/blob/master/README.md https://github.com/osxmidi/LinVst/tree/master/Detailed-Guide
 
 So for example, linvst3.so would be renamed to Delay.so for Delay.vst3 (see convert folder for batch name conversion utilities)
 
