@@ -7,7 +7,9 @@ Drag the clip from the plugin window to Audacity, then select the track in Audac
 
 ---------
 
-**Kontakt** 
+https://github.com/osxmidi/LinVst/blob/master/Tested-VST-Plugins/README.md
+
+**Kontakt** see the above link for install update tips.
 
 **EZDrummer** 
 
