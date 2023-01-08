@@ -15,11 +15,15 @@ LinVst3 can run the Kontakt 7 etc vst3 version, tested using Wine-tkg https://gi
 
 **EZDrummer3** 
 
+EZDrummer3 drag/drop works with the LinVst3 drag/drop version.
+
 **Valhalla** 
 
 **Melda** 
 Installer might need corefonts (winetricks corefonts)
 Melda MXXX Multi Effects** (turn GPU acceleration off)
+
+Melda drag/drop works with the LinVst3 drag/drop version.
 
 **Blue Cat** 
 
