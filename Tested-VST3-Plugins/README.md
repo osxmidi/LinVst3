@@ -11,6 +11,8 @@ https://github.com/osxmidi/LinVst/blob/master/Tested-VST-Plugins/README.md
 
 **Kontakt** , see the above link for updated install tips regarding Native Access etc.
 
+LinVst3 can run the Kontakt 7 etc vst3 version, tested using Wine-tkg https://github.com/osxmidi/LinVst/tree/master/Wine-tkg and a DirectX 11 capable card.
+
 **EZDrummer** 
 
 **Valhalla** 
