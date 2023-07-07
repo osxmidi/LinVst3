@@ -1651,6 +1651,7 @@ void RemoteVSTServer::eventloop()
         e.xconfigure.override_redirect = False;
         XSendEvent(display, child, False,
                    StructureNotifyMask | SubstructureRedirectMask, &e);
+	      // if(hWnd)
 	      // MoveWindow(hWnd, xmove, ymove, width, height, true);
         //      }
         break;
