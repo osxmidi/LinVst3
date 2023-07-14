@@ -88,7 +88,7 @@ Select the folder that matches the Steinberg sdk version you are using and copy 
 
 The default LinVst3 script files are for the Steinberg https://download.steinberg.net/sdk_downloads/vst-sdk_3.7.1_build-50_2020-11-17.zip
 
-#include <stdint.h> might need to be added to /pluginterfaces/vst/vsttypes.h in the vst3 sdk folder.
+#include <stdint.h> or #include <cstdint> might need to be added to /pluginterfaces/vst/vsttypes.h in the vst3 sdk folder.
 
 For previous sdk versions
 
