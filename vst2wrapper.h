@@ -190,6 +190,36 @@ protected:
 };
 
 //------------------------------------------------------------------------
+// Vst2EditorWrapper Declaration
+//------------------------------------------------------------------------
+class Vst2EditorWrapper : public BaseEditorWrapper {
+public:
+  //------------------------------------------------------------------------
+  Vst2EditorWrapper(IEditController *controller,
+                    audioMasterCallback audioMaster);
+
+  //--- from BaseEditorWrapper ---------------------
+  void _close();
+
+  //--- from AEffEditor-------------------
+  bool getRect(ERect **rect);
+  bool open(void *ptr);
+  void close() { _close(); }
+  bool setKnobMode(VstInt32 val) {
+    return BaseEditorWrapper::_setKnobMode(static_cast<Vst::KnobMode>(val));
+  }
+
+  //--- IPlugFrame ----------------------------
+  tresult PLUGIN_API resizeView(IPlugView *view, ViewRect *newSize);
+
+  audioMasterCallback audioMaster3;
+
+  //------------------------------------------------------------------------
+protected:
+  ERect mERect;
+};
+
+//------------------------------------------------------------------------
 } // namespace Vst
 } // namespace Steinberg
 

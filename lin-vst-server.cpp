@@ -49,8 +49,10 @@
 #include "paths.h"
 
 #include "public.sdk/source/vst/hosting/module.h"
+
+#include "basewrapper.h"
+
 #include "vst2wrapper.h"
-#include "vst2wrapper.sdk.cpp"
 
 #include <X11/Xatom.h>
 #include <X11/Xlib.h>
@@ -3309,10 +3311,6 @@ void RemoteVSTServer::guiUpdate() {
     //  }
 #endif
 }
-
-bool InitModule() { return true; }
-
-bool DeinitModule() { return true; }
 
 #define mchr(a, b, c, d) (((a) << 24) | ((b) << 16) | ((c) << 8) | (d))
 
