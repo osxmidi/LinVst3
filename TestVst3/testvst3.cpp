@@ -4,8 +4,10 @@
 #include <iostream>
 #include <string>
 
+#ifdef __WINE__
+#else
 #define __cdecl
-//#endif
+#endif
 
 #define WIN32_LEAN_AND_MEAN
 
