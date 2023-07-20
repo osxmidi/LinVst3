@@ -86,17 +86,17 @@ See https://github.com/osxmidi/LinVst/tree/master/Make-Guide for setup info and 
 Steinberg sdk version script files needed by LinVst3 are in the vst3-sdks folder.
 Select the folder that matches the Steinberg sdk version you are using and copy the files to the LinVst3 main folder.
 
-The default LinVst3 script files are for the Steinberg https://download.steinberg.net/sdk_downloads/vst-sdk_3.7.1_build-50_2020-11-17.zip
+The vst3 sdk needs to be patched and the default LinVst3 script patch file (lin-patchwin) is for this version of the Steinberg vst sdk https://download.steinberg.net/sdk_downloads/vst-sdk_3.7.1_build-50_2020-11-17.zip
 
 #include <stdint.h> might need to be added to /pluginterfaces/vst/vsttypes.h in the vst3 sdk folder.
 
-For previous sdk versions
+For previous vst3 sdk versions
 
 vst-sdk_3.7.0_build-116_2020-07-31 sdk https://download.steinberg.net/sdk_downloads/vst-sdk_3.7.0_build-116_2020-07-31.zip
 vst-sdk_3.6.14_build-24_2019-11-29 https://download.steinberg.net/sdk_downloads/vst-sdk_3.6.14_build-24_2019-11-29.zip 
 vstsdk3613_08_04_2019_build_81 https://download.steinberg.net/sdk_downloads/vstsdk3613_08_04_2019_build_81.zip
 
-Libraries that need to be pre installed, 
+As well as the X11 and Wine development libraries https://github.com/osxmidi/LinVst/tree/master/Make-Guide some additional libraries also need to be pre installed, 
 
 sudo apt-get install cmake
 
