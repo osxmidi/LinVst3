@@ -29,9 +29,11 @@ typedef AEffect *(VESTIGECALLBACK *VstEntry)(audioMasterCallback audioMaster);
 typedef AEffect *(VSTCALLBACK *VstEntry)(audioMasterCallback audioMaster);
 #endif
 
-#include "vst2wrapper.sdk.cpp"
-#include "vst2wrapper.h"
 #include "public.sdk/source/vst/hosting/module.h"
+
+#include "basewrapper.h"
+
+#include "vst2wrapper.h"
 
 extern "C"
 {
@@ -64,16 +66,6 @@ VstIntPtr rv = 0;
     
      return rv; 
 }  
-
-bool InitModule ()   
-{
-	return true; 
-}
-
-bool DeinitModule ()
-{
-	return true; 
-}
 
 #define mchr(a,b,c,d) ( ((a)<<24) | ((b)<<16) | ((c)<<8) | (d) )
 
