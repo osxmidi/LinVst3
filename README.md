@@ -79,7 +79,7 @@ Choose the sandbox option for plugins.
 
 LinVst3 binaries are on the releases page (under Assets) https://github.com/osxmidi/LinVst3/releases
 
-To Make (currently working with gcc12 and lower and not working with gcc13)
+To Make
 
 See https://github.com/osxmidi/LinVst/tree/master/Make-Guide for setup info and make options
 
