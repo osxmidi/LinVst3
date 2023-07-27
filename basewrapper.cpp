@@ -161,9 +161,9 @@ tresult PLUGIN_API BaseEditorWrapper::resizeView(IPlugView *view,
   tresult result = kResultFalse;
   if (view && newSize) {
     result = view->onSize(newSize);
-  }
-
   return result;
+  }
+  return false;
 }
 
 //------------------------------------------------------------------------
@@ -1385,11 +1385,13 @@ tresult PLUGIN_API Vst2EditorWrapper::resizeView(IPlugView *view,
                                                  ViewRect *newSize) {
   AEffect plugin;
 
-  BaseEditorWrapper::resizeView(view, newSize);
-
   if (audioMaster3)
-    audioMaster3(&plugin, audioMasterSizeWindow, newSize->getWidth(),
-                 newSize->getHeight(), 0, 0);
+  {
+  BaseEditorWrapper::resizeView(view, newSize);
+  audioMaster3(&plugin, audioMasterSizeWindow, newSize->getWidth(), newSize->getHeight(), 0, 0);
+  return true;
+  }
+  return false;
 }
 
 //------------------------------------------------------------------------
