@@ -88,8 +88,6 @@ Select the folder that matches the Steinberg sdk version you are using and copy 
 
 The vst3 sdk needs to be patched and the default LinVst3 script patch file (lin-patchwin) is for this version of the Steinberg vst sdk https://download.steinberg.net/sdk_downloads/vst-sdk_3.7.1_build-50_2020-11-17.zip
 
-#include <stdint.h> might need to be added to /pluginterfaces/vst/vsttypes.h in the vst3 sdk folder.
-
 For previous vst3 sdk versions
 
 vst-sdk_3.7.0_build-116_2020-07-31 sdk https://download.steinberg.net/sdk_downloads/vst-sdk_3.7.0_build-116_2020-07-31.zip
