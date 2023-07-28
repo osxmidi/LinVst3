@@ -20,6 +20,9 @@ sed -i 's@#define snwprintf _snwprintf@#define snwprintf swprintf@g' ../base/sou
 sed -i 's@#define vsnwprintf _vsnwprintf@#define vsnwprintf vswprintf@g' ../base/source/fstring.cpp
 sed -i 's@return GetTickCount64 ();@struct timespec now; \n if (clock_gettime(CLOCK_MONOTONIC, \&now)) \n return 0; \n return now.tv_sec \* 1000.0 + now.tv_nsec / 1000000.0;@g' ../base/source/timer.cpp
 sed -i 's@#include <windows.h>@#include <windows.h> \n #include <ctime>@g' ../base/source/timer.cpp
+sed -i 's@#pragma once@#pragma once \n #include <stdint.h>@g' ../pluginterfaces/vst/vsttypes.h
+sed -i 's@#if defined(_M_ARM64) || defined(_M_ARM)@#if defined(__WINE__)@g' ../pluginterfaces/base/funknown.cpp
+sed -i 's@#warning implement me!@ @g' ../pluginterfaces/base/funknown.cpp
 sed -i 's@#include <stdio.h>@#include <stdio.h> \n #include <uuid/uuid.h>@g' ../pluginterfaces/base/funknown.cpp
 sed -i '/GUID guid;/,/}/c\ \n' ../pluginterfaces/base/funknown.cpp
 sed -i 's@#include <cstdio>@#include <cstdio> \n #include <wchar.h>@g' ../pluginterfaces/base/ustring.cpp
