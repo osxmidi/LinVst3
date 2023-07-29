@@ -172,7 +172,7 @@ public:
   int32 numprograms;
   bool synth;
 
-  audioMasterCallback audioMaster;
+  audioMasterCallback audioMaster = nullptr;
 
   //--- ------------------------------------------------------
   DEFINE_INTERFACES
@@ -212,7 +212,7 @@ public:
   //--- IPlugFrame ----------------------------
   tresult PLUGIN_API resizeView(IPlugView *view, ViewRect *newSize);
 
-  audioMasterCallback audioMaster3;
+  audioMasterCallback audioMaster3 = nullptr;
 
   //------------------------------------------------------------------------
 protected:

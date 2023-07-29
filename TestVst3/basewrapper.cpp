@@ -1376,8 +1376,7 @@ bool areSizeEquals(const ViewRect &r1, const ViewRect &r2) {
 //------------------------------------------------------------------------
 Vst2EditorWrapper::Vst2EditorWrapper(IEditController *controller,
                                      audioMasterCallback audioMaster)
-    : BaseEditorWrapper(controller) {
-  audioMaster3 = audioMaster;
+    : audioMaster3(audioMaster), BaseEditorWrapper(controller) {
 }
 
 //------------------------------------------------------------------------
@@ -1488,13 +1487,12 @@ void Vst2MidiEventQueue::flush() { eventList->numEvents = 0; }
 //------------------------------------------------------------------------
 Vst2Wrapper::Vst2Wrapper(BaseWrapper::SVST3Config &config,
                          audioMasterCallback audioMaster2, VstInt32 vst2ID)
-    : BaseWrapper(config), editor(0), curProgram(0), initialdelay(0),
+    : audioMaster(audioMaster2), BaseWrapper(config), editor(0), curProgram(0), initialdelay(0),
       doublereplacing(false), numinputs(0), numoutputs(0), numparams(0),
       numprograms(0), synth(false) {
   mUseExportedBypass = false;
   mUseIncIndex = true;
 
-  audioMaster = audioMaster2;
 
   //	setUniqueID (vst2ID);
   //	canProcessReplacing (true); // supports replacing output
@@ -1521,6 +1519,7 @@ bool Vst2Wrapper::init(audioMasterCallback audioMaster) {
   //		isSynth (true);
 
   bool res = BaseWrapper::init();
+
 
   numprograms = mNumPrograms;
 
