@@ -6,6 +6,7 @@
    #include <string.h>
    #include <fts.h>
    #include <sys/stat.h>   
+   #include <bits/stdc++.h>
     
    gchar *folderpath;
    gchar *filepath;
@@ -17,129 +18,76 @@
    int intimer = 0;
    
    char foldertest[2048];
-   
-   int dosym(std::string path)
+
+   size_t find_last(std::string searchstr, std::string searcharg)
+   {
+   size_t foundret = 0;
+   size_t found = searchstr.find(searcharg, 0);
+   foundret = found;
+ 
+   while(found != std::string::npos)
+   {
+   found += searcharg.size();
+   found = searchstr.find(searcharg, found);
+   if(found != std::string::npos)
+   foundret = found;
+   }
+   return foundret;
+   }
+  
+   bool dosym(std::string path)
    {
     std::string vst3string;
-    std::string vst3string2;    
-    int count;
-    size_t nPos;  
-    size_t found;
-    size_t found2;   
-    std::string filename;
-    std::string filename2; 
+    std::string vst3string2;  
+    std::string vst3stringcase;  
     struct stat sb;  
-    int upper;
-    int upperlower; 
+    size_t found;
       
 	vst3string = path;
-	vst3string2 = path;	
-
-    nPos = vst3string2.find(".vst3", 0); 
-       
-    if((nPos + 4) <= vst3string2.length())
-    {    
-    vst3string2[nPos + 5] = '\0';
-   
+    vst3stringcase = path; 
+    transform(vst3stringcase.begin(), vst3stringcase.end(), vst3stringcase.begin(), ::tolower);
+    found = vst3stringcase.find(".vst3", 0);
+    vst3string2 = vst3string.substr(0, found + 5);
+    vst3string = vst3string.substr(0, found);  
     if((stat(vst3string2.c_str(), &sb) == 0) && S_ISDIR(sb.st_mode))
 	{
-	count = 0;
-	upper = 0;
-	upperlower = 0;
-    nPos = vst3string.find(".vst3", 0); 	
-    while(nPos != std::string::npos)
-    {
-    count++;
-    nPos = vst3string.find(".vst3", nPos + 1);
+    vst3string = vst3string + "-linvst3";    
+    symlink(vst3string2.c_str(), vst3string.c_str());  
+    return true;
     }
-    if(count < 2)
-    {
-    count = 0;
-    nPos = vst3string.find(".VST3", 0); 
-    while(nPos != std::string::npos)
-    {
-    count++;
-    nPos = vst3string.find(".VST3", nPos + 1);
-    }  
-    if(count >= 2)
-    upper = 1;
-    }  
-    if(count < 2)
-    {
-    count = 0;
-    nPos = vst3string.find(".Vst3", 0); 
-    while(nPos != std::string::npos)
-    {
-    count++;
-    nPos = vst3string.find(".Vst3", nPos + 1);
-    }  
-    if(count >= 2)
-    upperlower = 1;          
-    }    		
-    
-    if(count > 1)
-    {
-    if(upper == 1)
-    {
-    found2 = vst3string.find(".VST3", 0);
-    filename = vst3string.substr(0, found2);
-    found = vst3string.find(".VST3", 0);
-    filename2 = vst3string.substr(0, found + 5);         
-    }
-    else if(upperlower == 1)
-    {
-    found2 = vst3string.find(".Vst3", 0);
-    filename = vst3string.substr(0, found2);
-    found = vst3string.find(".Vst3", 0);
-    filename2 = vst3string.substr(0, found + 5);        
-    }
-    else
-    {
-    found2 = vst3string.find(".vst3", 0);
-    filename = vst3string.substr(0, found2);
-    found = vst3string.find(".vst3", 0);
-    filename2 = vst3string.substr(0, found + 5); 
-    }
-  
-    if((found != std::string::npos) && (found2 != std::string::npos))
-    {
-    filename = filename + "-linvst3";    
-    symlink(filename2.c_str(), filename.c_str());  
-    }
+    return false;
     } 
-    }  
-    }
-    }
 
-   int doconvert(char *linvst, char folder[])
-   { 
-   DIR *dirlist;
-   struct dirent *dentry;
-   std::string convertname;
-   std::string cfolder;
-   char *folderpath[] = {folder, 0};
-   int vst3filehit; 
-   FTSENT *node;  
-   FTS *fs;
+    int doconvert(char *linvst, char folder[])
+    { 
+    DIR *dirlist;
+    struct dirent *dentry;
+    std::string convertname;
+    std::string convertnamecase;
+    std::string cfolder;
+    char *folderpath[] = {folder, 0};
+    int vst3filehit; 
+    FTSENT *node;  
+    FTS *fs;
+    bool test;
 
-   filecopy = 1;
+    filecopy = 1;  
+    test = std::ifstream(linvst).good();
    
-   bool test = std::ifstream(linvst).good();
-   
-   if(!test)
-   {
-   filecopy = 0;
-   return 1;
-   }
+    if(!test)
+    {
+    filecopy = 0;
+    return 1;
+    }
 
-   fs = fts_open(folderpath, FTS_NOCHDIR, 0);
-   if (!fs) 
-   {
-   return 1;
-   }
+    fs = fts_open(folderpath, FTS_NOCHDIR, 0);
+    if (!fs) 
+    {
+    return 1;
+    }
 
-   while ((node = fts_read(fs))) 
-   {      
+    while ((node = fts_read(fs))) 
+    {      
     switch (node->fts_info) {
  	case FTS_DNR:	
 	case FTS_ERR:
@@ -148,42 +96,32 @@
 	break;
 	case FTS_F:
 	convertname = node->fts_path;
+    convertnamecase = convertname;
+    transform(convertnamecase.begin(), convertnamecase.end(), convertnamecase.begin(), ::tolower);
 	vst3filehit = 0;
-    if(convertname.find(".vst3") != std::string::npos)
+
+    if(convertnamecase.find(".vst3") != std::string::npos)
 	{
-    int fulllength = strlen(convertname.c_str());
-    if((convertname[fulllength - 1] == '3') && (convertname[fulllength - 2] == 't') && (convertname[fulllength - 3] == 's') && (convertname[fulllength - 4] == 'v') && (convertname[fulllength - 5] == '.'))
+    int fulllength = strlen(convertnamecase.c_str());
+    if((convertnamecase[fulllength - 1] == '3') && (convertnamecase[fulllength - 2] == 't') && (convertnamecase[fulllength - 3] == 's') && (convertnamecase[fulllength - 4] == 'v') && (convertnamecase[fulllength - 5] == '.'))
     {    
     dosym(convertname.c_str());
-    convertname.replace(convertname.begin() + (convertname.find_last_of(".vst3") - 4), convertname.end(), ".so");
+    size_t position = find_last(convertnamecase, ".vst3");
+    if(position != 0)
+    convertname.replace(convertname.begin() + position, convertname.end(), ".so");
     vst3filehit = 1;
 	}	
-    else if((convertname[fulllength - 1] == '3') && (convertname[fulllength - 2] == 'T') && (convertname[fulllength - 3] == 'S') && (convertname[fulllength - 4] == 'V') && (convertname[fulllength - 5] == '.'))
-    {    
-    dosym(convertname.c_str());
-    convertname.replace(convertname.begin() + (convertname.find_last_of(".vst3") - 4), convertname.end(), ".so");
-    vst3filehit = 1;    
-	}
-    else if((convertname[fulllength - 1] == '3') && (convertname[fulllength - 2] == 't') && (convertname[fulllength - 3] == 's') && (convertname[fulllength - 4] == 'V') && (convertname[fulllength - 5] == '.'))
-    {    
-    dosym(convertname.c_str());
-    convertname.replace(convertname.begin() + (convertname.find_last_of(".vst3") - 4), convertname.end(), ".so");
-    vst3filehit = 1;    
-	}	
+    }
+
 	if(vst3filehit == 1)
 	{
     std::string sourcename = linvst;
-
-    std::ifstream source(sourcename.c_str(), std::ios::binary);
-      
+    std::ifstream source(sourcename.c_str(), std::ios::binary);      
     std::ofstream dest(convertname.c_str(), std::ios::binary);
-
     dest << source.rdbuf();
-
     source.close();
     dest.close();	
 	}			
-	}
 	break;
 
     default:
@@ -191,13 +129,11 @@
     }	
     }
 	
-   if(fs)
-   fts_close(fs);
- 
-   filecopy = 0;
+    if(fs)
+    fts_close(fs);
+    filecopy = 0;
 
-   return 0;
-    
+    return 0;    
    }
 
 void quitcallback ()
@@ -212,7 +148,6 @@ void quitcallback ()
 
   gtk_main_quit ();
 }
-
 }
 
 void foldercallback (GtkFileChooser *folderselect)
