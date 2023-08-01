@@ -23,6 +23,7 @@
 
 #include <fstream>
 #include <iostream>
+#include <bits/stdc++.h>
 #include <map>
 #include <string>
 #include <vector>
@@ -3312,13 +3313,32 @@ void RemoteVSTServer::guiUpdate() {
 #endif
 }
 
+   size_t find_last(std::string searchstr, std::string searcharg)
+   {
+   size_t foundret = 0;
+   size_t found = searchstr.find(searcharg, 0);
+   foundret = found;
+ 
+   while(found != std::string::npos)
+   {
+   found += searcharg.size();
+   found = searchstr.find(searcharg, found);
+   if(found != std::string::npos)
+   foundret = found;
+   }
+   return foundret;
+   }
+   
 #define mchr(a, b, c, d) (((a) << 24) | ((b) << 16) | ((c) << 8) | (d))
 
 Steinberg::Vst::Vst2Wrapper *
 createEffectInstance2(audioMasterCallback audioMaster, HMODULE libHandle,
-                      std::string libnamepath, std::string partidx,
+                      std::string libnamepathorg, std::string partidx,
                       Steinberg::IPluginFactory *factory, int *vstuid) {
+  std::string libnamepath;
   std::string libnamepath2;
+  std::string libnamepath3;
+  std::string libnamepathcase;
   bool test;
   Steinberg::FIDString cid;
   Steinberg::FIDString firstcid;
@@ -3330,15 +3350,13 @@ createEffectInstance2(audioMasterCallback audioMaster, HMODULE libHandle,
   int audioclass = 0;
   int firstdone = 0;
 
-  if (libnamepath.find(".vst3") != std::string::npos) {
-    libnamepath.replace(libnamepath.begin() + libnamepath.find(".vst3"),
-                        libnamepath.end(), "");
-  } else if (libnamepath.find(".Vst3") != std::string::npos) {
-    libnamepath.replace(libnamepath.begin() + libnamepath.find(".Vst3"),
-                        libnamepath.end(), "");
-  } else if (libnamepath.find(".VST3") != std::string::npos) {
-    libnamepath.replace(libnamepath.begin() + libnamepath.find(".VST3"),
-                        libnamepath.end(), "");
+  libnamepath = libnamepathorg;
+  libnamepathcase = libnamepathorg;
+  transform(libnamepathcase.begin(), libnamepathcase.end(), libnamepathcase.begin(), ::tolower);
+  if (find_last(libnamepathcase, ".vst3") != std::string::npos) 
+  {
+     size_t foundcasecmp = find_last(libnamepathcase, ".vst3");
+     libnamepath = libnamepath.substr(0, foundcasecmp);
   }
 
   auto proc =
@@ -3392,18 +3410,15 @@ createEffectInstance2(audioMasterCallback audioMaster, HMODULE libHandle,
 
       test = std::ifstream(libnamepath2.c_str()).good();
 
-      if ((atoi(partidx.c_str()) == (10000)) && !test &&
-          (audioclasscount > 0)) {
-        parthit = 1;
+      if ((atoi(partidx.c_str()) == (10000)) && !test && (audioclasscount > 0)) {
+      parthit = 1;
+      libnamepath3 = libnamepath  + ".so";
+      std::ifstream source(libnamepath3, std::ios::binary);
+      std::ofstream dest(libnamepath2, std::ios::binary);
 
-        std::ifstream source(libnamepath + ".so", std::ios::binary);
-
-        std::ofstream dest(libnamepath2, std::ios::binary);
-
-        dest << source.rdbuf();
-
-        source.close();
-        dest.close();
+      dest << source.rdbuf();
+      source.close();
+      dest.close();
       } else if ((atoi(partidx.c_str()) == (i)) && test &&
                  (audioclasscount > 0)) {
         parthit2 = 1;
