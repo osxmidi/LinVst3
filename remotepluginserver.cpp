@@ -62,12 +62,11 @@ RemotePluginServer::RemotePluginServer(std::string fileIdentifiers)
   char tmpFileBase[60];
   int startok;
 
-  sprintf(tmpFileBase, "/vstrplugin_shm_%s",
-          fileIdentifiers.substr(0, 6).c_str());
+  sprintf(tmpFileBase, "/tmp/rplugin_shm_%s", fileIdentifiers.substr(0, 6).c_str());
 
   m_shmFileName = strdup(tmpFileBase);
 
-  if ((m_shmFd = shm_open(m_shmFileName, O_RDWR, 0)) < 0) {
+  if ((m_shmFd = open(m_shmFileName, O_RDWR)) < 0) {
     starterror = 1;
     cleanup();
     return;
