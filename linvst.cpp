@@ -487,17 +487,15 @@ VST_EXPORT AEffect *VSTPluginMain(audioMasterCallback audioMaster) {
   if (!audioMaster(0, audioMasterVersion, 0, 0, 0, 0))
     return 0;
 
-  try {
+//  try {
     plugin = new RemoteVSTClient(audioMaster);
-  } catch (std::string e) {
+//  } catch (std::string e) {
+    if(!plugin)
+    {
     std::cerr << "Could not connect to Server" << std::endl;
     errwin2();
-    if (plugin) {
-      plugin->m_runok = 1;
-      delete plugin;
-    }
     return 0;
-  }
+    }
 
   if (plugin->m_runok == 2) {
     std::cerr << "LinVst Error: trying to load unnamed linvst.so" << std::endl;

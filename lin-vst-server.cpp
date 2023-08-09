@@ -912,7 +912,8 @@ std::string RemoteVSTServer::getName() {
   vst2wrap->getEffectName(buffer);
   if (buffer[0]) {
     m_name = buffer;
-    if (strlen(buffer) < (kVstMaxEffectNameLen - 7))
+    if (strlen(buffer) < 500)
+// (kVstMaxEffectNameLen - 7))
       m_name = m_name + " [vst3]";
   }
   return m_name;
@@ -3502,7 +3503,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR cmdline,
   cerr << "Copyright (c) 2012-2013 Filipe Coelho" << endl;
   cerr << "Copyright (c) 2010-2011 Kristian Amlie" << endl;
   cerr << "Copyright (c) 2004-2006 Chris Cannam" << endl;
-  cerr << "LinVst3 version 4.7.8" << endl;
+  cerr << "LinVst3 version 4.9" << endl;
 
   /*
 

@@ -94,6 +94,7 @@ RemoteVSTClient::RemoteVSTClient(audioMasterCallback theMaster)
   Dl_info info;
   std::string dllName;
   std::string LinVstName;
+  std::string LinVstNameso;
   bool test;
   size_t found2;
   std::string filename;
@@ -236,88 +237,21 @@ RemoteVSTClient::RemoteVSTClient(audioMasterCallback theMaster)
 
   mfile.close();
 
-#ifdef EMBED
-#ifdef TRACKTIONWM
-#ifdef BITWIG
-  LinVstName = "/usr/bin/lin-vst3-servertrack-bw.exe";
-#else
-  LinVstName = "/usr/bin/lin-vst3-servertrack.exe";
-#endif
-  test = std::ifstream(LinVstName.c_str()).good();
-  if (!test) {
-    m_runok = 1;
-    cleanup();
-    return;
-  }
-
-#ifdef BITWIG
-  LinVstName = "/usr/bin/lin-vst3-servertrack-bw.exe.so";
-#else
-  LinVstName = "/usr/bin/lin-vst3-servertrack.exe.so";
-#endif
-  test = std::ifstream(LinVstName.c_str()).good();
-  if (!test) {
-    m_runok = 1;
-    cleanup();
-    return;
-  }
-#else
-#ifdef BITWIG
-  LinVstName = "/usr/bin/lin-vst3-server-bw.exe";
-#else
-  LinVstName = "/usr/bin/lin-vst3-server.exe";
-#endif
-  test = std::ifstream(LinVstName.c_str()).good();
-  if (!test) {
-    m_runok = 1;
-    cleanup();
-    return;
-  }
-#ifdef BITWIG
-  LinVstName = "/usr/bin/lin-vst3-server-bw.exe.so";
-#else
-  LinVstName = "/usr/bin/lin-vst3-server.exe.so";
-#endif
-  test = std::ifstream(LinVstName.c_str()).good();
-  if (!test) {
-    m_runok = 1;
-    cleanup();
-    return;
-  }
-#endif
-#else
-#ifdef TRACKTIONWM
-  LinVstName = "/usr/bin/lin-vst3-servertrackst.exe";
-  test = std::ifstream(LinVstName.c_str()).good();
-  if (!test) {
-    m_runok = 1;
-    cleanup();
-    return;
-  }
-  LinVstName = "/usr/bin/lin-vst3-servertrackst.exe.so";
-  test = std::ifstream(LinVstName.c_str()).good();
-  if (!test) {
-    m_runok = 1;
-    cleanup();
-    return;
-  }
-#else
-  LinVstName = "/usr/bin/lin-vst3-serverst.exe";
-  test = std::ifstream(LinVstName.c_str()).good();
-  if (!test) {
-    m_runok = 1;
-    cleanup();
-    return;
-  }
-  LinVstName = "/usr/bin/lin-vst3-serverst.exe.so";
-  test = std::ifstream(LinVstName.c_str()).good();
-  if (!test) {
-    m_runok = 1;
-    cleanup();
-    return;
-  }
-#endif
-#endif
+    LinVstName =  BIN_DIR "/lin-vst3-server.exe";
+    LinVstNameso =  BIN_DIR "/lin-vst3-server.exe.so";
+ 
+    test = std::ifstream(LinVstName.c_str()).good();
+    if (!test) {
+      m_runok = 1;
+      cleanup();
+      return;
+    }
+    test = std::ifstream(LinVstNameso.c_str()).good();
+    if (!test) {
+      m_runok = 1;
+      cleanup();
+      return;
+    }
 
   hit2[0] = '\0';
 
@@ -350,47 +284,12 @@ RemoteVSTClient::RemoteVSTClient(audioMasterCallback theMaster)
     cleanup();
     return;
   } else if (child == 0) {
-    // for (int fd=3; fd<256; fd++) (void) close(fd);
-    /*
-    int maxfd=sysconf(_SC_OPEN_MAX);
-    for(int fd=3; fd<maxfd; fd++)
-        close(fd);
-    */
-#ifdef EMBED
-#ifdef TRACKTIONWM
-#ifdef BITWIG
-    if (execlp("/usr/bin/lin-vst3-servertrack-bw.exe",
-               "/usr/bin/lin-vst3-servertrack-bw.exe", argStr, NULL))
-#else
-    if (execlp("/usr/bin/lin-vst3-servertrack.exe",
-               "/usr/bin/lin-vst3-servertrack.exe", argStr, NULL))
-#endif
-#else
-#ifdef BITWIG
-    if (execlp("/usr/bin/lin-vst3-server-bw.exe",
-               "/usr/bin/lin-vst3-server-bw.exe", argStr, NULL))
-#else
-    if (execlp("/usr/bin/lin-vst3-server.exe", "/usr/bin/lin-vst3-server.exe",
-               argStr, NULL))
-#endif
-#endif
-#else
-#ifdef TRACKTIONWM
-    if (execlp("/usr/bin/lin-vst3-servertrackst.exe",
-               "/usr/bin/lin-vst3-servertrackst.exe", argStr, NULL))
-#else
-    if (execlp("/usr/bin/lin-vst3-serverst.exe",
-               "/usr/bin/lin-vst3-serverst.exe", argStr, NULL))
-#endif
-#endif
-    {
+      if (execlp(BIN_DIR "/lin-vst3-server.exe", BIN_DIR "/lin-vst3-server.exe", argStr, NULL)) {
       m_runok = 1;
       cleanup();
       return;
-    }
+	  }   
   }
-  //  signal(SIGCHLD, SIG_IGN);
-
   syncStartup();
 }
 
