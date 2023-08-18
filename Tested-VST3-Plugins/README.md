@@ -19,6 +19,8 @@ EZDrummer3 drag/drop works with the LinVst3 drag/drop version.
 
 **Valhalla** 
 
+**Amplitube 5**
+
 **Line 6 Helix Native** (maybe needed, msvcr120.dll and gdiplus.dll overrides or winetricks vcrun2013 gdiplus wininet) (copy and paste username and password into the registration window)
 
 **Melda** 
