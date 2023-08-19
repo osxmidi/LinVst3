@@ -38,6 +38,8 @@ Melda drag/drop works with the LinVst3 drag/drop version.
 
 **FabFilter** 
 
+**Wave Arts**
+
 **Mercuriall Spark Amp Sim**
 
 **Amped Roots**
