@@ -17,6 +17,9 @@ LinVst3 can run the Kontakt 7 etc vst3 version, tested using Wine-tkg https://gi
 
 EZDrummer3 drag/drop works with the LinVst3 drag/drop version.
 
+**ModoDrum**
+Midi Grooves are in ~/.wine/drive_c/Program Files/IK Multimedia/MODO DRUM
+
 **Valhalla** 
 
 **Amplitube 5**
