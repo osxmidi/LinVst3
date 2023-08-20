@@ -19,6 +19,7 @@ EZDrummer3 drag/drop works with the LinVst3 drag/drop version.
 
 **ModoDrum**
 Midi Grooves are in ~/.wine/drive_c/Program Files/IK Multimedia/MODO DRUM
+Dragging grooves to Daw tracks works with the LinVst3 drag and drop version if the Daw supports it.
 
 **Valhalla** 
 
