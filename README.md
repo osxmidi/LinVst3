@@ -102,6 +102,14 @@ sudo apt-get install libfreetype6-dev libxcb-util0-dev libxcb-cursor-dev libxcb-
 
 For Manjaro/Arch: sudo pacman -Sy cmake freetype2 sqlite libxcb xcb-util gtkmm3 xcb-util-cursor libx11 pkgconfig xcb-util-keysyms
 
+For Fedora
+sudo yum -y install wine-devel wine-devel.i686 libX11-devel libX11-devel.i686
+sudo yum -y install libstdc++.i686 libX11.i686
+
+sudo yum -y install sqlite sqlite-devel cmake freetype-devel xcb-util-devel gcc g++ xcb-util-cursor xcb-util-cursor-devel xcb-util-keysyms xcb-util-keysyms-devel libxkbcommon libxkbcommon-devel libxkbcommon-x11 libxkbcommon-x11-devel gtk+ gtk+-devel gtk3 gtk3-devel gtkmm3.0 gtkmm3.0-devel
+
+optional xcb-util  libX11-xcb 
+
 ------
 
 (Optional libraries, Maybe needed for some systems),
