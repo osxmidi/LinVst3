@@ -96,13 +96,23 @@ vstsdk3613_08_04_2019_build_81 https://download.steinberg.net/sdk_downloads/vsts
 
 As well as the X11 and Wine development libraries https://github.com/osxmidi/LinVst/tree/master/Make-Guide some additional libraries also need to be pre installed, 
 
+For Ubuntu/Debian:
+
+sudo apt-get install libx11-dev
+
+sudo apt-get install wine-stable-dev or sudo apt-get install wine-staging-dev
+
 sudo apt-get install cmake
 
 sudo apt-get install libfreetype6-dev libxcb-util0-dev libxcb-cursor-dev libxcb-keysyms1-dev libxcb-xkb-dev libxkbcommon-dev libxkbcommon-x11-dev libgtkmm-3.0-dev libsqlite3-dev
 
-For Manjaro/Arch: sudo pacman -Sy cmake freetype2 sqlite libxcb xcb-util gtkmm3 xcb-util-cursor libx11 pkgconfig xcb-util-keysyms
+For Manjaro/Arch: 
 
-For Fedora
+sudo pacman -Sy wine (or wine-staging) libx11 gcc-multilib
+
+sudo pacman -Sy cmake freetype2 sqlite libxcb xcb-util gtkmm3 xcb-util-cursor libx11 pkgconfig xcb-util-keysyms
+
+For Fedora:
 sudo yum -y install wine-devel wine-devel.i686 libX11-devel libX11-devel.i686
 sudo yum -y install libstdc++.i686 libX11.i686
 
