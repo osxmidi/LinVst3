@@ -97,7 +97,7 @@ sudo apt-get install cmake
 
 sudo apt-get install libfreetype6-dev libxcb-util0-dev libxcb-cursor-dev libxcb-keysyms1-dev libxcb-xkb-dev libxkbcommon-dev libxkbcommon-x11-dev libgtkmm-3.0-dev libsqlite3-dev
 
-For Manjaro/Arch: 
+For For Manjaro/EndeavourOS/Arch: 
 
 sudo pacman -Sy wine (or wine-staging) libx11 gcc-multilib
 
