@@ -14,9 +14,11 @@ See https://github.com/osxmidi/LinVst3/tree/master/Tested-VST3-Plugins for some 
 
 The same usage applies as per LinVst except that it's linvst3.so instead of linvst.so and the vst dll filename extensions are .vst3 instead of .dll https://github.com/osxmidi/LinVst/wiki https://github.com/osxmidi/LinVst/blob/master/README.md https://github.com/osxmidi/LinVst/tree/master/Detailed-Guide
 
-So for example, linvst3.so would be renamed to Delay.so for Delay.vst3 (see convert folder for batch name conversion utilities)
+The vst3 dlls are most likely going to be installed into ~/.wine/drive_c/Program Files/Common Files/VST3
 
-The vst3 dlls are most likely going to be in ~/.wine/drive_c/Program Files/Common Files/VST3
+The ~/.wine/drive_c/Program Files/Common Files/VST3 path needs to be added to the Daw's vst search path list.
+
+linvst3convert would then be used on the ~/.wine/drive_c/Program Files/Common Files/VST3 folder (select the linvst3.so file and then select the vst3 path which is usually ~/.wine/drive_c/Program Files/Common Files/VST3).
 
 LinVst3 will try to produce multiple loader part files for vst3's that contain multiple plugins. 
 The multiple loader part files should be picked up on the daw's next plugin scan and then the multiple plugins should be available for use in the daw.
