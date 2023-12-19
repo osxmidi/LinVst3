@@ -14,7 +14,7 @@ See https://github.com/osxmidi/LinVst3/tree/master/Tested-VST3-Plugins for some 
 
 The same usage applies as per LinVst except that it's linvst3.so instead of linvst.so and the vst dll filename extensions are .vst3 instead of .dll https://github.com/osxmidi/LinVst/wiki https://github.com/osxmidi/LinVst/blob/master/README.md https://github.com/osxmidi/LinVst/tree/master/Detailed-Guide
 
-The vst3 dlls are most likely going to be installed into ~/.wine/drive_c/Program Files/Common Files/VST3
+The vst3 dlls or folders are most likely going to be installed into ~/.wine/drive_c/Program Files/Common Files/VST3
 
 The ~/.wine/drive_c/Program Files/Common Files/VST3 path needs to be added to the Daw's vst search path list.
 
