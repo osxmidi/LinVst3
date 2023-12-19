@@ -33,6 +33,8 @@ Melda MXXX Multi Effects** (turn GPU acceleration off)
 
 Melda drag/drop works with the LinVst3 drag/drop version.
 
+**Neural Amp Modeler (NAM)** 
+
 **Blue Cat** 
 
 **Voxengo** 
