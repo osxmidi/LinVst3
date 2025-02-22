@@ -699,8 +699,9 @@ char mret;
 
   if(remoteVSTServerInstance->dndfinish == 1)
   {
+  remoteVSTServerInstance->dodragwin = 0;  
+  XSetSelectionOwner(remoteVSTServerInstance->display, remoteVSTServerInstance->XdndSelection, 0, CurrentTime); 
   XFlush(remoteVSTServerInstance->display); 
-  remoteVSTServerInstance->dodragwin = 0;
   remoteVSTServerInstance->pwindow = 0;          		
   remoteVSTServerInstance->window = 0;		
   remoteVSTServerInstance->xdndversion = -1;				
@@ -778,9 +779,9 @@ char mret;
   XSendEvent(remoteVSTServerInstance->display, remoteVSTServerInstance->proxyptr, False, NoEventMask, (XEvent*)&xdndclient);
   else
   XSendEvent(remoteVSTServerInstance->display, remoteVSTServerInstance->pwindow, False, NoEventMask, (XEvent*)&xdndclient);
-  XFlush(remoteVSTServerInstance->display); 
-				
-  remoteVSTServerInstance->dodragwin = 0;   
+  remoteVSTServerInstance->dodragwin = 0;  
+  XSetSelectionOwner(remoteVSTServerInstance->display, remoteVSTServerInstance->XdndSelection, 0, CurrentTime); 
+  XFlush(remoteVSTServerInstance->display);  
   remoteVSTServerInstance->pwindow = 0;          		
   remoteVSTServerInstance->window = 0;		
   remoteVSTServerInstance->xdndversion = -1;				
@@ -1538,6 +1539,34 @@ void RemoteVSTServer::eventloop()
       XSync(display, false);
   //    }
       reparentdone = 1;
+      
+#ifdef TRACKTIONWM
+  if (hosttracktion == 1) {
+    // if(GetSystemMetrics(SM_CMONITORS) > 1)
+    SetWindowPos(hWnd, HWND_TOP, GetSystemMetrics(SM_XVIRTUALSCREEN) + offset.x,
+                 GetSystemMetrics(SM_YVIRTUALSCREEN) + offset.y,
+                 rect->right - rect->left, rect->bottom - rect->top, 0);
+    // else
+    // SetWindowPos(hWnd, HWND_TOP, offset.x, offset.y, rect->right -
+    // rect->left, rect->bottom - rect->top, 0);
+  } else {
+    // if(GetSystemMetrics(SM_CMONITORS) > 1)
+    SetWindowPos(hWnd, HWND_TOP, GetSystemMetrics(SM_XVIRTUALSCREEN),
+                 GetSystemMetrics(SM_YVIRTUALSCREEN), rect->right - rect->left,
+                 rect->bottom - rect->top, 0);
+    // else
+    // SetWindowPos(hWnd, HWND_TOP, 0, 0, rect->right - rect->left, rect->bottom
+    // - rect->top, 0);
+  }
+#else
+  // if(GetSystemMetrics(SM_CMONITORS) > 1)
+  SetWindowPos(hWnd, HWND_TOP, GetSystemMetrics(SM_XVIRTUALSCREEN),
+               GetSystemMetrics(SM_YVIRTUALSCREEN), rect->right - rect->left,
+               rect->bottom - rect->top, 0);
+  // else
+  // SetWindowPos(hWnd, HWND_TOP, 0, 0, rect->right - rect->left, rect->bottom -
+  // rect->top, 0);
+#endif      
       }
       break;
 
@@ -1565,14 +1594,6 @@ void RemoteVSTServer::eventloop()
         //     if(mapped2)
         //    {
         if (e.xcrossing.focus == False) {   
-#ifdef DRAGWIN      
-        if(drag_win && display)   
-        {  
-        XSetSelectionOwner(display, XdndSelection, 0, CurrentTime); 
-        XSetSelectionOwner(display, XdndSelection, drag_win, CurrentTime);
-        }
-     //   }
-#endif        
           XSetInputFocus(display, child, RevertToPointerRoot, CurrentTime);
           //    XSetInputFocus(display, child, RevertToParent,
           //    e.xcrossing.time);
@@ -1659,6 +1680,7 @@ void RemoteVSTServer::eventloop()
 	      // MoveWindow(hWnd, xmove, ymove, width, height, true);
         //      }
         break;
+
 
 #ifdef EMBEDDRAG
       case ClientMessage:
@@ -1833,33 +1855,6 @@ void RemoteVSTServer::showGUI(ShmControl *m_shmControlptr) {
     memcpy(m_shmControlptr->wret, winm, sizeof(winmessage));
     return;
   }
-#ifdef TRACKTIONWM
-  if (hosttracktion == 1) {
-    // if(GetSystemMetrics(SM_CMONITORS) > 1)
-    SetWindowPos(hWnd, HWND_TOP, GetSystemMetrics(SM_XVIRTUALSCREEN) + offset.x,
-                 GetSystemMetrics(SM_YVIRTUALSCREEN) + offset.y,
-                 rect->right - rect->left, rect->bottom - rect->top, 0);
-    // else
-    // SetWindowPos(hWnd, HWND_TOP, offset.x, offset.y, rect->right -
-    // rect->left, rect->bottom - rect->top, 0);
-  } else {
-    // if(GetSystemMetrics(SM_CMONITORS) > 1)
-    SetWindowPos(hWnd, HWND_TOP, GetSystemMetrics(SM_XVIRTUALSCREEN),
-                 GetSystemMetrics(SM_YVIRTUALSCREEN), rect->right - rect->left,
-                 rect->bottom - rect->top, 0);
-    // else
-    // SetWindowPos(hWnd, HWND_TOP, 0, 0, rect->right - rect->left, rect->bottom
-    // - rect->top, 0);
-  }
-#else
-  // if(GetSystemMetrics(SM_CMONITORS) > 1)
-  SetWindowPos(hWnd, HWND_TOP, GetSystemMetrics(SM_XVIRTUALSCREEN),
-               GetSystemMetrics(SM_YVIRTUALSCREEN), rect->right - rect->left,
-               rect->bottom - rect->top, 0);
-  // else
-  // SetWindowPos(hWnd, HWND_TOP, 0, 0, rect->right - rect->left, rect->bottom -
-  // rect->top, 0);
-#endif
 
   reaptimecount = 0;
 
@@ -2285,6 +2280,10 @@ DWORD retprocID;
   ienum->Release(); 
   if(cfdrop != 0)
   {
+  if(remoteVSTServerInstance->drag_win && remoteVSTServerInstance->display)   
+  {  
+  XSetSelectionOwner(remoteVSTServerInstance->display, remoteVSTServerInstance->XdndSelection, remoteVSTServerInstance->drag_win, CurrentTime);
+  }
   remoteVSTServerInstance->dodragwin = 1;
   }
   }       
