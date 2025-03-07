@@ -1975,7 +1975,7 @@ void RemoteVSTServer::showGUI(ShmControl *m_shmControlptr) {
       return;
       }   
       
-      reparentdone = 0;      
+//      reparentdone = 0;      
       
       XSync(display, false);
       
@@ -2085,8 +2085,11 @@ void RemoteVSTServer::hideGUI() {
         x11_win = 0;
 #endif
 
-     if(display && child)
-     XReparentWindow(display, child, XDefaultRootWindow(display), 0, 0);
+      if(display && child)
+      {
+      XUnmapWindow(display, child);
+      XReparentWindow(display, child, XDefaultRootWindow(display), 0, 0);
+      }
 
      XSync(display, false);    
     
