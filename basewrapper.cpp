@@ -1369,7 +1369,7 @@ bool areSizeEquals(const ViewRect &r1, const ViewRect &r2) {
   return true;
 }
 
-// #pragma GCC optimize("O0")
+ #pragma GCC optimize("O0")
 
 //------------------------------------------------------------------------
 // Vst2EditorWrapper Implementation
@@ -1418,7 +1418,7 @@ bool Vst2EditorWrapper::open(void *ptr) {
 //------------------------------------------------------------------------
 void Vst2EditorWrapper::_close() { BaseEditorWrapper::_close(); }
 
-// #pragma GCC optimize("O2")
+ #pragma GCC optimize("O2")
 
 //------------------------------------------------------------------------
 // Vst2MidiEventQueue Declaration
