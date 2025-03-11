@@ -2327,10 +2327,13 @@ void RemoteVSTServer::openGUI() {
   timerval = 678;
   timerval = SetTimer(hWnd, timerval, 80, 0);
     
-  guiVisible = true;     
   ShowWindow(hWnd, SW_SHOWNORMAL);
   // ShowWindow(hWnd, SW_SHOW);
   UpdateWindow(hWnd);
+
+  XSelectInput(display, parent, SubstructureRedirectMask | StructureNotifyMask | SubstructureNotifyMask);
+
+  guiVisible = true;  
 }
 #endif
 
