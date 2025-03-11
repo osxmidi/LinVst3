@@ -1937,14 +1937,8 @@ void RemoteVSTServer::showGUI(ShmControl *m_shmControlptr) {
   
   */    
   
-#ifdef FOCUS
-      XSelectInput(display, parent, SubstructureRedirectMask | StructureNotifyMask | SubstructureNotifyMask);
+      XSelectInput(display, parent, StructureNotifyMask | SubstructureNotifyMask);
       XSelectInput(display, child, EnterWindowMask | LeaveWindowMask | PropertyChangeMask);
-#else
-      XSelectInput(display, parent, SubstructureRedirectMask | StructureNotifyMask | SubstructureNotifyMask);
-      XSelectInput(display, child, EnterWindowMask | LeaveWindowMask | PropertyChangeMask);
-#endif  
-  
       
       XSync(display, false);
       
