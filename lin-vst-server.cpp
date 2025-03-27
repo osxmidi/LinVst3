@@ -1503,6 +1503,12 @@ void RemoteVSTServer::eventloop()
 
       while(XQueryTree(display, windowreturn, &root, &windowreturn, &children, &numchildren))
       {
+      if(children) 
+      XFree(children);
+	  
+      if(!windowreturn)
+      break;
+	      
       if(windowreturn == root)
       break;
       pparent = windowreturn;
@@ -3252,6 +3258,12 @@ void RemoteVSTServer::guiUpdate() {
 
       while(XQueryTree(display, windowreturn, &root, &windowreturn, &children, &numchildren))
       {
+      if(children) 
+      XFree(children);
+	  
+      if(!windowreturn)
+      break;
+	      
       if(windowreturn == root)
       break;
       pparent = windowreturn;
