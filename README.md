@@ -87,6 +87,8 @@ See https://github.com/osxmidi/LinVst/tree/master/Make-Guide for setup info and 
 
 The vst3 sdk needs to be patched and the default LinVst3 script patch file (lin-patchwin) is for this version of the Steinberg vst sdk https://download.steinberg.net/sdk_downloads/vst-sdk_3.7.1_build-50_2020-11-17.zip
 
+Once the vst3 sdk is unzipped, add  #include <cstdint> to the optional.h file in VST_SDK/VST3_SDK/public.sdk/source/vst/utility/
+
 Some libraries also need to be pre installed, 
 
 For Ubuntu/Debian:
