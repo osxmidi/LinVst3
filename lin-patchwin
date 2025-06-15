@@ -36,7 +36,7 @@ sed -i 's@#include <processthreadsapi.h>@// #include <processthreadsapi.h>@g' ..
 sed -i 's@include_directories(${ROOT} ${SDK_ROOT})@include_directories(${ROOT} ${SDK_ROOT} "/opt/wine-staging/include/wine/windows" "/opt/wine-stable/include/wine/windows" "/opt/wine-devel/include/wine/windows" "/usr/include/wine-development/windows" "/usr/include/wine-development/wine/windows" "/usr/include/wine/wine/windows") \n add_definitions(-DRELEASE=1) \n add_definitions(-D_stricmp=strcasecmp) \n add_definitions(-D_strnicmp=strncasecmp) \n add_definitions(-Dstricmp=strcasecmp) \n add_definitions(-Dstrnicmp=strncasecmp) \n add_definitions(-D__forceinline=inline) \n add_definitions(-DWIN32_LEAN_AND_MEAN) \n add_definitions(-DUNICODE_OFF) \n add_definitions(-DNOMINMAX=1) \n add_definitions(-fpermissive) \n add_definitions(-m64)@g' ../CMakeLists.txt
 mkdir ../build
 cd ../build
-cmake .. -D CMAKE_AR=/usr/bin/ar -DCMAKE_CXX_COMPILER=/usr/bin/wineg++ -DCMAKE_CC_COMPILER=/usr/bin/winegcc -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_COMPILER_WORKS=1
+cmake .. -D CMAKE_AR=/usr/bin/ar -DCMAKE_CXX_COMPILER=/usr/bin/wineg++ -DCMAKE_CC_COMPILER=/usr/bin/winegcc -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_COMPILER_WORKS=1 -DCMAKE_POLICY_VERSION_MINIMUM=3.5
 cd ./base
 make
 cd ../public.sdk
