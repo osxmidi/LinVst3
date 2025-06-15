@@ -1478,6 +1478,9 @@ void RemoteVSTServer::eventloop()
   x3 = 0;
   y3 = 0;
 #endif
+#ifdef XOFFSET
+  int width2 = 0;
+#endif	
 
      if (parent && child) {
      for (int loopidx = 0; (loopidx < 10) && XPending(display); loopidx++) {
@@ -1655,6 +1658,14 @@ void RemoteVSTServer::eventloop()
         XTranslateCoordinates(display, parent, XDefaultRootWindow(display), 0,
                               0, &xmove, &ymove, &ignored);
 
+#ifdef XOFFSET
+        width2 = 0;
+        if(xmove < 0)
+        {
+         width2 = abs(width);
+        }
+#endif		     
+
 #ifdef TRACKTIONWM  
       if(hosttracktion > 0)  
       {   
@@ -1663,8 +1674,14 @@ void RemoteVSTServer::eventloop()
       }
 #endif
 
-           if(hWnd && guiVisible && !exiting) 
-	       MoveWindow(hWnd, GetSystemMetrics(SM_XVIRTUALSCREEN) + xmove, GetSystemMetrics(SM_YVIRTUALSCREEN) + ymove, width, height, true);
+        if(hWnd && guiVisible && !exiting) 
+	{
+#ifdef XOFFSET
+	MoveWindow(hWnd, GetSystemMetrics(SM_XVIRTUALSCREEN) + xmove, GetSystemMetrics(SM_YVIRTUALSCREEN) + ymove, width + width2, height, true);
+#else
+	MoveWindow(hWnd, GetSystemMetrics(SM_XVIRTUALSCREEN) + xmove, GetSystemMetrics(SM_YVIRTUALSCREEN) + ymove, width, height, true);
+#endif
+	}
  
         break;
 
