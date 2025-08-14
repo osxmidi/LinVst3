@@ -7,7 +7,7 @@ Drag the clip from the plugin window to Audacity, then select the track in Audac
 
 ---------
 
-https://github.com/osxmidi/LinVst/blob/master/Tested-VST-Plugins/README.md
+Native Access installation steps are at https://github.com/osxmidi/LinVst/tree/master/Tested-VST-Plugins
 
 **Kontakt**, see the above link for updated install tips regarding Native Access etc.
 
@@ -16,6 +16,7 @@ LinVst3 can run the Kontakt 7 etc vst3 version, tested using Wine-tkg https://gi
 **EZDrummer3** 
 
 EZDrummer3 drag/drop works with the LinVst3 drag/drop version.
+EZDrummer3 seems to now use JUCE8 which can result in plugin problems because of Wine's Direct2D.
 
 **ModoDrum**
 Midi Grooves are in ~/.wine/drive_c/Program Files/IK Multimedia/MODO DRUM
