@@ -11,6 +11,7 @@ Unlike Vst2, saved projects using wrapped Vst3 plugins are not compatible/transf
 LinVst3 binaries are on the releases page (under Assets) https://github.com/osxmidi/LinVst3/releases
 
 See https://github.com/osxmidi/LinVst3/tree/master/Tested-VST3-Plugins for some common Vst3 tested plugin details.
+Native Access installation steps are at https://github.com/osxmidi/LinVst/tree/master/Tested-VST-Plugins
 
 The same usage applies as per LinVst except that it's linvst3.so instead of linvst.so and the vst dll filename extensions are .vst3 instead of .dll https://github.com/osxmidi/LinVst/wiki https://github.com/osxmidi/LinVst/blob/master/README.md https://github.com/osxmidi/LinVst/tree/master/Detailed-Guide
 
