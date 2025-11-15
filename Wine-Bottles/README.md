@@ -9,7 +9,7 @@ create bottle named vstbottle (or whatever)
 
 run executable to install a vst3 plugin
 
-ie the vst2 dll was installed into "Program Files"/"Common Files"/VST3 (might be installed to other locations in "Program Files" depending on the plugin ie could be installed into the Steinberg foder instead of VST3 or whatever)
+ie the vst3 plugin was installed into "Program Files"/"Common Files"/VST3 (might be installed to other locations in "Program Files" depending on the plugin ie could be installed into the Steinberg foder instead of VST3 or whatever)
 
 Use File Manager to see where the vst3 was installed in the bottle.
 
