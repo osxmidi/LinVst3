@@ -111,7 +111,7 @@ sudo pacman -Sy wine (or wine-staging) libx11 gcc-multilib
 
 sudo pacman -Sy cmake freetype2 sqlite libxcb xcb-util gtkmm3 xcb-util-cursor libx11 pkgconfig xcb-util-keysyms
 
-For Fedora:
+For Fedora: (yum has changed to dnf)
 
 sudo yum -y install wine-devel libX11-devel
 
